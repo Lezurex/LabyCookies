@@ -3,7 +3,7 @@ This is a free-to-use addon for the Minecraft Modification "LabyMod" developed b
 in a game of "Cookies" on the Minecraft network GommeHD.net.
 
 ## Installation
-To install this addon, just download the **latest release** on the right and copy the .jar into the LabyMod addons folder located at `MINECRAFT_FOLDER\LabyMod\addons-1.8`.
+To install this addon, just download the [latest release](https://github.com/VoxCrafterLP/LabyCookies/releases) on the right and copy the .jar into the LabyMod addons folder located at `MINECRAFT_FOLDER\LabyMod\addons-1.8`.
 
 ## Usage
 After the installation, you can just join a game of "Cookies" and let the addon request the stats for you.
