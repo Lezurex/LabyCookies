@@ -8,11 +8,9 @@ import io.netty.handler.codec.DecoderException;
 import net.labymod.api.events.PluginMessageEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.network.PacketBuffer;
 
 import java.nio.charset.Charset;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,7 +28,7 @@ public class PluginMessageEventHandler {
             public void receiveMessage(String string, PacketBuffer packetBuffer) {
                 if(string.equals("GoMod")) {
                     String content = readString(packetBuffer, 2048);
-                    if(content.toLowerCase().contains("cookies")) {
+                    if(content.toLowerCase().contains("cookies") && StatsAddon.getStatsAddon().enabled) {
                         LabyMod.getInstance().displayMessageInChat(StatsAddon.getStatsAddon().getPrefix() + "\u00A77Die LabyCookies Integration wurde \u00A7aaktiviert\u00A78.");
                         StatsAddon.getStatsAddon().setPlayingCookies(true);
 

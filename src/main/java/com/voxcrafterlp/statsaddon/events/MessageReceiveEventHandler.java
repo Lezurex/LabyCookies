@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * This file was created by VoxCrafter_LP!
+ * This file was created by VoxCrafter_LP & Lezurex!
  * Date: 06.09.2020
  * Time: 16:51
  * For Project: Labymod Stats Addon
@@ -29,7 +29,7 @@ public class MessageReceiveEventHandler {
                 if(StatsAddon.getStatsAddon().isPlayingCookies() && unFormatted.contains("»") && !unFormatted.contains(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                     new Thread(() -> {
                         try {
-                            Thread.sleep(400);
+                            Thread.sleep(StatsAddon.getStatsAddon().cooldown);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -46,7 +46,7 @@ public class MessageReceiveEventHandler {
                         new StatsDisplayUtil().displayStats(playerNames);
                     }).start();
                 }
-                if(StatsAddon.getStatsAddon().isPlayingCookies()) {
+                if(StatsAddon.getStatsAddon().isPlayingCookies() && StatsAddon.getStatsAddon().enabled) {
                     new Thread(() -> {
                         if(unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
@@ -57,7 +57,7 @@ public class MessageReceiveEventHandler {
 
                                 if(!content[1].contains("-")) {
                                     int rank = Integer.parseInt(content[1].replace("\u00A7e", "").replace(" ", "").replace(".", "").replace(",", "").replace("\u00A7r", ""));
-                                    if(rank < 100) {
+                                    if(rank < StatsAddon.getStatsAddon().warnLevel) {
                                         try {
                                             Thread.sleep(20);
                                         } catch (InterruptedException e) {

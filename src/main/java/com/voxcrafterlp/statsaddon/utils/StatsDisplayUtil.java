@@ -1,5 +1,6 @@
 package com.voxcrafterlp.statsaddon.utils;
 
+import com.voxcrafterlp.statsaddon.StatsAddon;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class StatsDisplayUtil {
                 if(!string.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/stats " + string);
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(StatsAddon.getStatsAddon().cooldown);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
