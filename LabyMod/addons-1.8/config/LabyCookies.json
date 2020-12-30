@@ -1,7 +1,8 @@
 {
   "config": {
     "enabled": true,
-    "cooldown": 750,
-    "warnLevel": 100
+    "cooldown": 1000,
+    "warnLevel": 200,
+    "alertEnabled": true
   }
 }

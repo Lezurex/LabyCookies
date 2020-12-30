@@ -6,6 +6,7 @@ import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
 import net.labymod.api.events.MessageReceiveEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,6 +45,7 @@ public class MessageReceiveEventHandler {
                         });
 
                         new StatsDisplayUtil().displayStats(playerNames);
+
                     }).start();
                 }
                 if(StatsAddon.getStatsAddon().isPlayingCookies() && StatsAddon.getStatsAddon().enabled) {
@@ -66,7 +68,18 @@ public class MessageReceiveEventHandler {
                                         if(!lastPlayerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getStatsAddon().getPrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getStatsAddon().getPrefix() + "\u00A77Platz \u00A7e#" + rank + " \u00A77Name\u00A78: \u00A7c" + lastPlayerName);
-
+                                            if (StatsAddon.getStatsAddon().alertEnabled) {
+                                                new Thread(() -> {
+                                                    for (int i = 0; i < 5; i++) {
+                                                        Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
+                                                        try {
+                                                            Thread.sleep(250);
+                                                        } catch (InterruptedException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }).start();
+                                            }
                                         }
                                     }
                                 }

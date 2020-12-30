@@ -2,7 +2,7 @@
   "uuid": "%uuid%",
   "name": "LabyCookies",
   "mainClass": "com.voxcrafterlp.statsaddon.StatsAddon",
-  "description": "This addon automatically checks player stats in the gamemode Cookies. It warns the player from StatsSchwitzers like OldPsMarlon",
+  "description": "This addon automatically checks player stats in the gamemode Cookies. It warns the player from playing against too good players.",
   "version": 1,
   "author": "VoxCrafter_LP & Lezurex",
   "category": 2,

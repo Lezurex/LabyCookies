@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * This file was created by VoxCrafter_LP!
+ * This file was created by VoxCrafter_LP & Lezurex!
  * Date: 06.09.2020
  * Time: 15:39
  * For Project: Labymod Stats Addon
@@ -28,7 +28,9 @@ public class StatsAddon extends LabyModAddon {
     public int cooldown;
     public int warnLevel;
     public boolean enabled;
+    public boolean alertEnabled;
     public boolean lmcDoubled;
+    public List<String> checkedPlayers;
 
     private static StatsAddon statsAddon;
     private boolean isPlayingCookies;
@@ -44,13 +46,15 @@ public class StatsAddon extends LabyModAddon {
         new MessageReceiveEventHandler().register();
         new ServerMessageEvent().register();
         System.out.println("LabyCookies enabled");
+        checkedPlayers = Lists.newCopyOnWriteArrayList();
 
     }
 
     @Override
     public void loadConfig() {
         this.enabled = !this.getConfig().has("enabled") || this.getConfig().get("enabled").getAsBoolean();
-        this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 750;
+        this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
+        this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.warnLevel = this.getConfig().has("warnLevel") ? this.getConfig().get("warnLevel").getAsInt() : 100;
     }
 
@@ -64,6 +68,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.enabled));
+
         NumberElement queryInterval = new NumberElement("Query interval", new ControlElement.IconData(Material.WATCH), this.cooldown);
         queryInterval.addCallback(new Consumer<Integer>() {
             @Override
@@ -84,6 +89,14 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(warnLevelElement);
+        list.add(new BooleanElement("Alert", new ControlElement.IconData(Material.NOTE_BLOCK), new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean accepted) {
+                alertEnabled = accepted;
+                getConfig().addProperty("alertEnabled", accepted);
+                saveConfig();
+            }
+        }, this.enabled));
     }
 
     public static StatsAddon getStatsAddon() { return statsAddon; }

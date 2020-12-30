@@ -22,6 +22,7 @@ public class ServerMessageEvent {
                         if (jsonElement.getAsJsonObject().get("game_mode").getAsString().toLowerCase().contains("cookies") && StatsAddon.getStatsAddon().enabled) {
                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getStatsAddon().getPrefix() + "\u00A77Die LabyCookies Integration wurde \u00A7aaktiviert\u00A78.");
                             StatsAddon.getStatsAddon().setPlayingCookies(true);
+                            StatsAddon.getStatsAddon().checkedPlayers.clear();
 
                         new Thread(() -> {
                             try {
