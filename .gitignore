@@ -23,3 +23,7 @@ run
 
 *.log
 *.log.gz
+
+# minecraft
+
+.saves

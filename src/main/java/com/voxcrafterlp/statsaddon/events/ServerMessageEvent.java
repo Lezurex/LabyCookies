@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
 import net.labymod.main.LabyMod;
-import net.labymod.servermanager.Server;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;

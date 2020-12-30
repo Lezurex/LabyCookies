@@ -6,10 +6,8 @@ import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
 import net.labymod.api.events.MessageReceiveEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This file was created by VoxCrafter_LP & Lezurex!

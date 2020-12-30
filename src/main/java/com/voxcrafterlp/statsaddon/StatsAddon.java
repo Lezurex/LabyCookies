@@ -1,10 +1,14 @@
 package com.voxcrafterlp.statsaddon;
 
 import com.google.common.collect.Lists;
-import com.voxcrafterlp.statsaddon.events.*;
+import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
+import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
-import net.labymod.settings.elements.*;
+import net.labymod.settings.elements.BooleanElement;
+import net.labymod.settings.elements.ControlElement;
+import net.labymod.settings.elements.NumberElement;
+import net.labymod.settings.elements.SettingsElement;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 
@@ -40,7 +44,6 @@ public class StatsAddon extends LabyModAddon {
         isPlayingCookies = false;
 
         //EVENT REGISTRATION
-        //new PluginMessageEventHandler().register();
         new MessageReceiveEventHandler().register();
         new ServerMessageEvent().register();
         System.out.println("LabyCookies enabled");
@@ -54,27 +57,23 @@ public class StatsAddon extends LabyModAddon {
         this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.warnLevel = this.getConfig().has("warnLevel") ? this.getConfig().get("warnLevel").getAsInt() : 100;
+
+        this.getGamemodes().forEach((string, material) -> enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean())));
     }
 
     @Override
     protected void fillSettings(List<SettingsElement> list) {
-        list.add(new BooleanElement("Enabled", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean accepted) {
-                enabled = accepted;
-                getConfig().addProperty("enabled", accepted);
-                saveConfig();
-            }
+        list.add(new BooleanElement("Enabled", new ControlElement.IconData(Material.LEVER), accepted -> {
+            enabled = accepted;
+            getConfig().addProperty("enabled", accepted);
+            saveConfig();
         }, this.enabled));
 
         NumberElement queryInterval = new NumberElement("Query interval", new ControlElement.IconData(Material.WATCH), this.cooldown);
-        queryInterval.addCallback(new Consumer<Integer>() {
-            @Override
-            public void accept(Integer integer) {
-                cooldown = integer;
-                getConfig().addProperty("cooldown", integer);
-                saveConfig();
-            }
+        queryInterval.addCallback(integer -> {
+            cooldown = integer;
+            getConfig().addProperty("cooldown", integer);
+            saveConfig();
         });
         list.add(queryInterval);
         NumberElement warnLevelElement = new NumberElement("Warn Rank", new ControlElement.IconData(Material.NOTE_BLOCK), this.warnLevel);
@@ -87,25 +86,44 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(warnLevelElement);
-        list.add(new BooleanElement("Alert", new ControlElement.IconData(Material.NOTE_BLOCK), new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean accepted) {
-                alertEnabled = accepted;
-                getConfig().addProperty("alertEnabled", accepted);
-                saveConfig();
-            }
+        list.add(new BooleanElement("Alert", new ControlElement.IconData(Material.NOTE_BLOCK), accepted -> {
+            alertEnabled = accepted;
+            getConfig().addProperty("alertEnabled", accepted);
+            saveConfig();
         }, this.enabled));
 
         //======================================// Gamemodes
 
-        /*list.add(new BooleanElement("Cookies", new ControlElement.IconData(Material.COOKIE), new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean accepted) {
-                alertEnabled = accepted;
-                getConfig().addProperty("alertEnabled", accepted);
+        this.getGamemodes().forEach((string, material) -> {
+            list.add(new BooleanElement(string, new ControlElement.IconData(material), enabled -> {
+                enabledGamemods.replace(string, enabled);
+                getConfig().addProperty(string, enabled);
                 saveConfig();
-            }
-        }, this.enabled));*/
+            }, this.enabled));
+        });
+    }
+
+    /**
+     * Fills the map with a list of all gamemodes which have stats enabled
+     * @param map Map which should be filled
+     * @return Filled map
+     */
+    private Map<String, Material> getGamemodes() {
+        Map<String, Material> map = new HashMap<String, Material>();
+
+        map.put("Cookies", Material.COOKIE);
+        map.put("SkyWars", Material.GRASS);
+        map.put("BedWars", Material.BED);
+        map.put("Cores", Material.BEACON);
+        map.put("JumpLeague", Material.DIAMOND_BOOTS);
+        map.put("TTT", Material.STICK);
+        map.put("SpeedUHC", Material.GOLDEN_APPLE);
+        map.put("EnderGames", Material.ENDER_PEARL);
+        map.put("MasterBuilders", Material.IRON_PICKAXE);
+        map.put("SurvivalGames", Material.IRON_SWORD);
+        map.put("QuickSurvivalGames", Material.IRON_SWORD);
+
+        return map;
     }
 
     public static StatsAddon getStatsAddon() { return statsAddon; }
