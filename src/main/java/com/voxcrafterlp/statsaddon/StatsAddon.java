@@ -4,17 +4,13 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.events.*;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
-import net.labymod.main.LabyMod;
-import net.labymod.settings.elements.BooleanElement;
-import net.labymod.settings.elements.ControlElement;
-import net.labymod.settings.elements.NumberElement;
-import net.labymod.settings.elements.SettingsElement;
+import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
 
 /**
  * This file was created by VoxCrafter_LP & Lezurex!
@@ -35,6 +31,8 @@ public class StatsAddon extends LabyModAddon {
     private static StatsAddon statsAddon;
     private boolean isPlayingCookies;
     private List<String> playersJoined = Lists.newCopyOnWriteArrayList();
+
+    private Map<String, Boolean> enabledGamemods = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -97,6 +95,17 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.enabled));
+
+        //======================================// Gamemodes
+
+        /*list.add(new BooleanElement("Cookies", new ControlElement.IconData(Material.COOKIE), new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean accepted) {
+                alertEnabled = accepted;
+                getConfig().addProperty("alertEnabled", accepted);
+                saveConfig();
+            }
+        }, this.enabled));*/
     }
 
     public static StatsAddon getStatsAddon() { return statsAddon; }

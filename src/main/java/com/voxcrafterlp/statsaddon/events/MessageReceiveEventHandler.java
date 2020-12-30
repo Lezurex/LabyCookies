@@ -31,8 +31,8 @@ public class MessageReceiveEventHandler {
                     new Thread(() -> {
                         try {
                             Thread.sleep(StatsAddon.getStatsAddon().cooldown);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        } catch (InterruptedException exception) {
+                            exception.printStackTrace();
                         }
 
                         List<String> playerNames = Lists.newCopyOnWriteArrayList();
@@ -58,24 +58,24 @@ public class MessageReceiveEventHandler {
                             if(content.length == 2) {
 
                                 if(!content[1].contains("-")) {
-                                    int rank = Integer.parseInt(content[1].replace("\u00A7e", "").replace(" ", "").replace(".", "").replace(",", "").replace("\u00A7r", ""));
+                                    int rank = Integer.parseInt(content[1].replace("\u00A7e", "").replace(" ", "").replace(".", "").replace(",", "").replace("'", "").replace("\u00A7r", ""));
                                     if(rank < StatsAddon.getStatsAddon().warnLevel) {
                                         try {
                                             Thread.sleep(20);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
+                                        } catch (InterruptedException exception) {
+                                            exception.printStackTrace();
                                         }
                                         if(!lastPlayerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getStatsAddon().getPrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getStatsAddon().getPrefix() + "\u00A77Platz \u00A7e#" + rank + " \u00A77Name\u00A78: \u00A7c" + lastPlayerName);
-                                            if (StatsAddon.getStatsAddon().alertEnabled) {
+                                            if(StatsAddon.getStatsAddon().alertEnabled) {
                                                 new Thread(() -> {
                                                     for (int i = 0; i < 5; i++) {
                                                         Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
                                                         try {
                                                             Thread.sleep(250);
-                                                        } catch (InterruptedException e) {
-                                                            e.printStackTrace();
+                                                        } catch (InterruptedException exception) {
+                                                            exception.printStackTrace();
                                                         }
                                                     }
                                                 }).start();
