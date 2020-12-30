@@ -12,3 +12,4 @@ After the installation, you can just join a game of "Cookies" and let the addon 
 - Automatically gets a joined player's stats
 - Automatically gets the stats of players already ingame
 - Warns you if a player with a customizeable ranking is in your lobby
+- Acoustic alert
