@@ -134,15 +134,15 @@ public class StatsAddon extends LabyModAddon {
 
         map.put("Cookies", Material.COOKIE);
         map.put("SkyWars", Material.GRASS);
-        map.put("BedWars", Material.BED);
+        map.put("BW", Material.BED);
         map.put("Cores", Material.BEACON);
-        map.put("JumpLeague", Material.DIAMOND_BOOTS);
+        map.put("JL", Material.DIAMOND_BOOTS);
         map.put("TTT", Material.STICK);
         map.put("SpeedUHC", Material.GOLDEN_APPLE);
-        map.put("EnderGames", Material.ENDER_PEARL);
+        map.put("EG", Material.ENDER_PEARL);
         map.put("MasterBuilders", Material.IRON_PICKAXE);
-        map.put("SurvivalGames", Material.IRON_SWORD);
-        map.put("QuickSurvivalGames", Material.IRON_SWORD);
+        map.put("SG", Material.IRON_SWORD);
+        map.put("QSG", Material.IRON_SWORD);
 
         return map;
     }
