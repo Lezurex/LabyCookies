@@ -18,12 +18,12 @@ public class StatsDisplayUtil {
         new Thread(() -> {
             for(String string: playerNames) {
                 if(!string.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
-                    if (!StatsAddon.getStatsAddon().checkedPlayers.contains(string)) {
+                    if (!StatsAddon.getInstance().checkedPlayers.contains(string)) {
                         Minecraft.getMinecraft().thePlayer.sendChatMessage("/stats " + string);
                         playerNames.remove(string);
-                        StatsAddon.getStatsAddon().checkedPlayers.add(string);
+                        StatsAddon.getInstance().checkedPlayers.add(string);
                         try {
-                            Thread.sleep(StatsAddon.getStatsAddon().cooldown);
+                            Thread.sleep(StatsAddon.getInstance().cooldown);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

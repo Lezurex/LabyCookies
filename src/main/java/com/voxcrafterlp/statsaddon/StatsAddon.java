@@ -1,12 +1,14 @@
 package com.voxcrafterlp.statsaddon;
 
 import com.google.common.collect.Lists;
-import com.voxcrafterlp.statsaddon.events.*;
+import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
+import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
 import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
+import net.labymod.utils.ModColor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +31,7 @@ public class StatsAddon extends LabyModAddon {
     public List<String> checkedPlayers;
 
     private static StatsAddon statsAddon;
-    private boolean isPlayingCookies;
+    private String currentGamemode;
     private List<String> playersJoined = Lists.newCopyOnWriteArrayList();
 
     private Map<String, Boolean> enabledGamemods = new HashMap<>();
@@ -37,10 +39,9 @@ public class StatsAddon extends LabyModAddon {
     @Override
     public void onEnable() {
         statsAddon = this;
-        isPlayingCookies = false;
+        currentGamemode = null;
 
         //EVENT REGISTRATION
-        //new PluginMessageEventHandler().register();
         new MessageReceiveEventHandler().register();
         new ServerMessageEvent().register();
         System.out.println("LabyCookies enabled");
@@ -54,10 +55,19 @@ public class StatsAddon extends LabyModAddon {
         this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.warnLevel = this.getConfig().has("warnLevel") ? this.getConfig().get("warnLevel").getAsInt() : 100;
+
+        this.getGamemodes().forEach((string, material) -> {
+            if(enabledGamemods.containsKey(string))
+                enabledGamemods.replace(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
+            else
+                enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
+        });
     }
 
     @Override
     protected void fillSettings(List<SettingsElement> list) {
+        list.add(new HeaderElement(ModColor.cl('b') + "General settings"));
+
         list.add(new BooleanElement("Enabled", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
@@ -94,30 +104,63 @@ public class StatsAddon extends LabyModAddon {
                 getConfig().addProperty("alertEnabled", accepted);
                 saveConfig();
             }
-        }, this.enabled));
+        }, this.alertEnabled));
 
-        //======================================// Gamemodes
 
-        /*list.add(new BooleanElement("Cookies", new ControlElement.IconData(Material.COOKIE), new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean accepted) {
-                alertEnabled = accepted;
-                getConfig().addProperty("alertEnabled", accepted);
-                saveConfig();
-            }
-        }, this.enabled));*/
+        //Gamemodes
+        list.add(new HeaderElement(ModColor.cl('a') + "Enabled gamemodes"));
+
+        this.getGamemodes().forEach((string, material) -> {
+            list.add(new BooleanElement(string, new ControlElement.IconData(material), new Consumer<Boolean>() {
+                @Override
+                public void accept(Boolean enabled) {
+                    if(enabledGamemods.containsKey(string))
+                        enabledGamemods.replace(string, enabled);
+                    else
+                        enabledGamemods.put(string, enabled);
+                    getConfig().addProperty(string, enabled);
+                    saveConfig();
+                }
+            }, enabledGamemods.get(string)));
+        });
     }
 
-    public static StatsAddon getStatsAddon() { return statsAddon; }
+    /**
+     * Fills the map with a list of all gamemodes which have stats enabled
+     * @return Filled map
+     */
+    private Map<String, Material> getGamemodes() {
+        Map<String, Material> map = new HashMap<String, Material>();
+
+        map.put("Cookies", Material.COOKIE);
+        map.put("SkyWars", Material.GRASS);
+        map.put("BedWars", Material.BED);
+        map.put("Cores", Material.BEACON);
+        map.put("JumpLeague", Material.DIAMOND_BOOTS);
+        map.put("TTT", Material.STICK);
+        map.put("SpeedUHC", Material.GOLDEN_APPLE);
+        map.put("EnderGames", Material.ENDER_PEARL);
+        map.put("MasterBuilders", Material.IRON_PICKAXE);
+        map.put("SurvivalGames", Material.IRON_SWORD);
+        map.put("QuickSurvivalGames", Material.IRON_SWORD);
+
+        return map;
+    }
+
+    public static StatsAddon getInstance() { return statsAddon; }
+
+    public void setCurrentGamemode(String currentGamemode) { this.currentGamemode = currentGamemode; }
+
+    public String getCurrentGamemode() { return currentGamemode; }
 
     @Override
     public LabyModAPI getApi() { return super.getApi(); }
 
-    public boolean isPlayingCookies() { return isPlayingCookies; }
-
-    public void setPlayingCookies(boolean playingCookies) { isPlayingCookies = playingCookies; }
-
     public List<String> getPlayersJoined() { return playersJoined; }
 
-    public String getPrefix() { return "\u00A78[\u00A7bLabyCookies\u00A78] "; }
+    public Map<String, Boolean> getEnabledGamemods() { return enabledGamemods; }
+
+    public String getGamemodePrefix() { return "\u00A78[\u00A7b" + getCurrentGamemode() + "-Stats\u00A78] "; }
+
+    public String getPrefix() { return "\u00A78[\u00A7bStatsAddon\u00A78] "; }
 }
