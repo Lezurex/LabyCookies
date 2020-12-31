@@ -1,5 +1,5 @@
 # LabyCookies
-This is a free-to-use addon for the Minecraft Modification "LabyMod". It was originally developed by [VoxCrafter_LP](https://github.com/VoxCrafterLP) and is now under development of [Lezurex](https://github.com/Lezurex). It automatically gets the stats of all the players
+This is a free-to-use addon for the Minecraft Modification [Labymod](https://labymod.net). It was originally developed by [VoxCrafter_LP](https://github.com/VoxCrafterLP) and is now under development of [Lezurex](https://github.com/Lezurex). It automatically gets the stats of all the players
 in an available gamemode on the Minecraft network [GommeHD.net](https://gommehd.net).
 
 ## Installation
