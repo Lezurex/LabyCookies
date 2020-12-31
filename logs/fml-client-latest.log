@@ -683,3 +683,46 @@ java.io.FileNotFoundException: C:\Program Files\Java\jdk1.8.0_231\bin;C:\WINDOWS
 [14:23:57] [Client thread/INFO] [net.labymod.core_implementation.mc18.gui.GuiChatAdapter/]: [CHAT] [StatsAddon] Es ist eine neue Version verfügbar. (v1.2.0)
 [14:23:57] [Client thread/INFO] [net.labymod.core_implementation.mc18.gui.GuiChatAdapter/]: [CHAT] §8[§bStatsAddon§8] §7Download§8: §8[§bLINK§8]
 [14:24:03] [pool-7-thread-1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [USER_MANAGER] Load user data of 3ba46a2a-b003-4d21-a28a-458b2756a9fd
+[14:25:51] [Chat#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] [IN] 14 PacketPlayPlayerOnline
+[14:25:53] [Client thread/INFO] [net.labymod.core_implementation.mc18.gui.GuiChatAdapter/]: [CHAT] [Fründe] VoxCrafter_LP isch jetzt online
+[14:25:53] [Chat#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] [IN] 24 PacketPlayFriendPlayingOn
+[14:25:53] [Chat#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] [IN] 23 PacketPlayFriendStatus
+[14:25:53] [Chat#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] [IN] 24 PacketPlayFriendPlayingOn
+[14:25:53] [Chat#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] [IN] 23 PacketPlayFriendStatus
+[14:25:53] [pool-7-thread-2/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [USER_MANAGER] Load user data of 20c018b7-970b-4eac-bbeb-713e72503f05
+[14:25:53] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Load labymodcloak/20c018b7-970b-4eac-bbeb-713e72503f05
+[14:25:53] [pool-11-thread-1/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Downloaded texture http://dl.labymod.net/textures/../capes/20c018b7-970b-4eac-bbeb-713e72503f05
+[14:25:53] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Load labymodshoes/bdf82a9e-8616-4aee-9617-cd51de8f5eff
+[14:25:53] [pool-11-thread-2/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Downloaded texture http://dl.labymod.net/textures/shoes/bdf82a9e-8616-4aee-9617-cd51de8f5eff
+[14:26:08] [pool-7-thread-3/INFO] [net.labymod.support.util.Debug/]: [Debug] [USER_MANAGER] Load user data of 5b1ea2ff-4839-4550-a8c9-d1163790544d
+[14:26:08] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Load labymodcloak/5b1ea2ff-4839-4550-a8c9-d1163790544d
+[14:26:08] [pool-11-thread-3/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Downloaded texture http://dl.labymod.net/textures/../capes/5b1ea2ff-4839-4550-a8c9-d1163790544d
+[14:26:33] [Client thread/DEBUG] [FML/]: Reverting to frozen data state.
+[14:26:33] [Client thread/TRACE] [mcp/mcp]: Sending event FMLModIdMappingEvent to mod mcp
+[14:26:33] [Client thread/TRACE] [mcp/mcp]: Sent event FMLModIdMappingEvent to mod mcp
+[14:26:33] [Client thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Coder Pack took 0.001s
+[14:26:33] [Client thread/TRACE] [FML/FML]: Sending event FMLModIdMappingEvent to mod FML
+[14:26:33] [Client thread/TRACE] [FML/FML]: Sent event FMLModIdMappingEvent to mod FML
+[14:26:33] [Client thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Forge Mod Loader took 0.000s
+[14:26:33] [Client thread/TRACE] [Forge/Forge]: Sending event FMLModIdMappingEvent to mod Forge
+[14:26:33] [Client thread/TRACE] [Forge/Forge]: Sent event FMLModIdMappingEvent to mod Forge
+[14:26:33] [Client thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Forge took 0.000s
+[14:26:33] [Client thread/TRACE] [labymod/labymod]: Sending event FMLModIdMappingEvent to mod labymod
+[14:26:33] [Client thread/TRACE] [labymod/labymod]: Sent event FMLModIdMappingEvent to mod labymod
+[14:26:33] [Client thread/DEBUG] [FML/]: Bar Step: ModIdMapping - LabyMod took 0.000s
+[14:26:33] [Client thread/DEBUG] [FML/]: Bar Finished: ModIdMapping took 0.002s
+[14:26:33] [Client thread/INFO] [FML/]: Applying holder lookups
+[14:26:33] [Client thread/INFO] [FML/]: Holder lookups applied
+[14:26:33] [Client thread/DEBUG] [FML/]: Frozen state restored.
+[14:26:33] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Unloaded labymodcloak/20c018b7-970b-4eac-bbeb-713e72503f05
+[14:26:33] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Unloaded labymodcloak/68082d49-d03f-41fe-82ae-defa05d63721
+[14:26:33] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Unloaded labymodcloak/b7c4a63d-e94b-4c7b-8660-3083cf3be2b4
+[14:26:33] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Unloaded labymodcloak/5b1ea2ff-4839-4550-a8c9-d1163790544d
+[14:26:33] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Unloaded 4 unused labymodcloak and 0 had no labymod textures! 0 labymodcloak left.
+[14:26:33] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [COSMETIC_IMAGE_MANAGER] Unloaded 0 unused labymodbandana and 0 had no labymod textures! 0 labymodbandana left.
+[14:26:33] [Chat#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] [OUT] 68 PacketPlayServerStatusUpdate
+[14:26:33] [Client thread/INFO] [net.labymod.support.util.Debug/]: [Debug] [MINECRAFT] Disconnected from server
+[14:26:36] [Helper#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] Save chat log file for 4f08412d-5e85-46ec-89fd-028c1ed073a3
+[14:26:36] [Thread-17/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [UPDATER] Executing LabyMod Updater
+[14:26:36] [Helper#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] Saved 0 chats!
+[14:26:36] [Chat#1/INFO] [net.labymod.support.util.Debug/labymod]: [Debug] [LABYMOD_CHAT] [OUT] 60 PacketDisconnect
