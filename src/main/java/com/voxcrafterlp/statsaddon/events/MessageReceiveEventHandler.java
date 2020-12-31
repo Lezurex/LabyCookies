@@ -25,7 +25,7 @@ public class MessageReceiveEventHandler {
             @Override
             public boolean onReceive(String formatted, String unFormatted) {
 
-                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     new Thread(() -> {
                         try {
                             Thread.sleep(StatsAddon.getInstance().cooldown);

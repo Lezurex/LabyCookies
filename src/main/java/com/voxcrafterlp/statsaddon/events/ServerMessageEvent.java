@@ -5,7 +5,10 @@ import com.google.gson.JsonElement;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
+import net.labymod.api.LabyModAPI;
+import net.labymod.core.LabyModCore;
 import net.labymod.main.LabyMod;
+import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
@@ -34,7 +37,7 @@ public class ServerMessageEvent {
                                 }
 
                                 List<String> playerNames = Lists.newCopyOnWriteArrayList();
-                                Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
+                                LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                                     playerNames.add(loadedPlayer.getGameProfile().getName());
                                     StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer.getGameProfile().getName());
                                 });
