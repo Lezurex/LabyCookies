@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class StatsAddon extends LabyModAddon {
 
-    private String currentVersion = "v1.1.0";
+    private String currentVersion = "v1.2.1";
 
     public int cooldown;
     public int warnLevel;
