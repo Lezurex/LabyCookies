@@ -1,8 +1,12 @@
 package com.voxcrafterlp.statsaddon.utils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import net.labymod.main.LabyMod;
-import org.json.JSONObject;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.ForgeHooks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,10 +49,17 @@ public class VersionChecker {
                 bufferedReader.close();
                 connection.disconnect();
 
-                String tagName = new JSONObject(content.toString()).getString("tag_name");
+                JsonParser jsonParser = new JsonParser();
+                JsonElement jsonElement = jsonParser.parse(content.toString());
+                String tagName = jsonElement.getAsJsonObject().get("tag_name").getAsString();
 
-                if(!tagName.equals(this.VERSION))
-                    LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Es ist eine \u00A7bneue Version \u00A77verfügbar.");
+                if(!tagName.equals(this.VERSION)) {
+                    LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Es ist eine \u00A7bneue Version \u00A77verfügbar. \u00A78(\u00A7b" + tagName + "\u00A78)");
+                    //LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A7bDownload\u00A78: \u00A77https://github.com/Lezurex/LabyCookies/releases/download/" + tagName + "/StatsAddon.jar");
+                    ChatComponentText chatComponent = new ChatComponentText("LINK");
+                    chatComponent.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks("https://github.com/Lezurex/LabyCookies/releases/download/" + tagName + "/StatsAddon.jar").getChatStyle().getChatClickEvent());
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(chatComponent);
+                }//jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString()
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }

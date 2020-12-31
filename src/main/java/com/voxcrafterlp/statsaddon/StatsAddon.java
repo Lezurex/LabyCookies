@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class StatsAddon extends LabyModAddon {
 
-    private String currentVersion = "v1.2.1";
+    private String currentVersion = "v1.1.0";
 
     public int cooldown;
     public int warnLevel;
@@ -56,7 +56,14 @@ public class StatsAddon extends LabyModAddon {
                 if(serverData.getIp().equalsIgnoreCase("gommehd.net") ||
                         serverData.getIp().equalsIgnoreCase("premium.gommehd.net")) {
 
-                    new VersionChecker();
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(3000);
+                            new VersionChecker();
+                        } catch (InterruptedException exception) {
+                            exception.printStackTrace();
+                        }
+                    }).start();
                 }
             }
         });
