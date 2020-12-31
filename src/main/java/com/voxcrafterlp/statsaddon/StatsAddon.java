@@ -31,7 +31,7 @@ public class StatsAddon extends LabyModAddon {
     public List<String> checkedPlayers;
 
     private static StatsAddon statsAddon;
-    private boolean isPlayingCookies;
+    private String currentGamemode;
     private List<String> playersJoined = Lists.newCopyOnWriteArrayList();
 
     private Map<String, Boolean> enabledGamemods = new HashMap<>();
@@ -39,7 +39,7 @@ public class StatsAddon extends LabyModAddon {
     @Override
     public void onEnable() {
         statsAddon = this;
-        isPlayingCookies = false;
+        currentGamemode = null;
 
         //EVENT REGISTRATION
         new MessageReceiveEventHandler().register();
@@ -147,16 +147,20 @@ public class StatsAddon extends LabyModAddon {
         return map;
     }
 
-    public static StatsAddon getStatsAddon() { return statsAddon; }
+    public static StatsAddon getInstance() { return statsAddon; }
+
+    public void setCurrentGamemode(String currentGamemode) { this.currentGamemode = currentGamemode; }
+
+    public String getCurrentGamemode() { return currentGamemode; }
 
     @Override
     public LabyModAPI getApi() { return super.getApi(); }
 
-    public boolean isPlayingCookies() { return isPlayingCookies; }
-
-    public void setPlayingCookies(boolean playingCookies) { isPlayingCookies = playingCookies; }
-
     public List<String> getPlayersJoined() { return playersJoined; }
 
-    public String getPrefix() { return "\u00A78[\u00A7bLabyCookies\u00A78] "; }
+    public Map<String, Boolean> getEnabledGamemods() { return enabledGamemods; }
+
+    public String getGamemodePrefix() { return "\u00A78[\u00A7b" + getCurrentGamemode() + "-Stats\u00A78] "; }
+
+    public String getPrefix() { return "\u00A78[\u00A7bStatsAddon\u00A78] "; }
 }
