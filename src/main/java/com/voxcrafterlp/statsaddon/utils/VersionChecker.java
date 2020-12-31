@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import net.labymod.main.LabyMod;
+import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentProcessor;
 import net.minecraft.util.ChatComponentText;
@@ -56,11 +57,16 @@ public class VersionChecker {
 
                 if(!tagName.equals(this.VERSION)) {
                     LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Es ist eine \u00A7bneue Version \u00A77verfügbar. \u00A78(\u00A7b" + tagName + "\u00A78)");
-                    ChatComponentText link = new ChatComponentText("\u00A78[\u00A7bLINK\u00A78]");
-                    link.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks(jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString()).getChatStyle().getChatClickEvent());
-                    ChatComponentText main = new ChatComponentText("");
-                    main.appendText(StatsAddon.getInstance().getPrefix()).appendText("\u00A77Download\u00A78: ").appendSibling(link);
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(main);
+                    String dlUrl = jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
+                    if (LabyModForge.isForge()) {
+                        ChatComponentText link = new ChatComponentText("\u00A78[\u00A7bLINK\u00A78]");
+                        link.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks(dlUrl).getChatStyle().getChatClickEvent());
+                        ChatComponentText main = new ChatComponentText("");
+                        main.appendText(StatsAddon.getInstance().getPrefix()).appendText("\u00A77Download\u00A78: ").appendSibling(link);
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(main);
+                    } else {
+                        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Download\u00A78: [\u00A7b" + dlUrl + "\u00A78]");
+                    }
                 }
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();

@@ -16,3 +16,6 @@
 [14:23:29] [Sound Library Loader/INFO]: Sound engine started
 [14:23:44] [Client thread/INFO]: Created: 512x512 textures-atlas
 [14:23:51] [Client thread/INFO]: Connecting to mc.gommehd.com., 25565
+[14:26:36] [Client thread/INFO]: Stopping!
+[14:26:36] [Client thread/INFO]: SoundSystem shutting down...
+[14:26:36] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
