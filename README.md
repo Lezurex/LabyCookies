@@ -4,7 +4,7 @@ in an available gamemode on the Minecraft network [GommeHD.net](https://gommehd.
 
 ## Installation
 To install this addon, just download the [latest release](https://github.com/Lezurex/LabyCookies/releases) on the right and copy the .jar into the LabyMod addons folder located at `MINECRAFT_FOLDER\LabyMod\addons-1.8`. <br>
-To locate your minecraft folder (on Windows), you have to press `CTRL + R` and type in `%appdata%\.minecraft`. You will be automatically redirected to your minecraft folder.
+To locate your minecraft folder (on Windows), you have to press `WIN + R` and type in `%appdata%\.minecraft`. You will be automatically redirected to your minecraft folder.
 
 ## Usage
 After the installation, you can just join a game of a gamemode of your choice and let the addon request the stats for you.
