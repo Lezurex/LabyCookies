@@ -3,12 +3,14 @@ package com.voxcrafterlp.statsaddon;
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
 import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
+import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
 import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
+import net.labymod.utils.ServerData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.Map;
  */
 
 public class StatsAddon extends LabyModAddon {
+
+    private String currentVersion = "v1.1.0";
 
     public int cooldown;
     public int warnLevel;
@@ -40,12 +44,29 @@ public class StatsAddon extends LabyModAddon {
     public void onEnable() {
         statsAddon = this;
         currentGamemode = null;
+        checkedPlayers = Lists.newCopyOnWriteArrayList();
 
         //EVENT REGISTRATION
         new MessageReceiveEventHandler().register();
         new ServerMessageEvent().register();
-        System.out.println("LabyCookies enabled");
-        checkedPlayers = Lists.newCopyOnWriteArrayList();
+
+        this.getApi().getEventManager().registerOnJoin(new Consumer<ServerData>() {
+            @Override
+            public void accept(final ServerData serverData) {
+                if(serverData.getIp().equalsIgnoreCase("gommehd.net") ||
+                        serverData.getIp().equalsIgnoreCase("premium.gommehd.net")) {
+
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(3000);
+                            new VersionChecker();
+                        } catch (InterruptedException exception) {
+                            exception.printStackTrace();
+                        }
+                    }).start();
+                }
+            }
+        });
 
     }
 
@@ -163,4 +184,6 @@ public class StatsAddon extends LabyModAddon {
     public String getGamemodePrefix() { return "\u00A78[\u00A7b" + getCurrentGamemode() + "-Stats\u00A78] "; }
 
     public String getPrefix() { return "\u00A78[\u00A7bStatsAddon\u00A78] "; }
+
+    public String getCurrentVersion() { return currentVersion; }
 }

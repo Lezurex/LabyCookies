@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
+import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 
@@ -42,7 +43,7 @@ public class ServerMessageEvent {
                             }).start();
                         } else {
                             StatsAddon.getInstance().getPlayersJoined().clear();
-                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Das StatsAddon ist \u00A7cnicht \u00A77verfügbar\u00A78.");
+                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Das StatsAddon ist hier \u00A7cnicht \u00A77verfügbar\u00A78.");
                         }
                     } else
                         StatsAddon.getInstance().lmcDoubled = false;
