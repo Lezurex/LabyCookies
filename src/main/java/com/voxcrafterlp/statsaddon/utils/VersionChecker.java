@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentProcessor;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -55,11 +56,12 @@ public class VersionChecker {
 
                 if(!tagName.equals(this.VERSION)) {
                     LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Es ist eine \u00A7bneue Version \u00A77verfügbar. \u00A78(\u00A7b" + tagName + "\u00A78)");
-                    //LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A7bDownload\u00A78: \u00A77https://github.com/Lezurex/LabyCookies/releases/download/" + tagName + "/StatsAddon.jar");
-                    ChatComponentText chatComponent = new ChatComponentText("LINK");
-                    chatComponent.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks("https://github.com/Lezurex/LabyCookies/releases/download/" + tagName + "/StatsAddon.jar").getChatStyle().getChatClickEvent());
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(chatComponent);
-                }//jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString()
+                    ChatComponentText link = new ChatComponentText("\u00A78[\u00A7bLINK\u00A78]");
+                    link.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks(jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString()).getChatStyle().getChatClickEvent());
+                    ChatComponentText main = new ChatComponentText("");
+                    main.appendText(StatsAddon.getInstance().getPrefix()).appendText("\u00A77Download\u00A78: ").appendSibling(link);
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(main);
+                }
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
