@@ -5,12 +5,10 @@ import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
 import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
-import net.labymod.settings.elements.BooleanElement;
-import net.labymod.settings.elements.ControlElement;
-import net.labymod.settings.elements.NumberElement;
-import net.labymod.settings.elements.SettingsElement;
+import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
+import net.labymod.utils.ModColor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,22 +56,35 @@ public class StatsAddon extends LabyModAddon {
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.warnLevel = this.getConfig().has("warnLevel") ? this.getConfig().get("warnLevel").getAsInt() : 100;
 
-        this.getGamemodes().forEach((string, material) -> enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean())));
+        this.getGamemodes().forEach((string, material) -> {
+            if(enabledGamemods.containsKey(string))
+                enabledGamemods.replace(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
+            else
+                enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
+        });
     }
 
     @Override
     protected void fillSettings(List<SettingsElement> list) {
-        list.add(new BooleanElement("Enabled", new ControlElement.IconData(Material.LEVER), accepted -> {
-            enabled = accepted;
-            getConfig().addProperty("enabled", accepted);
-            saveConfig();
+        list.add(new HeaderElement(ModColor.cl('b') + "General settings"));
+
+        list.add(new BooleanElement("Enabled", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean accepted) {
+                enabled = accepted;
+                getConfig().addProperty("enabled", accepted);
+                saveConfig();
+            }
         }, this.enabled));
 
         NumberElement queryInterval = new NumberElement("Query interval", new ControlElement.IconData(Material.WATCH), this.cooldown);
-        queryInterval.addCallback(integer -> {
-            cooldown = integer;
-            getConfig().addProperty("cooldown", integer);
-            saveConfig();
+        queryInterval.addCallback(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) {
+                cooldown = integer;
+                getConfig().addProperty("cooldown", integer);
+                saveConfig();
+            }
         });
         list.add(queryInterval);
         NumberElement warnLevelElement = new NumberElement("Warn Rank", new ControlElement.IconData(Material.NOTE_BLOCK), this.warnLevel);
@@ -86,26 +97,36 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(warnLevelElement);
-        list.add(new BooleanElement("Alert", new ControlElement.IconData(Material.NOTE_BLOCK), accepted -> {
-            alertEnabled = accepted;
-            getConfig().addProperty("alertEnabled", accepted);
-            saveConfig();
-        }, this.enabled));
+        list.add(new BooleanElement("Alert", new ControlElement.IconData(Material.NOTE_BLOCK), new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean accepted) {
+                alertEnabled = accepted;
+                getConfig().addProperty("alertEnabled", accepted);
+                saveConfig();
+            }
+        }, this.alertEnabled));
 
-        //======================================// Gamemodes
+
+        //Gamemodes
+        list.add(new HeaderElement(ModColor.cl('a') + "Enabled gamemodes"));
 
         this.getGamemodes().forEach((string, material) -> {
-            list.add(new BooleanElement(string, new ControlElement.IconData(material), enabled -> {
-                enabledGamemods.replace(string, enabled);
-                getConfig().addProperty(string, enabled);
-                saveConfig();
-            }, this.enabled));
+            list.add(new BooleanElement(string, new ControlElement.IconData(material), new Consumer<Boolean>() {
+                @Override
+                public void accept(Boolean enabled) {
+                    if(enabledGamemods.containsKey(string))
+                        enabledGamemods.replace(string, enabled);
+                    else
+                        enabledGamemods.put(string, enabled);
+                    getConfig().addProperty(string, enabled);
+                    saveConfig();
+                }
+            }, enabledGamemods.get(string)));
         });
     }
 
     /**
      * Fills the map with a list of all gamemodes which have stats enabled
-     * @param map Map which should be filled
      * @return Filled map
      */
     private Map<String, Material> getGamemodes() {
