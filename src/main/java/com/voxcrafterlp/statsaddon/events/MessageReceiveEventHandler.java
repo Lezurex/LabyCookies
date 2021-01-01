@@ -43,7 +43,6 @@ public class MessageReceiveEventHandler {
                         });
 
                         new StatsDisplayUtil().displayStats(playerNames);
-
                     }).start();
                 }
                 if(StatsAddon.getInstance().getCurrentGamemode() != null && StatsAddon.getInstance().enabled) {
