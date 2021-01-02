@@ -20,7 +20,7 @@ public class StatsDisplayUtil {
                 if (StatsAddon.getInstance().getCurrentGamemode() != null) {
                     if (!string.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                         if (!StatsAddon.getInstance().checkedPlayers.contains(string)) {
-                            Minecraft.getMinecraft().thePlayer.sendChatMessage("/stats " + string);
+                            Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getCommand(string));
                             playerNames.remove(string);
                             StatsAddon.getInstance().checkedPlayers.add(string);
                             try {
@@ -37,4 +37,16 @@ public class StatsDisplayUtil {
             }
         }).start();
     }
+
+    private String getCommand(String playerName) {
+        final String statsType = StatsAddon.getInstance().getStatsType().toLowerCase();
+        if(statsType.equals("statsall")) return "statsall " + playerName;
+
+        int days = Integer.parseInt(statsType.replace(" ", "").replace("days", "")
+                .replace("stats", ""));
+
+        if(days == 30) return "stats " + playerName;
+        else return "statsd " + days + " " + playerName;
+    }
+
 }

@@ -6,6 +6,7 @@ import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
+import net.labymod.gui.elements.DropDownMenu;
 import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
@@ -27,15 +28,12 @@ public class StatsAddon extends LabyModAddon {
 
     private String currentVersion = "v1.2.1";
 
-    public int cooldown;
-    public int warnLevel;
-    public boolean enabled;
-    public boolean alertEnabled;
-    public boolean lmcDoubled;
+    public int cooldown, warnLevel;
+    public boolean enabled, alertEnabled, lmcDoubled;
     public List<String> checkedPlayers;
 
     private static StatsAddon statsAddon;
-    private String currentGamemode;
+    private String currentGamemode, statsType;
     private List<String> playersJoined = Lists.newCopyOnWriteArrayList();
 
     private Map<String, Boolean> enabledGamemods = new HashMap<>();
@@ -58,7 +56,7 @@ public class StatsAddon extends LabyModAddon {
 
                     new Thread(() -> {
                         try {
-                            Thread.sleep(3000);
+                            Thread.sleep(2500);
                             new VersionChecker();
                         } catch (InterruptedException exception) {
                             exception.printStackTrace();
@@ -76,6 +74,7 @@ public class StatsAddon extends LabyModAddon {
         this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.warnLevel = this.getConfig().has("warnLevel") ? this.getConfig().get("warnLevel").getAsInt() : 100;
+        this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 DAYS";
 
         this.getGamemodes().forEach((string, material) -> {
             if(enabledGamemods.containsKey(string))
@@ -127,6 +126,22 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.alertEnabled));
 
+        DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstype",0,0,0,0)
+                .fill(new String[]{"STATSALL", "STATS 30 DAYS", "STATS 20 DAYS", "STATS 15 DAYS",
+                        "STATS 10 DAYS", "STATS 5 DAYS", "STATS 3 DAYS"});
+        DropDownElement<String> statsDropDown = new DropDownElement<String>("Statstype", statsDropDownMenu);
+
+        statsDropDownMenu.setSelected(this.statsType);
+        statsDropDown.setChangeListener(new Consumer<String>() {
+            @Override
+            public void accept(String string) {
+                statsType = string;
+                getConfig().addProperty("statstype", string);
+                saveConfig();
+            }
+        });
+
+        list.add(statsDropDown);
 
         //Gamemodes
         list.add(new HeaderElement(ModColor.cl('a') + "Enabled gamemodes"));
@@ -186,4 +201,6 @@ public class StatsAddon extends LabyModAddon {
     public String getPrefix() { return "\u00A78[\u00A7bStatsAddon\u00A78] "; }
 
     public String getCurrentVersion() { return currentVersion; }
+
+    public String getStatsType() { return statsType; }
 }
