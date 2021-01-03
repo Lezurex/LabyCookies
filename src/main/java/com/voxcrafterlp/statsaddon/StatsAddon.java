@@ -52,7 +52,11 @@ public class StatsAddon extends LabyModAddon {
             @Override
             public void accept(final ServerData serverData) {
                 if(serverData.getIp().equalsIgnoreCase("gommehd.net") ||
-                        serverData.getIp().equalsIgnoreCase("premium.gommehd.net")) {
+                        serverData.getIp().equalsIgnoreCase("premium.gommehd.net") ||
+                        serverData.getIp().equalsIgnoreCase("mc.gommehd.net") ||
+                        serverData.getIp().equalsIgnoreCase("gommehd.com") ||
+                        serverData.getIp().equalsIgnoreCase("premium.gommehd.com") ||
+                        serverData.getIp().equalsIgnoreCase("mc.gommehd.com")) {
 
                     new Thread(() -> {
                         try {
