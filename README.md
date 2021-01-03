@@ -1,20 +1,21 @@
 # LabyCookies
-This is a free-to-use addon for the Minecraft Modification [Labymod](https://labymod.net). It was originally developed by [VoxCrafter_LP](https://github.com/VoxCrafterLP) and is now under development of [Lezurex](https://github.com/Lezurex). It automatically gets the stats of all the players
-in an available gamemode on the Minecraft network [GommeHD.net](https://gommehd.net).
+Die ist ein frei nutzbares Addon für die Minecraft-Modifikation [Labymod](https://labymod.net). Ursprünglich entwickelt wurde es von [VoxCrafter_LP](https://github.com/VoxCrafterLP) und ist jetzt unter der Entwicklung von [Lezurex](https://github.com/Lezurex). Es kann automatisch die Stats in einer Runde eines unterstützten Spielmoduses auf [GommeHD.net](https://gommehd.net) abfragen und den Benutzer warnen.
 
 ## Installation
-To install this addon, just download the [latest release](https://github.com/Lezurex/LabyCookies/releases) on the right and copy the .jar into the LabyMod addons folder located at `MINECRAFT_FOLDER\LabyMod\addons-1.8`. <br>
-To locate your minecraft folder (on Windows), you have to press `WIN + R` and type in `%appdata%\.minecraft`. You will be automatically redirected to your minecraft folder.
-**Note**: If you are using LabyMod for Minecraft 1.12.2, download the latest release of the 1.12.2 version of this addon. Please note, that this version isn't maintained as often as the 1.8.9 version.
+Um das Addon zu installieren, lade den [neusten Release](https://github.com/Lezurex/LabyCookies/releases) auf der rechten Seite herunter und kopiere die .jar-Datei in den Addons-Ordner, zu finden unter `MINECRAFT_ORDNER\LabyMod\addons-1.8`. <br>
+Um den Minecraft-Ordner auf Windows zu finden, drücke `WIN + R` und gib `%appdata%\.minecraft` in das Feld ein. Bestätige dann mit Enter. Du wirst automatisch zum Minecraft-Ordner weitergeleitet (sofern du Minecraft am standardmässigen Ort installiert hast).
+**Hinweis**: Wenn du Labymod für die 1.12.2 benutzt, lade den neusten Release der 1.12.2 Version von diesem Addon herunter. Bitte beachte, dass diese Version nicht so oft aktualisiert wird, wie die 1.8.9 Version.
 
-## Usage
-After the installation, you can just join a game of a gamemode of your choice and let the addon request the stats for you.
+## Benutzung
+Nach der Installation kannst du in einen der unterstützten Spielmodi joinen und das Addon fragt automatisch Statistiken ab.
+Weitere Informationen zur Nutzung findest du [hier](https://github.com/Lezurex/LabyCookies/wiki).
 
-## Features
-- Automatically gets a joined player's stats
-- Automatically gets the stats of players already ingame
-- Warns you if a player with a customizeable ranking is in your lobby
-- Acoustic alert
+## Funktionen
+- Holt automatisch die Stats von gejointen Spielern
+- Holt automatisch die Stats von Spielern, die bereits in der Lobby sind.
+- Warnt dich, wenn ein Spieler mit einem tiefern als von dir festgelegten Rang in deiner Lobby ist.
+- Akustischer Alarm
+- Für jeden Spielmodus aktivierbar/deaktivierbar
 
 ## 1.12.2
-There's also a 1.12.2 version of this addon! Please note, that this version isn't maintained as often as the 1.8.9 version. If you want to see the source of the 1.12.2 version, just switch to the lm-1.12.2 branch!
+Es gibt auch eine 1.12.2 Version von diesem Addon! Bitte beachte, dass diese Version nicht so oft aktualisiert wird, wie die 1.8.9 Version. Wenn du den Sourcecode der 1.12.2 Version sehen willst, wechsle zum **lm-1.12.2**-Branch.
