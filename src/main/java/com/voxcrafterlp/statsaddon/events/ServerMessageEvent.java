@@ -79,6 +79,8 @@ public class ServerMessageEvent {
 
         if(!gamemodeEnabled.get())
             StatsAddon.getInstance().setCurrentGamemode(null);
+
+        System.out.println("Current gamemode: " + name + " (Version: " + StatsAddon.getInstance().getCurrentVersion() + ")");
         return gamemodeEnabled.get();
     }
 
