@@ -11,11 +11,11 @@ Nach der Installation kannst du in einen der unterstützten Spielmodi joinen und
 Weitere Informationen zur Nutzung findest du [hier](https://github.com/Lezurex/LabyCookies/wiki).
 
 ## Funktionen
-- Holt automatisch die Stats von gejointen Spielern
-- Holt automatisch die Stats von Spielern, die bereits in der Lobby sind.
-- Warnt dich, wenn ein Spieler mit einem tiefern als von dir festgelegten Rang in deiner Lobby ist.
+- Überprüft automatisch die Stats von gejointen Spielern
+- Überprüft automatisch die Stats von Spielern, die bereits in der Wartelobby sind
+- Warnt dich, wenn ein Spieler mit einer besseren Platzierung dem Spiel beitritt
 - Akustischer Alarm
-- Für jeden Spielmodus aktivierbar/deaktivierbar
+- Für (fast) jeden Spielmodus aktivierbar/deaktivierbar
 
 ## 1.12.2
 Es gibt auch eine 1.12.2 Version von diesem Addon! Bitte beachte, dass diese Version nicht so oft aktualisiert wird, wie die 1.8.9 Version. Wenn du den Sourcecode der 1.12.2 Version sehen willst, wechsle zum **lm-1.12.2**-Branch.
