@@ -4,13 +4,9 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
-import com.voxcrafterlp.statsaddon.utils.VersionChecker;
-import net.labymod.api.LabyModAPI;
 import net.labymod.core.LabyModCore;
 import net.labymod.main.LabyMod;
-import net.labymod.main.LabyModForge;
-import net.minecraft.client.Minecraft;
-
+import net.minecraft.client.network.NetworkPlayerInfo;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -21,12 +17,11 @@ public class ServerMessageEvent {
             @Override
             public void onServerMessage(String s, JsonElement jsonElement) {
                 if(jsonElement.getAsJsonObject().has("game_mode")) {
-                    if (!StatsAddon.getInstance().lmcDoubled) {
+                    if(!StatsAddon.getInstance().lmcDoubled) {
                         StatsAddon.getInstance().lmcDoubled = true;
-
-                        String name = jsonElement.getAsJsonObject().get("game_mode").getAsString().toLowerCase();
-                        if(isAvailableGamemode(name) && StatsAddon.getInstance().enabled) {
-                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Das StatsAddon wurde \u00A7aaktiviert\u00A78.");
+                        if(jsonElement.getAsJsonObject().get("game_mode").getAsString().toLowerCase().contains("cookies") && StatsAddon.getInstance().enabled) {
+                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Die LabyCookies Integration wurde \u00A7aaktiviert\u00A78.");
+                            StatsAddon.getInstance().setPlayingCookies(true);
                             StatsAddon.getInstance().checkedPlayers.clear();
 
                             new Thread(() -> {
@@ -36,17 +31,18 @@ public class ServerMessageEvent {
                                     e.printStackTrace();
                                 }
 
-                                List<String> playerNames = Lists.newCopyOnWriteArrayList();
+                                List<NetworkPlayerInfo> playerNames = Lists.newCopyOnWriteArrayList();
                                 LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
-                                    playerNames.add(loadedPlayer.getGameProfile().getName());
-                                    StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer.getGameProfile().getName());
+                                    playerNames.add(loadedPlayer);
+                                    StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer);
                                 });
 
-                                new StatsDisplayUtil().displayStats(playerNames);
+                                new StatsDisplayUtil().displayStats(playerNames, null);
                             }).start();
                         } else {
+                            StatsAddon.getInstance().setPlayingCookies(false);
                             StatsAddon.getInstance().getPlayersJoined().clear();
-                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Das StatsAddon ist hier \u00A7cnicht \u00A77verfügbar\u00A78.");
+                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Die LabyCookies Integration wurde \u00A7cdeaktiviert\u00A78.");
                         }
                     } else
                         StatsAddon.getInstance().lmcDoubled = false;
