@@ -17,9 +17,9 @@ public class ServerMessageEvent {
             @Override
             public void onServerMessage(String s, JsonElement jsonElement) {
                 if(jsonElement.getAsJsonObject().has("game_mode")) {
-                    if (!StatsAddon.getInstance().lmcDoubled) {
+                    if(!StatsAddon.getInstance().lmcDoubled) {
                         StatsAddon.getInstance().lmcDoubled = true;
-                        if (jsonElement.getAsJsonObject().get("game_mode").getAsString().toLowerCase().contains("cookies") && StatsAddon.getInstance().enabled) {
+                        if(jsonElement.getAsJsonObject().get("game_mode").getAsString().toLowerCase().contains("cookies") && StatsAddon.getInstance().enabled) {
                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Die LabyCookies Integration wurde \u00A7aaktiviert\u00A78.");
                             StatsAddon.getInstance().setPlayingCookies(true);
                             StatsAddon.getInstance().checkedPlayers.clear();

@@ -32,7 +32,7 @@ public class StatsDisplayUtil {
                 if (!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase().replace("i", "y").replace("á", "a").contains("party")) {
                     if (!playerInfo.getGameProfile().getName().equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                         if (!StatsAddon.getInstance().checkedPlayers.contains(playerInfo)) {
-                            Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getCommand(playerInfo.toString()));
+                            Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getCommand(playerInfo.getGameProfile().getName()));
                             playerNames.remove(playerInfo);
                             StatsAddon.getInstance().checkedPlayers.add(playerInfo);
                             try {
@@ -53,6 +53,7 @@ public class StatsDisplayUtil {
     }
 
     public void checkNicked(NetworkPlayerInfo playerInfo, String joinMessage) {
+        System.out.println("start checker");
         nickAlgorithms = new ArrayList<>();
         nickAlgorithms.add(new ClanChecker());
         if (joinMessage != null) {
