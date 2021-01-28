@@ -24,6 +24,8 @@ run
 *.log
 *.log.gz
 
+./logs
+
 # minecraft
 
 .saves
