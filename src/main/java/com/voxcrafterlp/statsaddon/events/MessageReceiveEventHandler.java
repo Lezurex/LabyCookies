@@ -26,7 +26,7 @@ public class MessageReceiveEventHandler {
             @Override
             public boolean onReceive(String formatted, String unFormatted) {
 
-                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
+                if (StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     new Thread(() -> {
                         try {
                             Thread.sleep(StatsAddon.getInstance().cooldown);
@@ -36,7 +36,7 @@ public class MessageReceiveEventHandler {
 
                         List<NetworkPlayerInfo> playerInfos = Lists.newCopyOnWriteArrayList();
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
-                            if(!StatsAddon.getInstance().getPlayersJoined().contains(loadedPlayer)) {
+                            if (!StatsAddon.getInstance().getPlayersJoined().contains(loadedPlayer)) {
                                 playerInfos.add(loadedPlayer);
                                 StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer);
                             }
@@ -46,27 +46,34 @@ public class MessageReceiveEventHandler {
                         new StatsDisplayUtil().displayStats(playerInfos);
                     }).start();
                 }
-                if(StatsAddon.getInstance().getCurrentGamemode() != null && StatsAddon.getInstance().enabled) {
+                if (StatsAddon.getInstance().getCurrentGamemode() != null && StatsAddon.getInstance().enabled) {
                     new Thread(() -> {
-                        if(unFormatted.toLowerCase().contains("-=")) {
+                        if (unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
                         }
-                        if(unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
+                        if (unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
                             String[] content = formatted.split("\u00A7e");
-                            if(content.length == 2) {
+                            if (content.length == 2) {
 
-                                if(!content[1].contains("-")) {
-                                    int rank = Integer.parseInt(content[1].replace("\u00A7e", "").replace(" ", "").replace(".", "").replace(",", "").replace("'", "").replace("\u00A7r", ""));
-                                    if(rank < StatsAddon.getInstance().warnLevel) {
+                                if (!content[1].contains("-")) {
+                                    int rank = Integer.parseInt(content[1]
+                                            .replace("\u00A7e", "")
+                                            .replace(" ", "")
+                                            .replace(".", "")
+                                            .replace(",", "")
+                                            .replace("'", "")
+                                            .replace("\u00A7r", "")
+                                            .replace("`", ""));
+                                    if (rank < StatsAddon.getInstance().warnLevel) {
                                         try {
                                             Thread.sleep(20);
                                         } catch (InterruptedException exception) {
                                             exception.printStackTrace();
                                         }
-                                        if(!lastPlayerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+                                        if (!lastPlayerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Platz \u00A7e#" + rank + " \u00A77Name\u00A78: \u00A7c" + lastPlayerName);
-                                            if(StatsAddon.getInstance().alertEnabled) {
+                                            if (StatsAddon.getInstance().alertEnabled) {
                                                 new Thread(() -> {
                                                     for (int i = 0; i < 5; i++) {
                                                         Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
@@ -91,7 +98,7 @@ public class MessageReceiveEventHandler {
     }
 
     private String getNameFromStatsLine(String string) {
-        if(string.contains("-=")) {
+        if (string.contains("-=")) {
             String[] words = string.split(" ");
             return words[3].replace("\u00A76", "");
         }

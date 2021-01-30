@@ -19,10 +19,13 @@ public class StatsDisplayUtil {
         new Thread(() -> {
             for(NetworkPlayerInfo playerInfo: playerInfos) {
                 if (StatsAddon.getInstance().getCurrentGamemode() != null) {
-                    if (!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase().replace("i", "y").replace("á", "a").contains("party")) {
-                        if (playerInfo.getGameProfile() != Minecraft.getMinecraft().thePlayer.getGameProfile()) {
+                    if (!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
+                            .replace("i", "y")
+                            .replace("á", "a")
+                            .contains("party")) {
+                        if (!playerInfo.getGameProfile().getName().equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                             if (!StatsAddon.getInstance().checkedPlayers.contains(playerInfo)) {
-                                Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getCommand(playerInfo.getDisplayName().toString()));
+                                Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getCommand(playerInfo.getGameProfile().getName()));
                                 playerInfos.remove(playerInfo);
                                 StatsAddon.getInstance().checkedPlayers.add(playerInfo);
                                 try {
