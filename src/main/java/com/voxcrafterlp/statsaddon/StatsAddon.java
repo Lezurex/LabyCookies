@@ -2,7 +2,6 @@ package com.voxcrafterlp.statsaddon;
 
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
-import com.voxcrafterlp.statsaddon.events.PluginMessageEventHandler;
 import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import net.labymod.api.LabyModAPI;
@@ -13,7 +12,6 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,12 +29,12 @@ public class StatsAddon extends LabyModAddon {
     private String currentVersion = "v1.2.1";
 
     public int cooldown, warnLevel;
-    public boolean enabled, alertEnabled, lmcDoubled, isPlayingCookies;
-    public List<NetworkPlayerInfo> checkedPlayers;
+    public boolean enabled, alertEnabled, lmcDoubled;
+    public List<String> checkedPlayers;
 
     private static StatsAddon statsAddon;
     private String currentGamemode, statsType;
-    private List<NetworkPlayerInfo> playersJoined = Lists.newCopyOnWriteArrayList();
+    private List<String> playersJoined = Lists.newCopyOnWriteArrayList();
 
     private Map<String, Boolean> enabledGamemods = new HashMap<>();
 
@@ -49,7 +47,6 @@ public class StatsAddon extends LabyModAddon {
         //EVENT REGISTRATION
         new MessageReceiveEventHandler().register();
         new ServerMessageEvent().register();
-        new PluginMessageEventHandler().register();
 
         this.getApi().getEventManager().registerOnJoin(new Consumer<ServerData>() {
             @Override
@@ -199,6 +196,8 @@ public class StatsAddon extends LabyModAddon {
     @Override
     public LabyModAPI getApi() { return super.getApi(); }
 
+    public List<String> getPlayersJoined() { return playersJoined; }
+
     public Map<String, Boolean> getEnabledGamemods() { return enabledGamemods; }
 
     public String getGamemodePrefix() { return "\u00A78[\u00A7b" + getCurrentGamemode() + "-Stats\u00A78] "; }
@@ -208,12 +207,4 @@ public class StatsAddon extends LabyModAddon {
     public String getCurrentVersion() { return currentVersion; }
 
     public String getStatsType() { return statsType; }
-
-    public List<NetworkPlayerInfo> getPlayersJoined() { return playersJoined; }
-
-    public List<NetworkPlayerInfo> getCheckedPlayers() { return checkedPlayers; }
-
-    public void setPlayingCookies(boolean playingCookies) { isPlayingCookies = playingCookies; }
-
-    public boolean isPlayingCookies() { return isPlayingCookies; }
 }
