@@ -2,6 +2,7 @@ package com.voxcrafterlp.statsaddon.utils;
 
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.List;
 
@@ -14,22 +15,24 @@ import java.util.List;
 
 public class StatsDisplayUtil {
 
-    public void displayStats(List<String> playerNames) {
+    public void displayStats(List<NetworkPlayerInfo> playerInfos) {
         new Thread(() -> {
-            for(String string: playerNames) {
+            for(NetworkPlayerInfo playerInfo: playerInfos) {
                 if (StatsAddon.getInstance().getCurrentGamemode() != null) {
-                    if (!string.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
-                        if (!StatsAddon.getInstance().checkedPlayers.contains(string)) {
-                            Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getCommand(string));
-                            playerNames.remove(string);
-                            StatsAddon.getInstance().checkedPlayers.add(string);
-                            try {
-                                Thread.sleep(StatsAddon.getInstance().cooldown);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                    if (!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase().replace("i", "y").replace("á", "a").contains("party")) {
+                        if (playerInfo.getGameProfile() != Minecraft.getMinecraft().thePlayer.getGameProfile()) {
+                            if (!StatsAddon.getInstance().checkedPlayers.contains(playerInfo)) {
+                                Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getCommand(playerInfo.getDisplayName().toString()));
+                                playerInfos.remove(playerInfo);
+                                StatsAddon.getInstance().checkedPlayers.add(playerInfo);
+                                try {
+                                    Thread.sleep(StatsAddon.getInstance().cooldown);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                playerInfos.remove(playerInfo);
                             }
-                        } else {
-                            playerNames.remove(string);
                         }
                     }
                 } else

@@ -12,6 +12,7 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
+import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +31,11 @@ public class StatsAddon extends LabyModAddon {
 
     public int cooldown, warnLevel;
     public boolean enabled, alertEnabled, lmcDoubled;
-    public List<String> checkedPlayers;
+    public List<NetworkPlayerInfo> checkedPlayers;
 
     private static StatsAddon statsAddon;
     private String currentGamemode, statsType;
-    private List<String> playersJoined = Lists.newCopyOnWriteArrayList();
+    private List<NetworkPlayerInfo> playersJoined = Lists.newCopyOnWriteArrayList();
 
     private Map<String, Boolean> enabledGamemods = new HashMap<>();
 
@@ -196,7 +197,7 @@ public class StatsAddon extends LabyModAddon {
     @Override
     public LabyModAPI getApi() { return super.getApi(); }
 
-    public List<String> getPlayersJoined() { return playersJoined; }
+    public List<NetworkPlayerInfo> getPlayersJoined() { return playersJoined; }
 
     public Map<String, Boolean> getEnabledGamemods() { return enabledGamemods; }
 

@@ -6,6 +6,7 @@ import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
 import net.labymod.api.events.MessageReceiveEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.List;
 
@@ -33,16 +34,16 @@ public class MessageReceiveEventHandler {
                             exception.printStackTrace();
                         }
 
-                        List<String> playerNames = Lists.newCopyOnWriteArrayList();
+                        List<NetworkPlayerInfo> playerInfos = Lists.newCopyOnWriteArrayList();
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
-                            if(!StatsAddon.getInstance().getPlayersJoined().contains(loadedPlayer.getGameProfile().getName())) {
-                                playerNames.add(loadedPlayer.getGameProfile().getName());
-                                StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer.getGameProfile().getName());
+                            if(!StatsAddon.getInstance().getPlayersJoined().contains(loadedPlayer)) {
+                                playerInfos.add(loadedPlayer);
+                                StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer);
                             }
 
                         });
 
-                        new StatsDisplayUtil().displayStats(playerNames);
+                        new StatsDisplayUtil().displayStats(playerInfos);
                     }).start();
                 }
                 if(StatsAddon.getInstance().getCurrentGamemode() != null && StatsAddon.getInstance().enabled) {

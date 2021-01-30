@@ -10,6 +10,7 @@ import net.labymod.core.LabyModCore;
 import net.labymod.main.LabyMod;
 import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,13 +37,13 @@ public class ServerMessageEvent {
                                     e.printStackTrace();
                                 }
 
-                                List<String> playerNames = Lists.newCopyOnWriteArrayList();
+                                List<NetworkPlayerInfo> playerInfos = Lists.newCopyOnWriteArrayList();
                                 LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
-                                    playerNames.add(loadedPlayer.getGameProfile().getName());
-                                    StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer.getGameProfile().getName());
+                                    playerInfos.add(loadedPlayer);
+                                    StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer);
                                 });
 
-                                new StatsDisplayUtil().displayStats(playerNames);
+                                new StatsDisplayUtil().displayStats(playerInfos);
                             }).start();
                         } else {
                             StatsAddon.getInstance().getPlayersJoined().clear();
