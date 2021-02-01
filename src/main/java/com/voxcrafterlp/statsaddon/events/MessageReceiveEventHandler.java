@@ -1,14 +1,10 @@
 package com.voxcrafterlp.statsaddon.events;
 
-import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.StatsAddon;
-import com.voxcrafterlp.statsaddon.utils.StatsDisplayUtil;
+import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import net.labymod.api.events.MessageReceiveEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
-
-import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP & Lezurex!
@@ -26,7 +22,7 @@ public class MessageReceiveEventHandler {
             @Override
             public boolean onReceive(String formatted, String unFormatted) {
 
-                if (StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
+                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     new Thread(() -> {
                         try {
                             Thread.sleep(StatsAddon.getInstance().cooldown);
@@ -34,28 +30,26 @@ public class MessageReceiveEventHandler {
                             exception.printStackTrace();
                         }
 
-                        List<NetworkPlayerInfo> playerInfos = Lists.newCopyOnWriteArrayList();
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
-                            if (!StatsAddon.getInstance().getPlayersJoined().contains(loadedPlayer)) {
-                                playerInfos.add(loadedPlayer);
-                                StatsAddon.getInstance().getPlayersJoined().add(loadedPlayer);
-                            }
+                            final String playerName = loadedPlayer.getGameProfile().getName();
 
+                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName))
+                                StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
                         });
-
-                        new StatsDisplayUtil().displayStats(playerInfos);
                     }).start();
                 }
-                if (StatsAddon.getInstance().getCurrentGamemode() != null && StatsAddon.getInstance().enabled) {
+
+
+                if(StatsAddon.getInstance().getCurrentGamemode() != null && StatsAddon.getInstance().enabled) {
                     new Thread(() -> {
-                        if (unFormatted.toLowerCase().contains("-=")) {
+                        if(unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
                         }
-                        if (unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
+                        if(unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
                             String[] content = formatted.split("\u00A7e");
-                            if (content.length == 2) {
+                            if(content.length == 2) {
 
-                                if (!content[1].contains("-")) {
+                                if(!content[1].contains("-")) {
                                     int rank = Integer.parseInt(content[1]
                                             .replace("\u00A7e", "")
                                             .replace(" ", "")
@@ -64,6 +58,36 @@ public class MessageReceiveEventHandler {
                                             .replace("'", "")
                                             .replace("\u00A7r", "")
                                             .replace("`", ""));
+
+                                    //TODO check winrate
+
+                                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                    playerStats.setRank(rank);
+                                    playerStats.setChecked(true);
+                                    playerStats.performStatsAnalysis();
+                                }
+                            }
+                        }
+
+                        /*if(unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
+                            String[] content = formatted.split("\u00A7e");
+                            if(content.length == 2) {
+
+                                if(!content[1].contains("-")) {
+                                    int rank = Integer.parseInt(content[1]
+                                            .replace("\u00A7e", "")
+                                            .replace(" ", "")
+                                            .replace(".", "")
+                                            .replace(",", "")
+                                            .replace("'", "")
+                                            .replace("\u00A7r", "")
+                                            .replace("`", ""));
+
+
+
+
+
+
                                     if (rank < StatsAddon.getInstance().warnLevel) {
                                         try {
                                             Thread.sleep(20);
@@ -89,7 +113,7 @@ public class MessageReceiveEventHandler {
                                     }
                                 }
                             }
-                        }
+                        }*/
                     }).start();
                 }
                 return false;
@@ -103,5 +127,9 @@ public class MessageReceiveEventHandler {
             return words[3].replace("\u00A76", "");
         }
         return null;
+    }
+
+    private boolean hasGamemodeWinrateSupport(String gamemode) {
+        return !gamemode.equals("JL");
     }
 }

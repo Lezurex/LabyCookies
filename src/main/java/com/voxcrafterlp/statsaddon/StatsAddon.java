@@ -1,9 +1,11 @@
 package com.voxcrafterlp.statsaddon;
 
-import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
 import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
+import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
+import lombok.Getter;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
 import net.labymod.gui.elements.DropDownMenu;
@@ -12,7 +14,6 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,25 +26,26 @@ import java.util.Map;
  * For Project: Labymod Stats Addon
  */
 
+@Getter
 public class StatsAddon extends LabyModAddon {
 
-    private String currentVersion = "v1.3.0";
+    private final String currentVersion = "v2.0.0";
 
     public int cooldown, warnLevel;
     public boolean enabled, alertEnabled, lmcDoubled;
-    public List<NetworkPlayerInfo> checkedPlayers;
 
     private static StatsAddon statsAddon;
     private String currentGamemode, statsType;
-    private List<NetworkPlayerInfo> playersJoined = Lists.newCopyOnWriteArrayList();
 
-    private Map<String, Boolean> enabledGamemods = new HashMap<>();
+    private final Map<String, Boolean> enabledGamemods = new HashMap<>();
+
+    private final Map<String, PlayerStats> loadedPlayerStats = new HashMap<>();
+    private StatsChecker statsChecker;
 
     @Override
     public void onEnable() {
         statsAddon = this;
         currentGamemode = null;
-        checkedPlayers = Lists.newCopyOnWriteArrayList();
 
         //EVENT REGISTRATION
         new MessageReceiveEventHandler().register();
@@ -71,6 +73,8 @@ public class StatsAddon extends LabyModAddon {
             }
         });
 
+        this.statsChecker = new StatsChecker();
+        this.statsChecker.startChecker();
     }
 
     @Override
@@ -171,7 +175,7 @@ public class StatsAddon extends LabyModAddon {
      * @return Filled map
      */
     private Map<String, Material> getGamemodes() {
-        Map<String, Material> map = new HashMap<String, Material>();
+        Map<String, Material> map = new HashMap<>();
 
         map.put("Cookies", Material.COOKIE);
         map.put("SkyWars", Material.GRASS);
@@ -188,24 +192,21 @@ public class StatsAddon extends LabyModAddon {
         return map;
     }
 
+    public void clearCache() {
+        getLoadedPlayerStats().clear();
+        getStatsChecker().getCheckedPlayers().clear();
+        getStatsChecker().getQueue().clear();
+    }
+
     public static StatsAddon getInstance() { return statsAddon; }
 
     public void setCurrentGamemode(String currentGamemode) { this.currentGamemode = currentGamemode; }
 
-    public String getCurrentGamemode() { return currentGamemode; }
-
     @Override
     public LabyModAPI getApi() { return super.getApi(); }
-
-    public List<NetworkPlayerInfo> getPlayersJoined() { return playersJoined; }
-
-    public Map<String, Boolean> getEnabledGamemods() { return enabledGamemods; }
 
     public String getGamemodePrefix() { return "\u00A78[\u00A7b" + getCurrentGamemode() + "-Stats\u00A78] "; }
 
     public String getPrefix() { return "\u00A78[\u00A7bStatsAddon\u00A78] "; }
 
-    public String getCurrentVersion() { return currentVersion; }
-
-    public String getStatsType() { return statsType; }
 }
