@@ -21,11 +21,13 @@ public class MessageReceiveEventHandler {
         StatsAddon.getInstance().getApi().getEventManager().register(new MessageReceiveEvent() {
             @Override
             public boolean onReceive(String formatted, String unFormatted) {
+                if(!StatsAddon.getInstance().isEnabled()) return false;
+                if(!StatsAddon.getInstance().isOnline()) return false;
 
                 if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     new Thread(() -> {
                         try {
-                            Thread.sleep(StatsAddon.getInstance().cooldown);
+                            Thread.sleep(StatsAddon.getInstance().getCooldown());
                         } catch (InterruptedException exception) {
                             exception.printStackTrace();
                         }
@@ -39,8 +41,7 @@ public class MessageReceiveEventHandler {
                     }).start();
                 }
 
-
-                if(StatsAddon.getInstance().getCurrentGamemode() != null && StatsAddon.getInstance().enabled) {
+                if(StatsAddon.getInstance().getCurrentGamemode() != null) {
                     new Thread(() -> {
                         if(unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);

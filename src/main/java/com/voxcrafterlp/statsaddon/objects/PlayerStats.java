@@ -44,7 +44,7 @@ public class PlayerStats {
                         Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getStatsCommand(playerInfo.getGameProfile().getName()));
                         this.checked = true;
                         try {
-                            Thread.sleep(StatsAddon.getInstance().cooldown);
+                            Thread.sleep(StatsAddon.getInstance().getCooldown());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -55,7 +55,7 @@ public class PlayerStats {
     }
 
     public void performStatsAnalysis() {
-        if(this.rank < StatsAddon.getInstance().warnLevel) {
+        if(this.rank < StatsAddon.getInstance().getWarnLevel()) {
             try {
                 Thread.sleep(20);
             } catch (InterruptedException exception) {
@@ -64,13 +64,15 @@ public class PlayerStats {
             if(!this.playerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName()))
                 this.sendRankingAlert();
         }
+
+        //TODO winrate check
     }
 
     public void sendRankingAlert() {
         LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
         LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Platz \u00A7e#" + this.rank + " \u00A77Name\u00A78: \u00A7c" + this.playerName);
 
-        if(StatsAddon.getInstance().alertEnabled) {
+        if(StatsAddon.getInstance().isAlertEnabled()) {
             new Thread(() -> {
                 for(int i = 0; i < 5; i++) {
                     Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
@@ -88,7 +90,7 @@ public class PlayerStats {
         LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
         LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Winrate \u00A7e#" + this.winRate + " \u00A77Name\u00A78: \u00A7c" + this.playerName);
 
-        if(StatsAddon.getInstance().alertEnabled) {
+        if(StatsAddon.getInstance().isAlertEnabled()) {
             new Thread(() -> {
                 for(int i = 0; i < 5; i++) {
                     Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);

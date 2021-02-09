@@ -14,14 +14,18 @@ public class ServerMessageEvent {
         StatsAddon.getInstance().getApi().getEventManager().register(new net.labymod.api.events.ServerMessageEvent() {
             @Override
             public void onServerMessage(String s, JsonElement jsonElement) {
+                if(!StatsAddon.getInstance().isEnabled()) return;
+                if(!StatsAddon.getInstance().isOnline()) return;
+
                 if(jsonElement.getAsJsonObject().has("game_mode")) {
-                    if(!StatsAddon.getInstance().lmcDoubled) {
-                        StatsAddon.getInstance().lmcDoubled = true;
+                    if(!StatsAddon.getInstance().isLmcDoubled()) {
+                        StatsAddon.getInstance().setLmcDoubled(true);
 
                         String name = jsonElement.getAsJsonObject().get("game_mode").getAsString().toLowerCase();
-                        if(isAvailableGamemode(name) && StatsAddon.getInstance().enabled) {
+                        if(isAvailableGamemode(name)) {
                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Das StatsAddon wurde \u00A7aaktiviert\u00A78.");
                             StatsAddon.getInstance().clearCache();
+                            StatsAddon.getInstance().getStatsChecker().startChecker();
 
                             new Thread(() -> {
                                 try {
@@ -36,11 +40,12 @@ public class ServerMessageEvent {
                                 });
                             }).start();
                         } else {
+                            StatsAddon.getInstance().getStatsChecker().stopCheck();
                             StatsAddon.getInstance().clearCache();
                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Das StatsAddon ist hier \u00A7cnicht \u00A77verfügbar\u00A78.");
                         }
                     } else
-                        StatsAddon.getInstance().lmcDoubled = false;
+                        StatsAddon.getInstance().setLmcDoubled(false);
                 }
             }
         });

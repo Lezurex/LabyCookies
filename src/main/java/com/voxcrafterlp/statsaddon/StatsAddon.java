@@ -6,6 +6,7 @@ import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import lombok.Getter;
+import lombok.Setter;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
 import net.labymod.gui.elements.DropDownMenu;
@@ -31,8 +32,9 @@ public class StatsAddon extends LabyModAddon {
 
     private final String currentVersion = "v2.0.0";
 
-    public int cooldown, warnLevel;
-    public boolean enabled, alertEnabled, lmcDoubled;
+    private int cooldown, warnLevel;
+    @Setter
+    private boolean enabled, alertEnabled, lmcDoubled, online;
 
     private static StatsAddon statsAddon;
     private String currentGamemode, statsType;
@@ -45,6 +47,7 @@ public class StatsAddon extends LabyModAddon {
     @Override
     public void onEnable() {
         statsAddon = this;
+        this.online = false;
         currentGamemode = null;
 
         //EVENT REGISTRATION
@@ -61,6 +64,8 @@ public class StatsAddon extends LabyModAddon {
                         serverData.getIp().equalsIgnoreCase("premium.gommehd.com") ||
                         serverData.getIp().equalsIgnoreCase("mc.gommehd.com")) {
 
+                    online = true;
+
                     new Thread(() -> {
                         try {
                             Thread.sleep(2500);
@@ -69,12 +74,12 @@ public class StatsAddon extends LabyModAddon {
                             exception.printStackTrace();
                         }
                     }).start();
-                }
+                } else
+                    online = false;
             }
         });
 
         this.statsChecker = new StatsChecker();
-        this.statsChecker.startChecker();
     }
 
     @Override

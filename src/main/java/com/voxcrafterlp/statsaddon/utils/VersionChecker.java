@@ -3,6 +3,7 @@ package com.voxcrafterlp.statsaddon.utils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.voxcrafterlp.statsaddon.StatsAddon;
+import net.labymod.api.LabyModAPI;
 import net.labymod.main.LabyMod;
 import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;
@@ -57,15 +58,28 @@ public class VersionChecker {
 
                 if(!tagName.equals(this.VERSION)) {
                     LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Es ist eine \u00A7bneue Version \u00A77verfügbar. \u00A78(\u00A7b" + tagName + "\u00A78)");
-                    String dlUrl = jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
-                    if (LabyModForge.isForge()) {
-                        ChatComponentText link = new ChatComponentText("\u00A78[\u00A7bLINK\u00A78]");
-                        link.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks(dlUrl).getChatStyle().getChatClickEvent());
+
+                    String downloadUrl;
+
+                    if(Minecraft.getMinecraft().getVersion().contains("1.8"))
+                        downloadUrl = jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
+                    else {
+                        if(jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(2).getAsJsonObject() == null) {
+                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77 Momentan ist \u00A7ckeine neue Version \u00A77für die 1.12.2 verfügbar\u00A78.");
+                            return;
+                        } else
+                            downloadUrl = jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(1).getAsJsonObject().get("browser_download_url").getAsString();
+                    }
+
+                    if(LabyModForge.isForge()) {
+                        ChatComponentText link = new ChatComponentText("\u00A78[\u00A7bLink\u00A78]");
+                        link.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks(downloadUrl).getChatStyle().getChatClickEvent());
                         ChatComponentText main = new ChatComponentText("");
                         main.appendText(StatsAddon.getInstance().getPrefix()).appendText("\u00A77Download\u00A78: ").appendSibling(link);
                         Minecraft.getMinecraft().thePlayer.addChatMessage(main);
                     } else {
-                        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Download\u00A78: [\u00A7b" + dlUrl + "\u00A78]");
+                        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Download\u00A78: [\u00A7b" + downloadUrl + "\u00A78]");
+                        LabyMod.getInstance().openWebpage(downloadUrl, true);
                     }
                 }
             } catch (IOException | InterruptedException e) {
