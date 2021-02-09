@@ -5,6 +5,7 @@ import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
+import com.voxcrafterlp.statsaddon.webserver.Webserver;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.api.LabyModAPI;
@@ -15,6 +16,7 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
+import org.apache.catalina.LifecycleException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,7 @@ public class StatsAddon extends LabyModAddon {
 
     private final Map<String, PlayerStats> loadedPlayerStats = new HashMap<>();
     private StatsChecker statsChecker;
+    private Webserver webserver;
 
     @Override
     public void onEnable() {
@@ -57,7 +60,7 @@ public class StatsAddon extends LabyModAddon {
         this.getApi().getEventManager().registerOnJoin(new Consumer<ServerData>() {
             @Override
             public void accept(final ServerData serverData) {
-                if(serverData.getIp().equalsIgnoreCase("gommehd.net") ||
+                if (serverData.getIp().equalsIgnoreCase("gommehd.net") ||
                         serverData.getIp().equalsIgnoreCase("premium.gommehd.net") ||
                         serverData.getIp().equalsIgnoreCase("mc.gommehd.net") ||
                         serverData.getIp().equalsIgnoreCase("gommehd.com") ||
@@ -80,6 +83,14 @@ public class StatsAddon extends LabyModAddon {
         });
 
         this.statsChecker = new StatsChecker();
+        new Thread(() -> {
+            try {
+                System.out.println("Starting webserver..");
+                this.webserver = new Webserver();
+            } catch (LifecycleException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
