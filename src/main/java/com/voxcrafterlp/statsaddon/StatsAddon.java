@@ -16,7 +16,6 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
-import org.apache.catalina.LifecycleException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -84,12 +83,8 @@ public class StatsAddon extends LabyModAddon {
 
         this.statsChecker = new StatsChecker();
         new Thread(() -> {
-            try {
-                System.out.println("Starting webserver..");
-                this.webserver = new Webserver();
-            } catch (LifecycleException e) {
-                e.printStackTrace();
-            }
+            System.out.println("Starting webserver..");
+            new Webserver();
         }).start();
     }
 
@@ -102,7 +97,7 @@ public class StatsAddon extends LabyModAddon {
         this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 DAYS";
 
         this.getGamemodes().forEach((string, material) -> {
-            if(enabledGamemods.containsKey(string))
+            if (enabledGamemods.containsKey(string))
                 enabledGamemods.replace(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
             else
                 enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
@@ -151,7 +146,7 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.alertEnabled));
 
-        DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstype",0,0,0,0)
+        DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstype", 0, 0, 0, 0)
                 .fill(new String[]{"STATSALL", "STATS 30 DAYS", "STATS 20 DAYS", "STATS 15 DAYS",
                         "STATS 10 DAYS", "STATS 5 DAYS", "STATS 3 DAYS"});
         DropDownElement<String> statsDropDown = new DropDownElement<String>("Statstype", statsDropDownMenu);
@@ -175,7 +170,7 @@ public class StatsAddon extends LabyModAddon {
             list.add(new BooleanElement(string, new ControlElement.IconData(material), new Consumer<Boolean>() {
                 @Override
                 public void accept(Boolean enabled) {
-                    if(enabledGamemods.containsKey(string))
+                    if (enabledGamemods.containsKey(string))
                         enabledGamemods.replace(string, enabled);
                     else
                         enabledGamemods.put(string, enabled);
@@ -188,6 +183,7 @@ public class StatsAddon extends LabyModAddon {
 
     /**
      * Fills the map with a list of all gamemodes which have stats enabled
+     *
      * @return Filled map
      */
     private Map<String, Material> getGamemodes() {
@@ -214,15 +210,25 @@ public class StatsAddon extends LabyModAddon {
         getStatsChecker().getQueue().clear();
     }
 
-    public static StatsAddon getInstance() { return statsAddon; }
+    public static StatsAddon getInstance() {
+        return statsAddon;
+    }
 
-    public void setCurrentGamemode(String currentGamemode) { this.currentGamemode = currentGamemode; }
+    public void setCurrentGamemode(String currentGamemode) {
+        this.currentGamemode = currentGamemode;
+    }
 
     @Override
-    public LabyModAPI getApi() { return super.getApi(); }
+    public LabyModAPI getApi() {
+        return super.getApi();
+    }
 
-    public String getGamemodePrefix() { return "\u00A78[\u00A7b" + getCurrentGamemode() + "-Stats\u00A78] "; }
+    public String getGamemodePrefix() {
+        return "\u00A78[\u00A7b" + getCurrentGamemode() + "-Stats\u00A78] ";
+    }
 
-    public String getPrefix() { return "\u00A78[\u00A7bStatsAddon\u00A78] "; }
+    public String getPrefix() {
+        return "\u00A78[\u00A7bStatsAddon\u00A78] ";
+    }
 
 }
