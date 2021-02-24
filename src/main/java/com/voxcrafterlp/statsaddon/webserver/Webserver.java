@@ -7,7 +7,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.DirResourceSet;
+import org.apache.catalina.webresources.StandardRoot;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,32 +30,23 @@ public class Webserver {
     private final Tomcat webserver;
 
     public Webserver() throws LifecycleException {
-        this.webserver = new Tomcat();
-        this.webserver.setPort(3412);
-        this.webserver.setBaseDir("/");
+        String webappDirLocation = "src/main/webapp/";
+        webserver = new Tomcat();
 
-        String contextPath = "/Stats";
-        String docBase = "/";
+        webserver.setPort(3412);
 
-        Context context = this.webserver.addContext(contextPath, docBase);
+        StandardContext ctx = (StandardContext) webserver.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
+        System.out.println("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
 
-        HttpServlet servlet = new HttpServlet() {
-            @Override
-            protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-                    throws ServletException, IOException {
-                PrintWriter writer = resp.getWriter();
+        // Declare an alternative location for your "WEB-INF/classes" dir
+        // Servlet 3.0 annotation will work
+        File additionWebInfClasses = new File("target/classes");
+        WebResourceRoot resources = new StandardRoot(ctx);
+        resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
+                additionWebInfClasses.getAbsolutePath(), "/"));
+        ctx.setResources(resources);
 
-                writer.println("<html><title>Indian scammer</title><body>");
-                writer.println("<h1>Sir, listen! You have to buy Google Play cards</h1>");
-                writer.println("</body></html>");
-            }
-        };
-        String servletName = "Servlet1";
-        String urlPattern = "/go";
-
-        this.webserver.addServlet(contextPath, servletName, servlet);
-        context.addServletMappingDecoded(urlPattern, servletName);
-
-        this.webserver.start();
+        webserver.start();
+        webserver.getServer().await();
     }
 }
