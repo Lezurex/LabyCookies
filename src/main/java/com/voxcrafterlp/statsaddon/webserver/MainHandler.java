@@ -4,8 +4,11 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Collections;
 
 public class MainHandler implements HttpHandler {
@@ -18,17 +21,26 @@ public class MainHandler implements HttpHandler {
             path = path + "index.html";
         }
 
-        Resource resource = new WebUtils().getResourceAsString("webapp" + path);
+        Resource resource = null;
 
-        String response = resource.getContent();
-        if (response == null) {
-            httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("text/html"));
-            httpExchange.sendResponseHeaders(404, "<h1>404 Resource not found</h1>".getBytes(StandardCharsets.UTF_8).length);
+        try {
+            resource = new WebUtils().getResource("webapp" + path);
+        } catch (IllegalArgumentException exception) {
+
         }
-        httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList(resource.getMime()));
-        httpExchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
+
         OutputStream os = httpExchange.getResponseBody();
-        os.write(response.getBytes(StandardCharsets.UTF_8));
+
+        if (resource == null) {
+            String response = "<h1>404 Resource not found</h1>";
+            httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("text/html"));
+            httpExchange.sendResponseHeaders(404, response.getBytes(StandardCharsets.UTF_8).length);
+            os.write(response.getBytes());
+        } else {
+            httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList(resource.getMime()));
+            httpExchange.sendResponseHeaders(200, resource.getFile().length());
+            Files.copy(resource.getFile().toPath(), os);
+        }
         os.close();
     }
 }
