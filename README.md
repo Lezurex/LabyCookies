@@ -17,7 +17,7 @@ Weitere Informationen zur Nutzung findest du [hier](https://github.com/Lezurex/L
 - Warnt dich, wenn ein Spieler mit einer besseren Platzierung dem Spiel beitritt
 - Akustischer Alarm
 - Für (fast) jeden Spielmodus aktivierbar/deaktivierbar
-- Auswählen zwischen /stats, /statsall und /statsd
+- Auswählen zwischen /stats, /statsall und /statsd (Verschiedene Anzahl Tage auswählbar)
 
 ## 1.12.2
 Es gibt auch eine 1.12.2 Version von diesem Addon! Bitte beachte, dass diese Version nicht so oft aktualisiert wird, wie die 1.8.9 Version. Wenn du den Sourcecode der 1.12.2 Version sehen willst, wechsle zum **lm-1.12.2**-Branch.   
