@@ -1,5 +1,8 @@
 {
   "config": {
-    "statstype": "STATS 30 DAYS"
+    "statstype": "STATS 30 DAYS",
+    "rankWarnLevel": 1000,
+    "cooldown": 750,
+    "winrateWarnLevel": 1
   }
 }

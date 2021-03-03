@@ -33,7 +33,7 @@ public class StatsAddon extends LabyModAddon {
 
     private final String currentVersion = "v2.0.0";
 
-    private int cooldown, warnLevel;
+    private int cooldown, rankWarnLevel, winrateWarnLevel;
     @Setter
     private boolean enabled, alertEnabled, lmcDoubled, online;
 
@@ -70,7 +70,7 @@ public class StatsAddon extends LabyModAddon {
 
                     new Thread(() -> {
                         try {
-                            Thread.sleep(2500);
+                            Thread.sleep(2000);
                             new VersionChecker();
                         } catch (InterruptedException exception) {
                             exception.printStackTrace();
@@ -93,7 +93,8 @@ public class StatsAddon extends LabyModAddon {
         this.enabled = !this.getConfig().has("enabled") || this.getConfig().get("enabled").getAsBoolean();
         this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
-        this.warnLevel = this.getConfig().has("warnLevel") ? this.getConfig().get("warnLevel").getAsInt() : 100;
+        this.rankWarnLevel = this.getConfig().has("rankWarnLevel") ? this.getConfig().get("rankWarnLevel").getAsInt() : 100;
+        this.winrateWarnLevel = this.getConfig().has("winrateWarnLevel") ? this.getConfig().get("winrateWarnLevel").getAsInt() : 40;
         this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 DAYS";
 
         this.getGamemodes().forEach((string, material) -> {
@@ -106,7 +107,7 @@ public class StatsAddon extends LabyModAddon {
 
     @Override
     protected void fillSettings(List<SettingsElement> list) {
-        list.add(new HeaderElement(ModColor.cl('b') + "General settings"));
+        list.add(new HeaderElement(ModColor.cl('b') + "Allgemeine Einstellungen"));
 
         list.add(new BooleanElement("Enabled", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
             @Override
@@ -117,7 +118,7 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.enabled));
 
-        NumberElement queryInterval = new NumberElement("Query interval", new ControlElement.IconData(Material.WATCH), this.cooldown);
+        NumberElement queryInterval = new NumberElement("Abfragenintervall", new ControlElement.IconData(Material.WATCH), this.cooldown);
         queryInterval.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -127,17 +128,27 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(queryInterval);
-        NumberElement warnLevelElement = new NumberElement("Warn Rank", new ControlElement.IconData(Material.NOTE_BLOCK), this.warnLevel);
-        warnLevelElement.addCallback(new Consumer<Integer>() {
+        NumberElement rankWarnLevelElement = new NumberElement("Warn Rank", new ControlElement.IconData(Material.NOTE_BLOCK), this.rankWarnLevel);
+        rankWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
-                warnLevel = integer;
-                getConfig().addProperty("warnLevel", integer);
+                rankWarnLevel = integer;
+                getConfig().addProperty("rankWarnLevel", integer);
                 saveConfig();
             }
         });
-        list.add(warnLevelElement);
-        list.add(new BooleanElement("Alert", new ControlElement.IconData(Material.NOTE_BLOCK), new Consumer<Boolean>() {
+        list.add(rankWarnLevelElement);
+        NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData(Material.NOTE_BLOCK), this.winrateWarnLevel);
+        winrateWarnLevelElement.addCallback(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) {
+                winrateWarnLevel = integer;
+                getConfig().addProperty("winrateWarnLevel", integer);
+                saveConfig();
+            }
+        });
+        list.add(winrateWarnLevelElement);
+        list.add(new BooleanElement("Alarm", new ControlElement.IconData(Material.NOTE_BLOCK), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 alertEnabled = accepted;
@@ -146,9 +157,9 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.alertEnabled));
 
-        DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstype", 0, 0, 0, 0)
-                .fill(new String[]{"STATSALL", "STATS 30 DAYS", "STATS 20 DAYS", "STATS 15 DAYS",
-                        "STATS 10 DAYS", "STATS 5 DAYS", "STATS 3 DAYS"});
+        DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstyp", 0, 0, 0, 0)
+                .fill(new String[]{"STATSALL", "STATS 30 TAGE", "STATS 20 TAGE", "STATS 15 TAGE",
+                        "STATS 10 TAGE", "STATS 5 TGAE", "STATS 3 TAGE"});
         DropDownElement<String> statsDropDown = new DropDownElement<String>("Statstype", statsDropDownMenu);
 
         statsDropDownMenu.setSelected(this.statsType);
@@ -164,7 +175,7 @@ public class StatsAddon extends LabyModAddon {
         list.add(statsDropDown);
 
         //Gamemodes
-        list.add(new HeaderElement(ModColor.cl('a') + "Enabled gamemodes"));
+        list.add(new HeaderElement(ModColor.cl('a') + "Aktivierte Spielmodi"));
 
         this.getGamemodes().forEach((string, material) -> {
             list.add(new BooleanElement(string, new ControlElement.IconData(material), new Consumer<Boolean>() {

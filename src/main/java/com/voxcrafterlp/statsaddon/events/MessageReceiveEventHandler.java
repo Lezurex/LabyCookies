@@ -48,73 +48,42 @@ public class MessageReceiveEventHandler {
                         }
                         if(unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
                             String[] content = formatted.split("\u00A7e");
-                            if(content.length == 2) {
+                            if(content.length != 2) return;
 
-                                if(!content[1].contains("-")) {
-                                    int rank = Integer.parseInt(content[1]
-                                            .replace("\u00A7e", "")
-                                            .replace(" ", "")
-                                            .replace(".", "")
-                                            .replace(",", "")
-                                            .replace("'", "")
-                                            .replace("\u00A7r", "")
-                                            .replace("`", ""));
+                            if(!content[1].contains("-")) {
+                                int rank = Integer.parseInt(content[1]
+                                        .replace("\u00A7e", "")
+                                        .replace(" ", "")
+                                        .replace(".", "")
+                                        .replace(",", "")
+                                        .replace("'", "")
+                                        .replace("\u00A7r", "")
+                                        .replace("`", ""));
 
-                                    //TODO check winrate
 
-                                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
-                                    playerStats.setRank(rank);
-                                    playerStats.setChecked(true);
-                                    playerStats.performStatsAnalysis();
-                                }
+                                final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                playerStats.setRank(rank);
+                                playerStats.setChecked(true);
+                                playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
                             }
                         }
-
-                        /*if(unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
+                        if(unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
                             String[] content = formatted.split("\u00A7e");
-                            if(content.length == 2) {
+                            if(content.length != 2) return;
 
-                                if(!content[1].contains("-")) {
-                                    int rank = Integer.parseInt(content[1]
-                                            .replace("\u00A7e", "")
-                                            .replace(" ", "")
-                                            .replace(".", "")
-                                            .replace(",", "")
-                                            .replace("'", "")
-                                            .replace("\u00A7r", "")
-                                            .replace("`", ""));
+                            if(!content[1].contains("-")) {
+                                double winrate = Double.parseDouble(content[1]
+                                        .replace("\u00A7e", "")
+                                        .replace(" ", "")
+                                        .replace("\u00A7r", "")
+                                        .replace("%", ""));
 
-
-
-
-
-
-                                    if (rank < StatsAddon.getInstance().warnLevel) {
-                                        try {
-                                            Thread.sleep(20);
-                                        } catch (InterruptedException exception) {
-                                            exception.printStackTrace();
-                                        }
-                                        if (!lastPlayerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
-                                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
-                                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Platz \u00A7e#" + rank + " \u00A77Name\u00A78: \u00A7c" + lastPlayerName);
-                                            if (StatsAddon.getInstance().alertEnabled) {
-                                                new Thread(() -> {
-                                                    for (int i = 0; i < 5; i++) {
-                                                        Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
-                                                        try {
-                                                            Thread.sleep(250);
-                                                        } catch (InterruptedException exception) {
-                                                            exception.printStackTrace();
-                                                        }
-                                                    }
-                                                }).start();
-                                            }
-                                        }
-                                    }
-                                }
+                                final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                playerStats.setWinRate(winrate);
+                                playerStats.setChecked(true);
+                                playerStats.performStatsAnalysis(PlayerStats.AlertType.WINRATE);
                             }
-                        }*/
+                        }
                     }).start();
                 }
                 return false;

@@ -26,10 +26,10 @@ import java.net.URL;
 
 public class VersionChecker {
 
-    private final String VERSION;
+    private final String version;
 
     public VersionChecker() {
-        this.VERSION = StatsAddon.getInstance().getCurrentVersion();
+        this.version = StatsAddon.getInstance().getCurrentVersion();
         this.checkForUpdates();
     }
 
@@ -56,7 +56,7 @@ public class VersionChecker {
                 JsonElement jsonElement = jsonParser.parse(content.toString());
                 String tagName = jsonElement.getAsJsonObject().get("tag_name").getAsString();
 
-                if(!tagName.equals(this.VERSION)) {
+                if(!tagName.equals(this.version)) {
                     LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Es ist eine \u00A7bneue Version \u00A77verfügbar. \u00A78(\u00A7b" + tagName + "\u00A78)");
 
                     String downloadUrl;
@@ -70,6 +70,8 @@ public class VersionChecker {
                         } else
                             downloadUrl = jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(1).getAsJsonObject().get("browser_download_url").getAsString();
                     }
+
+                    LabyMod.getInstance().notifyMessageRaw("Update verfügbar", "Es ist eine neue Version verfügbar");
 
                     if(LabyModForge.isForge()) {
                         ChatComponentText link = new ChatComponentText("\u00A78[\u00A7bLink\u00A78]");

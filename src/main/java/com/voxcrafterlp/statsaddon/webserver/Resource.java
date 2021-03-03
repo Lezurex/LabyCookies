@@ -1,22 +1,17 @@
 package com.voxcrafterlp.statsaddon.webserver;
 
+import lombok.Getter;
 import java.io.File;
 
+@Getter
 public class Resource {
 
-    private File file;
-    private String mime;
+    private final File file;
+    private final String mime;
 
     public Resource(File file, String mime) {
         this.file = file;
         this.mime = mime;
     }
 
-    public File getFile() {
-        return file;
-    }
-
-    public String getMime() {
-        return mime;
-    }
 }

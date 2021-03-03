@@ -7,6 +7,8 @@ import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
+import java.util.UUID;
+
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 30.01.2021
@@ -19,13 +21,14 @@ public class PlayerStats {
 
     private final NetworkPlayerInfo playerInfo;
     private final String playerName;
-    private boolean checked;
+    private boolean checked, warned;
     private int rank;
     private double winRate;
 
     public PlayerStats(NetworkPlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
         this.checked = false;
+        this.warned = false;
         this.rank = 0;
         this.winRate = 0.0;
         this.playerName = playerInfo.getGameProfile().getName();
@@ -54,43 +57,44 @@ public class PlayerStats {
         }
     }
 
-    public void performStatsAnalysis() {
-        if(this.rank < StatsAddon.getInstance().getWarnLevel()) {
+    public void performStatsAnalysis(AlertType type) {
+        if(this.rank < StatsAddon.getInstance().getRankWarnLevel() && type == AlertType.RANK) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            if(!this.playerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+                this.sendAlert(AlertType.RANK);
+                this.warned = true;
+            }
+        }
+        if(this.winRate > (double) StatsAddon.getInstance().getWinrateWarnLevel() && type == AlertType.WINRATE) {
             try {
                 Thread.sleep(20);
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
             if(!this.playerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName()))
-                this.sendRankingAlert();
-        }
-
-        //TODO winrate check
-    }
-
-    public void sendRankingAlert() {
-        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
-        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Platz \u00A7e#" + this.rank + " \u00A77Name\u00A78: \u00A7c" + this.playerName);
-
-        if(StatsAddon.getInstance().isAlertEnabled()) {
-            new Thread(() -> {
-                for(int i = 0; i < 5; i++) {
-                    Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
-                    try {
-                        Thread.sleep(250);
-                    } catch (InterruptedException exception) {
-                        exception.printStackTrace();
-                    }
-                }
-            }).start();
+                this.sendAlert(AlertType.WINRATE);
         }
     }
 
-    public void sendWinrateAlert() {
-        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
-        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Winrate \u00A7e#" + this.winRate + " \u00A77Name\u00A78: \u00A7c" + this.playerName);
+    public void sendAlert(AlertType type) {
+        if(this.warned) return;
+
+        if(type == AlertType.RANK) {
+            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
+            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Platz \u00A7e#" + this.rank + " \u00A77Name\u00A78: \u00A7c" + this.playerName);
+        } else {
+            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
+            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A77Winrate\u00A78: \u00A7e" + this.winRate + "% \u00A77Name\u00A78: \u00A7c" + this.playerName);
+        }
 
         if(StatsAddon.getInstance().isAlertEnabled()) {
+            LabyMod.getInstance().notifyMessageProfile(this.playerInfo.getGameProfile(),
+                    (type == AlertType.RANK) ? "Platz #" + this.rank: (int) this.winRate + "er Winrate");
+
             new Thread(() -> {
                 for(int i = 0; i < 5; i++) {
                     Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
@@ -113,6 +117,13 @@ public class PlayerStats {
 
         if(days == 30) return "stats " + playerName;
         else return "statsd " + days + " " + playerName;
+    }
+
+    public enum AlertType {
+
+        RANK,
+        WINRATE
+
     }
 
 }
