@@ -1,0 +1,155 @@
+:root {
+    font-size: 16px;
+    font-family: 'Open Sans';
+    --text-primary: #b6b6b6;
+    --text-secondary: #ececec;
+    --bg-primary: #23232e;
+    --bg-secondary: #131318;
+    --transition-speed: 200ms ease;
+}
+
+body {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    margin: 0;
+    padding: 0;
+}
+
+body::-webkit-scrollbar {
+    width: .25rem;
+}
+
+body::-webkit-scrollbar-track {
+    background: #1e1e24;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #6649b8;
+}
+
+main {
+    margin-left: 5rem;
+    padding: 1rem;
+}
+
+.sidenavbar {
+    position: fixed;
+    background-color: var(--bg-primary);
+    transition: var(--transition-speed);
+}
+
+.sidenavbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.sidenav-item {
+    width: 100%;
+}
+
+.sidenav-item:last-child {
+    margin-top: auto;
+}
+
+.sidenav-link {
+    display: flex;
+    align-items: center;
+    height: 5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    filter: grayscale(100%) opacity(.7);
+    transition: var(--transition-speed);
+}
+
+.sidenav-link:hover, .sidenav-link.active {
+    filter: grayscale(0%) opacity(1);
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+.link-text {
+    display: none;
+    margin-left: 1rem;
+}
+
+.sidenav-link i {
+    text-align: center;
+    min-width: 2rem;
+    margin: 0 1.5rem;
+    font-size: 2rem;
+}
+
+.logo {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    font-size: 1.5rem;
+    letter-spacing: .3ch;
+    width: 100%;
+}
+
+.logo i {
+    transform: rotate(0deg);
+    transition: transform var(--transition-speed);
+    font-size: 1rem;
+    margin: 0 auto;
+}
+
+.logo i img {
+    width: 4rem;
+}
+
+.sidenavbar:hover .logo i {
+    transform: rotate(360deg);
+}
+
+/* Small screens */
+@media only screen and (max-width: 600px) {
+    .sidenavbar {
+        bottom: 0;
+        width: 100vw;
+        height: 5rem;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .sidenavbar-nav {
+        flex-direction: row;
+    }
+
+    .sidenav-link {
+        justify-content: center;
+    }
+
+    main {
+        margin: 0;
+    }
+}
+
+/* Large screens */
+@media only screen and (min-width: 600px) {
+    .sidenavbar {
+        top: 0;
+        width: 5rem;
+        height: 100vh;
+    }
+
+    .sidenavbar:hover {
+        width: 16rem;
+    }
+
+    .sidenavbar:hover .link-text {
+        display: inline;
+        transition: opacity var(--transition-speed);
+    }
+
+}

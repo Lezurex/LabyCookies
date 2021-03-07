@@ -25,6 +25,8 @@ public class WebUtils {
             try {
                 if (file.getName().endsWith(".js")) {
                     return new Resource(file, "text/javascript");
+                } else if (file.getName().endsWith(".css")) {
+                    return new Resource(file, "text/css");
                 }
                 return new Resource(file, file.toURL().openConnection().getContentType());
             } catch (IOException e) {
