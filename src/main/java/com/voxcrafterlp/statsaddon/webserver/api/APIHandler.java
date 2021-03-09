@@ -2,18 +2,16 @@ package com.voxcrafterlp.statsaddon.webserver.api;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.voxcrafterlp.statsaddon.webserver.Resource;
-import com.voxcrafterlp.statsaddon.webserver.WebUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.lang.reflect.Array;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 

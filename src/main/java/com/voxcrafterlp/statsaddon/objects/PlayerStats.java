@@ -7,8 +7,6 @@ import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
-import java.util.UUID;
-
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 30.01.2021

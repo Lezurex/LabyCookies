@@ -1,4 +1,3 @@
-import Page from "../../objects/Page.js";
 import Player from "../../objects/Player.js";
 
 export default {
