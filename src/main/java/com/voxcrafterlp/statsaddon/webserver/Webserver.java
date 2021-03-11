@@ -15,6 +15,7 @@ public class Webserver {
     public Webserver() {
         try {
             webserver = HttpServer.create(new InetSocketAddress(3412), 0);
+
             webserver.createContext("/api", new APIHandler());
             webserver.createContext("/", new MainHandler());
             webserver.setExecutor(null);

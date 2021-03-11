@@ -1,6 +1,7 @@
 package com.voxcrafterlp.statsaddon.webserver;
 
 import lombok.Getter;
+
 import java.io.File;
 
 @Getter

@@ -2,6 +2,7 @@ package com.voxcrafterlp.statsaddon.webserver.api;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.voxcrafterlp.statsaddon.webserver.WebUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +32,7 @@ public class APIHandler implements HttpHandler {
         }
 
         String path = httpExchange.getRequestURI().getPath();
-        ArrayList<String> pathParts = getPathParts(path);
+        ArrayList<String> pathParts = WebUtils.getPathParts(path);
 
         String entryPoint = pathParts.get(1);
         ActionHandler actionHandler;
@@ -66,15 +67,5 @@ public class APIHandler implements HttpHandler {
 
     private void initActionHandlers() {
         actionHandlers.put("stats", new StatsHandler());
-    }
-
-    private ArrayList<String> getPathParts(String path) {
-        String[] strings = path.split("/");
-        ArrayList<String> parts = new ArrayList<>();
-        for (String string : strings) {
-            if (!string.equals(""))
-                parts.add(string);
-        }
-        return parts;
     }
 }

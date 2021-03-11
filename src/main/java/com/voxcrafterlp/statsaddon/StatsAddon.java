@@ -25,12 +25,15 @@ import java.util.Map;
  * This file was created by VoxCrafter_LP & Lezurex!
  * Date: 06.09.2020
  * Time: 15:39
- * For Project: Labymod Stats Addon
+ * For Project: LabyMod Stats Addon
  */
 
 @Getter
 public class StatsAddon extends LabyModAddon {
 
+    /**
+     * String in default semantic versioning syntax: vX.Y.Z
+     */
     private final String currentVersion = "v2.0.0";
 
     private int cooldown, rankWarnLevel, winrateWarnLevel;
@@ -84,12 +87,13 @@ public class StatsAddon extends LabyModAddon {
         this.statsChecker = new StatsChecker();
         new Thread(() -> {
             System.out.println("Starting webserver..");
-            new Webserver();
+            webserver = new Webserver();
         }).start();
     }
 
     @Override
     public void loadConfig() {
+        // Load config or set default values
         this.enabled = !this.getConfig().has("enabled") || this.getConfig().get("enabled").getAsBoolean();
         this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
@@ -195,7 +199,7 @@ public class StatsAddon extends LabyModAddon {
     /**
      * Fills the map with a list of all gamemodes which have stats enabled
      *
-     * @return Filled map
+     * @return Filled {@link Map} with the name as key and the icon ({@link Material}) as the value.
      */
     private Map<String, Material> getGamemodes() {
         Map<String, Material> map = new HashMap<>();
