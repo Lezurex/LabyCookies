@@ -1,6 +1,7 @@
 package com.voxcrafterlp.statsaddon.objects;
 
 import com.voxcrafterlp.statsaddon.StatsAddon;
+import com.voxcrafterlp.statsaddon.utils.NickChecker;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.main.LabyMod;
@@ -20,9 +21,10 @@ public class PlayerStats {
 
     private final NetworkPlayerInfo playerInfo;
     private final String playerName;
-    private boolean checked, warned;
+    private NickChecker nickChecker;
+    private boolean checked, warned, statsHidden;
     private int rank;
-    private double winRate;
+    private double winRate, nickProbability;
 
     public PlayerStats(NetworkPlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
@@ -30,7 +32,9 @@ public class PlayerStats {
         this.warned = false;
         this.rank = 0;
         this.winRate = -1.0;
+        this.nickProbability = -1.0;
         this.playerName = playerInfo.getGameProfile().getName();
+        this.nickChecker = new NickChecker(this.playerInfo);
 
         StatsAddon.getInstance().getStatsChecker().addToQueue(this);
     }
@@ -41,24 +45,23 @@ public class PlayerStats {
         this.warned = warned;
         this.rank = rank;
         this.winRate = winRate;
-        playerInfo = null;
+        this.playerInfo = null;
     }
 
     public void performStatsCheck() {
-        if(StatsAddon.getInstance().getCurrentGamemode() != null) {
-            if(!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
-                    .replace("i", "y")
-                    .replace("á", "a")
-                    .contains("party")) {
-                if(!playerInfo.getGameProfile().getName().equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
-                    if(!this.checked) {
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getStatsCommand(playerInfo.getGameProfile().getName()));
-                        this.checked = true;
-                        try {
-                            Thread.sleep(StatsAddon.getInstance().getCooldown());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+        if(StatsAddon.getInstance().getCurrentGamemode() == null) return;
+        if(!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
+                .replace("i", "y")
+                .replace("á", "a")
+                .contains("party")) {
+            if(!playerInfo.getGameProfile().getName().equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+                if(!this.checked) {
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getStatsCommand(playerInfo.getGameProfile().getName()));
+                    this.checked = true;
+                    try {
+                        Thread.sleep(StatsAddon.getInstance().getCooldown());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -83,9 +86,15 @@ public class PlayerStats {
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
-            if(!this.playerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName()))
+            if(!this.playerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
                 this.sendAlert(AlertType.WINRATE);
+                this.warned = true;
+            }
         }
+    }
+
+    public void performNickCheck() {
+        this.nickProbability = this.nickChecker.checkPlayer();
     }
 
     public void sendAlert(AlertType type) {
@@ -120,7 +129,7 @@ public class PlayerStats {
         final String statsType = StatsAddon.getInstance().getStatsType().toLowerCase();
         if(statsType.equals("statsall")) return "statsall " + playerName;
 
-        int days = Integer.parseInt(statsType.replace(" ", "").replace("days", "")
+        int days = Integer.parseInt(statsType.toLowerCase().replace(" ", "").replace("tage", "")
                 .replace("stats", ""));
 
         if(days == 30) return "stats " + playerName;

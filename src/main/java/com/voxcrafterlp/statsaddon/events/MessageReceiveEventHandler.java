@@ -5,6 +5,7 @@ import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import net.labymod.api.events.MessageReceiveEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.StringUtils;
 
 /**
  * This file was created by VoxCrafter_LP & Lezurex!
@@ -41,6 +42,11 @@ public class MessageReceiveEventHandler {
                     }).start();
                 }
 
+                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("«") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
+                    StatsAddon.getInstance().getLoadedPlayerStats().remove(StringUtils.stripControlCodes(unFormatted.split(" ")[1]));
+                    return false;
+                }
+
                 if(StatsAddon.getInstance().getCurrentGamemode() != null) {
                     new Thread(() -> {
                         if(unFormatted.toLowerCase().contains("-=")) {
@@ -65,6 +71,9 @@ public class MessageReceiveEventHandler {
                                 playerStats.setRank(rank);
                                 playerStats.setChecked(true);
                                 playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
+
+                                if(!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
+                                    playerStats.performNickCheck();
                             }
                         }
                         if(unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
@@ -82,6 +91,7 @@ public class MessageReceiveEventHandler {
                                 playerStats.setWinRate(winrate);
                                 playerStats.setChecked(true);
                                 playerStats.performStatsAnalysis(PlayerStats.AlertType.WINRATE);
+                                playerStats.performNickCheck();
                             }
                         }
                     }).start();
