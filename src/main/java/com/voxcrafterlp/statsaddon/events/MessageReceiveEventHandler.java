@@ -36,14 +36,34 @@ public class MessageReceiveEventHandler {
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
-                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName))
+                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName)  && loadedPlayer.getGameProfile().getName().contains(LabyMod.getInstance().getPlayerName()))
                                 StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
                         });
                     }).start();
                 }
 
                 if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("«") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
-                    StatsAddon.getInstance().getLoadedPlayerStats().remove(StringUtils.stripControlCodes(unFormatted.split(" ")[1]));
+                    final String playerName = StringUtils.stripControlCodes(unFormatted.split(" ")[1]);
+                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(playerName);
+
+                    StatsAddon.getInstance().getLoadedPlayerStats().remove(playerName);
+                    StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().remove(playerStats);
+                    StatsAddon.getInstance().getStatsChecker().getQueue().remove(playerStats);
+
+                    return false;
+                }
+                if(isHiddenMessage(unFormatted)) {
+                    if(!StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().isEmpty()) return false;
+
+                    final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getCheckedPlayers()
+                            .get(StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().size() - 1);
+
+                    if(playerStats == null) return false;
+
+                    playerStats.setStatsHidden(true);
+                    playerStats.setRank(-2);
+                    playerStats.setWinRate(-2.0);
+
                     return false;
                 }
 
@@ -111,5 +131,10 @@ public class MessageReceiveEventHandler {
 
     private boolean hasGamemodeWinrateSupport(String gamemode) {
         return !gamemode.equals("JL");
+    }
+
+    private boolean isHiddenMessage(String message) {
+        return (message.contains("The statistics of this player are hidden") || message.contains("Die Statistiken von diesem Spieler sind versteckt") ||
+                message.contains("D'Statistiken vun dësem Spiller sinn verstoppt") ||message.contains("D'Statistike vo dem Spieler sind versteckt"));
     }
 }

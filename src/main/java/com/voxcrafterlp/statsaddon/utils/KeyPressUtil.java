@@ -47,7 +47,7 @@ public class KeyPressUtil {
             Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                 final String playerName = loadedPlayer.getGameProfile().getName();
 
-                if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName))
+                if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) && loadedPlayer.getGameProfile().getName().contains(LabyMod.getInstance().getPlayerName()))
                     StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
             });
         }));
