@@ -61,8 +61,8 @@ public class MessageReceiveEventHandler {
                     if(playerStats == null) return false;
 
                     playerStats.setStatsHidden(true);
-                    playerStats.setRank(-2);
-                    playerStats.setWinRate(-2.0);
+                    playerStats.setRank(0);
+                    playerStats.setWinRate(0.0);
 
                     return false;
                 }
@@ -89,14 +89,6 @@ public class MessageReceiveEventHandler {
 
                                 final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
                                 playerStats.setRank(rank);
-                                playerStats.setChecked(true);
-                                playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
-
-                                if(!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
-                                    playerStats.performNickCheck();
-                            } else {
-                                final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
-                                playerStats.setRank(0);
                                 playerStats.setChecked(true);
                                 playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
 
