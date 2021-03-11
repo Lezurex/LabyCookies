@@ -1,4 +1,4 @@
-package com.voxcrafterlp.statsaddon.utils;
+package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
 import lombok.Getter;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -25,26 +25,8 @@ public class NickChecker {
      * @return {@link Double} probability (0 - 100)
      */
     public double checkPlayer() {
+        new DefaultSkinCheck().performCheck(playerInfo);
         return 0.0;
-    }
-
-    private boolean isInClan() {
-        return false;
-    }
-
-    private boolean isPremium() {
-        final String prefix = playerInfo.getPlayerTeam().getColorPrefix();
-        System.out.println(prefix);
-
-        return prefix.equals("§6");
-    }
-
-    private boolean hasDefaultSkin() {
-        return false;
-    }
-
-    private boolean hasBadlion() {
-        return false;
     }
 
 }

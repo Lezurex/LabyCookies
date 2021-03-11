@@ -1,9 +1,10 @@
 {
   "config": {
-    "statstype": "STATSALL",
+    "statstype": "STATS 30 TAGE",
     "reloadStatsKey": 34,
-    "versionCheckerEnabled": false,
-    "rankWarnLevel": 10000,
-    "winrateWarnLevel": 1
+    "versionCheckerEnabled": true,
+    "cooldown": 750,
+    "rankWarnLevel": 100,
+    "winrateWarnLevel": 40
   }
 }

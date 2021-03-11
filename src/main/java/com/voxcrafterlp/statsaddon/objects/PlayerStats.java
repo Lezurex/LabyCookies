@@ -2,7 +2,7 @@ package com.voxcrafterlp.statsaddon.objects;
 
 import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
-import com.voxcrafterlp.statsaddon.utils.NickChecker;
+import com.voxcrafterlp.statsaddon.utils.nickchecker.NickChecker;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.main.LabyMod;
@@ -94,7 +94,14 @@ public class PlayerStats {
     }
 
     public void performNickCheck() {
-        this.nickProbability = this.nickChecker.checkPlayer();
+        new Thread(() -> {
+            try {
+                Thread.sleep(200); //Download delay
+                this.nickProbability = this.nickChecker.checkPlayer();
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+        }).start();
     }
 
     public void sendAlert(AlertType type) {
