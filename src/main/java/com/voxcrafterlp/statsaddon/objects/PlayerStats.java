@@ -30,7 +30,7 @@ public class PlayerStats {
         this.playerInfo = playerInfo;
         this.checked = false;
         this.warned = false;
-        this.rank = 0;
+        this.rank = -1;
         this.winRate = -1.0;
         this.nickProbability = -1.0;
         this.playerName = playerInfo.getGameProfile().getName();

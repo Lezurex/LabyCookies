@@ -1,6 +1,7 @@
 package com.voxcrafterlp.statsaddon.objects;
 
 import lombok.Getter;
+import net.labymod.core.LabyModCore;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -22,7 +23,7 @@ public class HotKey {
     }
 
     public boolean isPressed() {
-        return (this.key != -1 && Keyboard.isKeyDown(this.key));
+        return (this.key != -1 && Keyboard.isKeyDown(this.key) && !LabyModCore.getMinecraft().isMinecraftChatOpen());
     }
 
     public void trigger() {
