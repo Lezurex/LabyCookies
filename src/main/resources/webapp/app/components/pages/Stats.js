@@ -8,12 +8,17 @@ export default {
     },
     template: `
       <div class="overview-container">
-      <div v-for="player in players" class="overview-card" :class="player.warned ? 'warned' : ''">
+      <div v-for="player in players" class="overview-card" :class="isDangerous(player)">
         <img :src="'https://minotar.net/helm/' + player.playerName" :alt="player.playerName">
         <div class="overview-info">
           <b>{{ player.playerName }}</b>
-          <span>Rang: {{ player.rank }}</span>
-          <span>Winrate: {{ player.winRate }}%</span>
+          <div v-if="!player.statsHidden">
+            <span v-if="player.rank > 0">Rang: {{ player.rank }}</span>
+            <span v-else>Rang: -</span>
+            <span v-if="player.winRate >= 0">Winrate: {{ player.winRate }}%</span>
+          </div>
+          <span v-else>Stats versteckt!</span>
+          
         </div>
       </div>
       </div>
@@ -43,6 +48,12 @@ export default {
             request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             request.send(JSON.stringify({i:0}));
             setTimeout(this.requestStats, 500);
+        },
+        isDangerous(player) {
+            if (player.warned || player.isHidden) {
+                return 'warned';
+            }
+            return '';
         }
     }
 

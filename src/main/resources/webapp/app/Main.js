@@ -14,7 +14,8 @@ const app = Vue.createApp({
             currentPage: undefined,
             alert: {
                 message: "",
-                visible: false
+                visible: false,
+                timeout: undefined
             }
         }
     },
@@ -31,8 +32,9 @@ const app = Vue.createApp({
             this.alert.message = message;
             this.alert.visible = true;
             let that = this;
-            setTimeout(function () {
-                that.visible = false;
+            clearTimeout(this.alert.timeout);
+            this.alert.timeout = setTimeout(function () {
+                that.alert.visible = false;
             }, 5000);
         }
     },

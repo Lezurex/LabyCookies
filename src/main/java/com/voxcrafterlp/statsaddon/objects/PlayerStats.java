@@ -150,6 +150,7 @@ public class PlayerStats {
         jsonObject.addProperty("warned", warned);
         jsonObject.addProperty("rank", rank);
         jsonObject.addProperty("winRate", winRate);
+        jsonObject.addProperty("statsHidden", statsHidden);
         return jsonObject;
     }
 

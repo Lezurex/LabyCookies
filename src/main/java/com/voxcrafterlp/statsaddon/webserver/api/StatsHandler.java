@@ -7,6 +7,7 @@ import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StatsHandler implements ActionHandler {
     @Override
@@ -15,7 +16,7 @@ public class StatsHandler implements ActionHandler {
         JsonArray data = new JsonArray();
         response.add("data", data);
 
-        List<PlayerStats> playerStatsList = StatsAddon.getInstance().getStatsChecker().getCheckedPlayers();
+        Map<String, PlayerStats> playerStatsList = StatsAddon.getInstance().getLoadedPlayerStats();
 
         // Remove dummy data before testing on GommeHDnet
 //        playerStatsList = Lists.newCopyOnWriteArrayList();
@@ -25,9 +26,7 @@ public class StatsHandler implements ActionHandler {
 //        playerStatsList.add(new PlayerStats("VoxCrafter_LP", true, true, 42, 69));
         // dummy data end
 
-        for (PlayerStats playerStats : playerStatsList) {
-            data.add(playerStats.toJSONObject());
-        }
+        playerStatsList.forEach((string, playerStats) -> data.add(playerStats.toJSONObject()));
 
         return response.toString();
     }

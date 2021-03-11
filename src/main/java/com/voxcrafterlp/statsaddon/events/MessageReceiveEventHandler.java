@@ -85,7 +85,8 @@ public class MessageReceiveEventHandler {
                                         .replace(",", "")
                                         .replace("'", "")
                                         .replace("\u00A7r", "")
-                                        .replace("`", ""));
+                                        .replace("`", "")
+                                        .replace("’", ""));
 
 
                                 final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
