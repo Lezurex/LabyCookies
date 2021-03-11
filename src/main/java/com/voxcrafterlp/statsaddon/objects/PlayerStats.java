@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import org.json.JSONObject;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -115,6 +116,15 @@ public class PlayerStats {
 
         if(days == 30) return "stats " + playerName;
         else return "statsd " + days + " " + playerName;
+    }
+
+    public JSONObject toJSONObject() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", playerName);
+        jsonObject.put("warned", warned);
+        jsonObject.put("rank", rank);
+        jsonObject.put("winRate", winRate);
+        return jsonObject;
     }
 
     public enum AlertType {
