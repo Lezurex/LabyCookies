@@ -13,7 +13,7 @@ export default {
         <div class="overview-info">
           <b>{{ player.playerName }}</b>
           <span>Rang: {{ player.rank }}</span>
-          <span>Winrate: {{ player.winrate }}%</span>
+          <span>Winrate: {{ player.winRate }}%</span>
         </div>
       </div>
       </div>
