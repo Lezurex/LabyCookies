@@ -26,6 +26,7 @@ export default {
             let that = this;
             let request = new XMLHttpRequest();
             request.open("POST", window.location.origin + "/api/stats");
+            request.timeout = 1000;
             request.addEventListener("load", function () {
                 if (request.status === 200) {
                     let data = JSON.parse(request.responseText).data;

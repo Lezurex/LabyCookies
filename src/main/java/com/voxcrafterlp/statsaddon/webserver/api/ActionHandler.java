@@ -1,5 +1,6 @@
 package com.voxcrafterlp.statsaddon.webserver.api;
 
+import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -12,6 +13,6 @@ public interface ActionHandler {
      * @param body The root object as a {@link JSONObject} of the request
      * @return Response which should be sent back
      */
-    public String handle(ArrayList<String> pathParts, JSONObject body);
+    public String handle(ArrayList<String> pathParts, JsonObject body);
 
 }

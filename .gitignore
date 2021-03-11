@@ -29,3 +29,4 @@ run
 options.txt
 .saves
 config/splash.properties
+LabyMod/*.json

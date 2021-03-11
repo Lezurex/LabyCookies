@@ -24,7 +24,7 @@ public class MainHandler implements HttpHandler {
         try {
             resource = new WebUtils().getResource("webapp" + path);
         } catch (IllegalArgumentException exception) {
-
+            exception.printStackTrace();
         }
 
         OutputStream os = httpExchange.getResponseBody();

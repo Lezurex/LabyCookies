@@ -1,11 +1,12 @@
 package com.voxcrafterlp.statsaddon.webserver.api;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.voxcrafterlp.statsaddon.webserver.WebUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,18 +41,24 @@ public class APIHandler implements HttpHandler {
         int httpCode = 200;
         try {
             actionHandler = actionHandlers.get(entryPoint.toLowerCase(Locale.ROOT));
-            JSONObject jsonObject = new JSONObject(request.toString());
+            JsonObject jsonObject = new JsonParser().parse(request.toString()).getAsJsonObject();
             response = actionHandler.handle(pathParts, jsonObject);
         } catch (NullPointerException exception) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("data", new JSONArray());
-            jsonObject.getJSONArray("data").put(new JSONObject().put("status", "error").put("error", "Requested API endpoint does not exist"));
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("data", new JsonArray());
+            JsonObject data = new JsonObject();
+            data.addProperty("status", "error");
+            data.addProperty("error", "Requested API endpoint does not exist!");
+            jsonObject.getAsJsonArray("data").add(data);
             response = jsonObject.toString();
             httpCode = 404;
-        } catch (JSONException exception) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("data", new JSONArray());
-            jsonObject.getJSONArray("data").put(new JSONObject().put("status", "error").put("error", "Malformed JSON"));
+        } catch (JsonParseException exception) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("data", new JsonArray());
+            JsonObject data = new JsonObject();
+            data.addProperty("status", "error");
+            data.addProperty("error", "Malformed JSON");
+            jsonObject.getAsJsonArray("data").add(data);
             response = jsonObject.toString();
             httpCode = 400;
         }
