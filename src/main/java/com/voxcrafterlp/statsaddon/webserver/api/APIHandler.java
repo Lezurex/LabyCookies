@@ -33,8 +33,6 @@ public class APIHandler implements HttpHandler {
         String path = httpExchange.getRequestURI().getPath();
         ArrayList<String> pathParts = getPathParts(path);
 
-        System.out.println(pathParts.toString());
-
         String entryPoint = pathParts.get(1);
         ActionHandler actionHandler;
         String response = "";

@@ -35,6 +35,15 @@ public class PlayerStats {
         StatsAddon.getInstance().getStatsChecker().addToQueue(this);
     }
 
+    public PlayerStats(String playerName, boolean checked, boolean warned, int rank, double winRate) {
+        this.playerName = playerName;
+        this.checked = checked;
+        this.warned = warned;
+        this.rank = rank;
+        this.winRate = winRate;
+        playerInfo = null;
+    }
+
     public void performStatsCheck() {
         if(StatsAddon.getInstance().getCurrentGamemode() != null) {
             if(!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
