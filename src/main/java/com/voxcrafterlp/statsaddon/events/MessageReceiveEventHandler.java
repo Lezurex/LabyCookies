@@ -53,16 +53,17 @@ public class MessageReceiveEventHandler {
                     return false;
                 }
                 if(isHiddenMessage(unFormatted)) {
-                    if(StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().isEmpty()) return false;
-
-                    final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getCheckedPlayers()
-                            .get(StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().size() - 1);
+                    final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
 
                     if(playerStats == null) return false;
+
+                    LabyMod.getInstance().displayMessageInChat("Name: " + playerStats.getPlayerName());
 
                     playerStats.setStatsHidden(true);
                     playerStats.setRank(0);
                     playerStats.setWinRate(0.0);
+
+                    LabyMod.getInstance().displayMessageInChat("lost");
 
                     return false;
                 }

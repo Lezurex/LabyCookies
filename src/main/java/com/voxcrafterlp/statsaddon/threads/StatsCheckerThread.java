@@ -27,10 +27,11 @@ public class StatsCheckerThread extends Thread {
             }
 
             if(!this.statsChecker.getQueue().isEmpty()) {
-                PlayerStats playerStats = this.statsChecker.getQueue().get(0);
+                final PlayerStats playerStats = this.statsChecker.getQueue().get(0);
                 if(!playerStats.isChecked()) {
                     playerStats.performStatsCheck();
                     playerStats.setChecked(true);
+                    this.statsChecker.setLastRequested(playerStats);
 
                     if(!this.statsChecker.getCheckedPlayers().contains(playerStats))
                         this.statsChecker.getCheckedPlayers().add(playerStats);

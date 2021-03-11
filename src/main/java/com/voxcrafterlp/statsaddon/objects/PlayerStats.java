@@ -49,6 +49,7 @@ public class PlayerStats {
     }
 
     public void performStatsCheck() {
+        LabyMod.getInstance().displayMessageInChat("Cock: " + playerName);
         if(StatsAddon.getInstance().getCurrentGamemode() == null) return;
         if(!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
                 .replace("i", "y")

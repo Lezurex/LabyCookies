@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.threads.StatsCheckerThread;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class StatsChecker {
     private final List<PlayerStats> checkedPlayers;
     private final List<PlayerStats> queue;
     private StatsCheckerThread statsCheckerThread;
+    @Setter
+    private PlayerStats lastRequested;
 
     public StatsChecker() {
         this.checkedPlayers = Lists.newCopyOnWriteArrayList();
@@ -34,10 +37,6 @@ public class StatsChecker {
     public void stopCheck() {
         if(this.statsCheckerThread != null)
             this.statsCheckerThread.stop();
-    }
-
-    private boolean isAlreadyChecked(PlayerStats playerStats) {
-        return this.checkedPlayers.contains(playerStats);
     }
 
     public void addToQueue(PlayerStats playerStats) {
