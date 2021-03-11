@@ -1,6 +1,7 @@
 {
   "config": {
     "statstype": "STATS 30 TAGE",
-    "reloadStatsKey": 34
+    "reloadStatsKey": 34,
+    "versionCheckerEnabled": false
   }
 }

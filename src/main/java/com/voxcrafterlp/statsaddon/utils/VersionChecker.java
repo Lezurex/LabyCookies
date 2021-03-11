@@ -3,11 +3,9 @@ package com.voxcrafterlp.statsaddon.utils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.voxcrafterlp.statsaddon.StatsAddon;
-import net.labymod.api.LabyModAPI;
 import net.labymod.main.LabyMod;
 import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentProcessor;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -30,10 +28,11 @@ public class VersionChecker {
 
     public VersionChecker() {
         this.version = StatsAddon.getInstance().getCurrentVersion();
-        this.checkForUpdates();
+        if(StatsAddon.getInstance().isVersionCheckerEnabled())
+            this.checkForUpdates();
     }
 
-    public void checkForUpdates() {
+    private void checkForUpdates() {
         new Thread(() -> {
             try {
                 Thread.sleep(500);

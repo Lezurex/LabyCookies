@@ -51,7 +51,7 @@ public class StatsAddon extends LabyModAddon {
     @Setter
     private String currentGamemode, statsType;
     private int cooldown, rankWarnLevel, winrateWarnLevel, reloadStatsKey;
-    private boolean enabled, alertEnabled;
+    private boolean enabled, alertEnabled, versionCheckerEnabled;
 
     @Override
     public void onEnable() {
@@ -111,6 +111,7 @@ public class StatsAddon extends LabyModAddon {
         // Load config or set default values
         this.enabled = !this.getConfig().has("enabled") || this.getConfig().get("enabled").getAsBoolean();
         this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
+        this.versionCheckerEnabled = !this.getConfig().has("versionCheckerEnabled") || this.getConfig().get("versionCheckerEnabled").getAsBoolean();
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.rankWarnLevel = this.getConfig().has("rankWarnLevel") ? this.getConfig().get("rankWarnLevel").getAsInt() : 100;
         this.winrateWarnLevel = this.getConfig().has("winrateWarnLevel") ? this.getConfig().get("winrateWarnLevel").getAsInt() : 40;
@@ -176,8 +177,15 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.alertEnabled));
-
-        KeyElement reloadStatsElement = new KeyElement("Stats erneut abfragen",
+        list.add(new BooleanElement("Updater", new ControlElement.IconData("labymod/textures/addons/statsaddon/versionCheckerEnabled.png"), new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean accepted) {
+                versionCheckerEnabled = accepted;
+                getConfig().addProperty("versionCheckerEnabled", accepted);
+                saveConfig();
+            }
+        }, this.versionCheckerEnabled));
+        list.add(new KeyElement("Stats erneut abfragen",
                 new ControlElement.IconData(("labymod/textures/addons/statsaddon/reloadStatsKey.png")),
                 reloadStatsKey, new Consumer<Integer>() {
             @Override
@@ -187,8 +195,7 @@ public class StatsAddon extends LabyModAddon {
                 getConfig().addProperty("reloadStatsKey", reloadStatsKey);
                 saveConfig();
             }
-        });
-        list.add(reloadStatsElement);
+        }));
 
         DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstyp", 0, 0, 0, 0)
                 .fill(new String[]{"STATSALL", "STATS 30 TAGE", "STATS 20 TAGE", "STATS 15 TAGE",
