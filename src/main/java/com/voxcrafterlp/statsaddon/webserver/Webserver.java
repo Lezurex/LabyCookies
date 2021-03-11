@@ -7,13 +7,6 @@ import lombok.Getter;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-/**
- * This file was created by VoxCrafter_LP!
- * Date: 09.02.2021
- * Time: 21:58
- * Project: LabyCookies
- */
-
 @Getter
 public class Webserver {
 

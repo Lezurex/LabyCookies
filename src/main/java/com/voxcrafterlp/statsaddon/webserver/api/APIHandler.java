@@ -11,17 +11,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class APIHandler implements HttpHandler {
 
-    public static Map<String, ActionHandler> actionHandlers;
+    public static Map<String, ActionHandler> actionHandlers = new HashMap<>();
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        if (actionHandlers == null) {
+        if (actionHandlers.size() == 0) {
             initActionHandlers();
         }
 
@@ -33,34 +31,54 @@ public class APIHandler implements HttpHandler {
         }
 
         String path = httpExchange.getRequestURI().getPath();
-        String[] pathParts = path.split("/");
+        ArrayList<String> pathParts = getPathParts(path);
 
-        String entryPoint = pathParts[1];
+        System.out.println(pathParts.toString());
+
+        String entryPoint = pathParts.get(1);
         ActionHandler actionHandler;
         String response = "";
+        int httpCode = 200;
         try {
             actionHandler = actionHandlers.get(entryPoint.toLowerCase(Locale.ROOT));
             JSONObject jsonObject = new JSONObject(request.toString());
             response = actionHandler.handle(pathParts, jsonObject);
+            System.out.println("Action");
         } catch (NullPointerException exception) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("data", new JSONArray());
-            jsonObject.getJSONArray("data").put(new JSONObject().put("status", "error").put("error", "Requested API endpoint dooes not exist"));
+            jsonObject.getJSONArray("data").put(new JSONObject().put("status", "error").put("error", "Requested API endpoint does not exist"));
+            response = jsonObject.toString();
+            httpCode = 404;
         } catch (JSONException exception) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("data", new JSONArray());
             jsonObject.getJSONArray("data").put(new JSONObject().put("status", "error").put("error", "Malformed JSON"));
+            response = jsonObject.toString();
+            httpCode = 400;
         }
 
         OutputStream os = httpExchange.getResponseBody();
+        System.out.println(response);
 
         httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json"));
-        httpExchange.sendResponseHeaders(404, response.getBytes(StandardCharsets.UTF_8).length);
+        httpExchange.sendResponseHeaders(httpCode, response.getBytes(StandardCharsets.UTF_8).length);
 
+        os.write(response.getBytes());
         os.close();
     }
 
     private void initActionHandlers() {
         actionHandlers.put("stats", new StatsHandler());
+    }
+
+    private ArrayList<String> getPathParts(String path) {
+        String[] strings = path.split("/");
+        ArrayList<String> parts = new ArrayList<>();
+        for (String string : strings) {
+            if (!string.equals(""))
+                parts.add(string);
+        }
+        return parts;
     }
 }
