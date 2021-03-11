@@ -3,6 +3,8 @@ package com.voxcrafterlp.statsaddon.webserver.api;
 import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import net.labymod.settings.elements.ControlElement;
+import net.minecraft.util.ResourceLocation;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,13 +21,12 @@ public class StatsHandler implements ActionHandler {
 
         List<PlayerStats> playerStatsList = StatsAddon.getInstance().getStatsChecker().getCheckedPlayers();
 
-        // Remove dummy date before testing on GommeHDnet
+        // Remove dummy data before testing on GommeHDnet
         playerStatsList = Lists.newCopyOnWriteArrayList();
 
         playerStatsList.add(new PlayerStats("Lezurex_", true, false, 50, 50));
         playerStatsList.add(new PlayerStats("EinTigger", true, true, 5, 99));
         playerStatsList.add(new PlayerStats("VoxCrafter_LP", true, true, 42, 69));
-
 
         for (PlayerStats playerStats : playerStatsList) {
             data.put(playerStats.toJSONObject());
