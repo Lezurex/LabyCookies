@@ -33,8 +33,12 @@ export default {
                     data.forEach(stats => {
                         that.players.push(Player.fromObject(stats));
                     });
+                } else {
                 }
             });
+            request.addEventListener("error", function () {
+                that.$emit("emitalert", "Verbindung zum Minecraft-Client fehlgeschlagen!");
+            })
             request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             request.send(JSON.stringify({i:0}));
             setTimeout(this.requestStats, 500);

@@ -5,6 +5,8 @@
     --text-secondary: #ececec;
     --bg-primary: #23232e;
     --bg-secondary: #131318;
+    --error-primary: rgba(198, 18, 18, 0.8);
+    --error-secondary: rgba(238, 7, 7, 0.8);
     --transition-speed: 200ms ease;
 }
 
@@ -163,6 +165,26 @@ main {
     main {
         margin: 0;
     }
+}
+
+.notification {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--error-primary);
+    color: var(--text-secondary);
+    border-radius: .5rem;
+    box-shadow: 0 0 .2rem var(--error-secondary);
+    opacity: 100%;
+    transition: var(--transition-speed);
+}
+
+.notification.hidden {
+    transition: var(--transition-speed);
+    opacity: 0;
 }
 
 /* Large screens */

@@ -2,6 +2,7 @@ import Sidebar from "./components/Sidebar.js";
 import Contents from "./components/Contents.js";
 import Page from "./objects/Page.js";
 import Stats from "./components/pages/Stats.js";
+import Alert from "./components/Alert.js";
 
 const app = Vue.createApp({
     data() {
@@ -11,15 +12,28 @@ const app = Vue.createApp({
                 new Page("Coming soon", "<i class=\"ip ip-clock\"></i>")
             ],
             currentPage: undefined,
+            alert: {
+                message: "",
+                visible: false
+            }
         }
     },
     template: `
         <sidebar @changepage="changePage" :currentPage="currentPage" :pages="pages"></sidebar>
-        <contents :currentPage="currentPage"></contents>
+        <contents @emitalert="displayAlert" :currentPage="currentPage"></contents>
+        <alert :message="alert.message" :visible="alert.visible"></alert>
     `,
     methods: {
         changePage(page) {
             this.currentPage = page;
+        },
+        displayAlert(message) {
+            this.alert.message = message;
+            this.alert.visible = true;
+            let that = this;
+            setTimeout(function () {
+                that.visible = false;
+            }, 5000);
         }
     },
     created: function () {
@@ -29,6 +43,7 @@ const app = Vue.createApp({
 
 app.component("sidebar", Sidebar);
 app.component("contents", Contents);
-app.component("stats", Stats)
+app.component("stats", Stats);
+app.component("alert", Alert);
 
 const mountedApp = app.mount("#app");

@@ -7,7 +7,12 @@ export default {
     template: `
     <main>
         <h1>{{currentPage.name}}</h1>
-        <stats v-if="currentPage.name === 'Übersicht'"></stats>
+        <stats @emitalert="emitAlert" v-if="currentPage.name === 'Übersicht'"></stats>
     </main>
-    `
+    `,
+    methods: {
+        emitAlert(message) {
+            this.$emit("emitalert", message);
+        }
+    }
 }
