@@ -1,5 +1,5 @@
 # LabyCookies
-Die ist ein frei nutzbares Addon für die Minecraft-Modifikation [Labymod](https://labymod.net). Ursprünglich entwickelt wurde es von [VoxCrafter_LP](https://github.com/VoxCrafterLP) und ist jetzt unter der Entwicklung von [Lezurex](https://github.com/Lezurex). Es kann automatisch die Stats in einer Runde eines unterstützten Spielmoduses auf [GommeHD.net](https://gommehd.net) abfragen und den Benutzer warnen.
+Die ist ein frei nutzbares Addon für die Minecraft-Modifikation [Labymod](https://labymod.net). Es kann automatisch die Stats in einer Runde eines unterstützten Spielmoduses auf [GommeHD.net](https://gommehd.net) abfragen und den Benutzer warnen.
 
 ## Installation
 Um das Addon zu installieren, lade den [neusten Release](https://github.com/Lezurex/LabyCookies/releases) auf der rechten Seite herunter und kopiere die .jar-Datei in den Addons-Ordner, zu finden unter `MINECRAFT_ORDNER\LabyMod\addons-1.8`. <br>
