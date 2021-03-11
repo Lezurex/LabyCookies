@@ -3,10 +3,7 @@ import Player from "../../objects/Player.js";
 export default {
     data() {
         return {
-            players: [
-                new Player("Lezurex_", true, 88, 99),
-                new Player("Fredmaster07", false, 8, 100),
-            ]
+            players: []
         }
     },
     template: `
@@ -20,5 +17,28 @@ export default {
         </div>
       </div>
       </div>
-    `
+    `,
+    mounted: function () {
+        this.requestStats();
+    },
+    methods: {
+        requestStats() {
+            let that = this;
+            let request = new XMLHttpRequest();
+            request.open("POST", window.location.origin + "/api/stats");
+            request.addEventListener("load", function () {
+                if (request.status === 200) {
+                    let data = JSON.parse(request.responseText).data;
+                    that.players = [];
+                    data.forEach(stats => {
+                        that.players.push(Player.fromObject(stats));
+                    });
+                }
+            });
+            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            request.send(JSON.stringify({i:0}));
+            setTimeout(this.requestStats, 500);
+        }
+    }
+
 }

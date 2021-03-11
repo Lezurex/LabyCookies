@@ -33,8 +33,6 @@ public class APIHandler implements HttpHandler {
         String path = httpExchange.getRequestURI().getPath();
         ArrayList<String> pathParts = getPathParts(path);
 
-        System.out.println(pathParts.toString());
-
         String entryPoint = pathParts.get(1);
         ActionHandler actionHandler;
         String response = "";
@@ -43,7 +41,6 @@ public class APIHandler implements HttpHandler {
             actionHandler = actionHandlers.get(entryPoint.toLowerCase(Locale.ROOT));
             JSONObject jsonObject = new JSONObject(request.toString());
             response = actionHandler.handle(pathParts, jsonObject);
-            System.out.println("Action");
         } catch (NullPointerException exception) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("data", new JSONArray());
