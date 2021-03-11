@@ -94,6 +94,14 @@ public class MessageReceiveEventHandler {
 
                                 if(!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
                                     playerStats.performNickCheck();
+                            } else {
+                                final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                playerStats.setRank(0);
+                                playerStats.setChecked(true);
+                                playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
+
+                                if(!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
+                                    playerStats.performNickCheck();
                             }
                         }
                         if(unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
