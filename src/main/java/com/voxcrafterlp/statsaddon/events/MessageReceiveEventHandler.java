@@ -36,7 +36,7 @@ public class MessageReceiveEventHandler {
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
-                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName)  && loadedPlayer.getGameProfile().getName().contains(LabyMod.getInstance().getPlayerName()))
+                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName)  && !loadedPlayer.getGameProfile().getName().contains(LabyMod.getInstance().getPlayerName()))
                                 StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
                         });
                     }).start();
@@ -53,7 +53,7 @@ public class MessageReceiveEventHandler {
                     return false;
                 }
                 if(isHiddenMessage(unFormatted)) {
-                    if(!StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().isEmpty()) return false;
+                    if(StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().isEmpty()) return false;
 
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getCheckedPlayers()
                             .get(StatsAddon.getInstance().getStatsChecker().getCheckedPlayers().size() - 1);
