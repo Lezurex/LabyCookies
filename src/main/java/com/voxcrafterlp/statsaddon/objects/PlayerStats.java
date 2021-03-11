@@ -29,7 +29,7 @@ public class PlayerStats {
         this.checked = false;
         this.warned = false;
         this.rank = 0;
-        this.winRate = 0.0;
+        this.winRate = -1.0;
         this.playerName = playerInfo.getGameProfile().getName();
 
         StatsAddon.getInstance().getStatsChecker().addToQueue(this);

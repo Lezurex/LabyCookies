@@ -85,7 +85,7 @@
   "borderlessWindow": false,
   "betterSkinCustomization": true,
   "betterShaderSelection": true,
-  "serverlistLiveView": false,
+  "serverlistLiveView": true,
   "serverlistLiveViewInterval": 15,
   "customInventoryScale": "DEFAULT",
   "showMyName": true,

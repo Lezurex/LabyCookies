@@ -1,8 +1,6 @@
 {
   "config": {
-    "statstype": "STATS 30 DAYS",
-    "rankWarnLevel": 1000,
-    "cooldown": 750,
-    "winrateWarnLevel": 1
+    "statstype": "STATS 30 TAGE",
+    "reloadStatsKey": 34
   }
 }

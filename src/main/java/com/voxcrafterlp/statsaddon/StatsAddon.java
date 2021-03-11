@@ -2,7 +2,9 @@ package com.voxcrafterlp.statsaddon;
 
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
 import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
+import com.voxcrafterlp.statsaddon.events.TickListener;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import com.voxcrafterlp.statsaddon.webserver.Webserver;
@@ -25,7 +27,7 @@ import java.util.Map;
  * This file was created by VoxCrafter_LP & Lezurex!
  * Date: 06.09.2020
  * Time: 15:39
- * For Project: LabyMod Stats Addon
+ * For Project: Labymod Stats Addon
  */
 
 @Getter
@@ -36,24 +38,27 @@ public class StatsAddon extends LabyModAddon {
      */
     private final String currentVersion = "v2.0.0";
 
-    private int cooldown, rankWarnLevel, winrateWarnLevel;
-    @Setter
-    private boolean enabled, alertEnabled, lmcDoubled, online;
-
-    private static StatsAddon statsAddon;
-    private String currentGamemode, statsType;
-
+    @Getter
+    private static StatsAddon instance;
     private final Map<String, Boolean> enabledGamemods = new HashMap<>();
-
     private final Map<String, PlayerStats> loadedPlayerStats = new HashMap<>();
     private StatsChecker statsChecker;
     private Webserver webserver;
+    private KeyPressUtil keyPressUtil;
+    @Setter
+    private boolean lmcDoubled, online;
+
+    @Setter
+    private String currentGamemode, statsType;
+    private int cooldown, rankWarnLevel, winrateWarnLevel, reloadStatsKey;
+    private boolean enabled, alertEnabled;
 
     @Override
     public void onEnable() {
-        statsAddon = this;
+        instance = this;
         this.online = false;
-        currentGamemode = null;
+        this.currentGamemode = null;
+        this.lmcDoubled = false;
 
         //EVENT REGISTRATION
         new MessageReceiveEventHandler().register();
@@ -85,9 +90,19 @@ public class StatsAddon extends LabyModAddon {
         });
 
         this.statsChecker = new StatsChecker();
+
         new Thread(() -> {
             System.out.println("Starting webserver..");
-            webserver = new Webserver();
+            this.webserver = new Webserver();
+        }).start();
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                keyPressUtil = new KeyPressUtil();
+                getApi().registerForgeListener(new TickListener());
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
         }).start();
     }
 
@@ -99,10 +114,11 @@ public class StatsAddon extends LabyModAddon {
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.rankWarnLevel = this.getConfig().has("rankWarnLevel") ? this.getConfig().get("rankWarnLevel").getAsInt() : 100;
         this.winrateWarnLevel = this.getConfig().has("winrateWarnLevel") ? this.getConfig().get("winrateWarnLevel").getAsInt() : 40;
-        this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 DAYS";
+        this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 TAGE";
+        this.reloadStatsKey = this.getConfig().has("reloadStatsKey") ? this.getConfig().get("reloadStatsKey").getAsInt() : 34; //Default: G
 
         this.getGamemodes().forEach((string, material) -> {
-            if (enabledGamemods.containsKey(string))
+            if(enabledGamemods.containsKey(string))
                 enabledGamemods.replace(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
             else
                 enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
@@ -113,7 +129,7 @@ public class StatsAddon extends LabyModAddon {
     protected void fillSettings(List<SettingsElement> list) {
         list.add(new HeaderElement(ModColor.cl('b') + "Allgemeine Einstellungen"));
 
-        list.add(new BooleanElement("Enabled", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
+        list.add(new BooleanElement("Aktiviert", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 enabled = accepted;
@@ -132,7 +148,7 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(queryInterval);
-        NumberElement rankWarnLevelElement = new NumberElement("Warn Rank", new ControlElement.IconData(Material.NOTE_BLOCK), this.rankWarnLevel);
+        NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData(Material.NOTE_BLOCK), this.rankWarnLevel);
         rankWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -160,6 +176,19 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.alertEnabled));
+
+        KeyElement reloadStatsElement = new KeyElement("Stats erneut abfragen",
+                new ControlElement.IconData(("labymod/textures/addons/statsaddon/reloadStatsKey.png")),
+                reloadStatsKey, new Consumer<Integer>() {
+            @Override
+            public void accept(Integer key) {
+                reloadStatsKey = key;
+                keyPressUtil.registerKeys(); //Update hotkeys
+                getConfig().addProperty("reloadStatsKey", reloadStatsKey);
+                saveConfig();
+            }
+        });
+        list.add(reloadStatsElement);
 
         DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstyp", 0, 0, 0, 0)
                 .fill(new String[]{"STATSALL", "STATS 30 TAGE", "STATS 20 TAGE", "STATS 15 TAGE",
@@ -220,17 +249,9 @@ public class StatsAddon extends LabyModAddon {
     }
 
     public void clearCache() {
-        getLoadedPlayerStats().clear();
-        getStatsChecker().getCheckedPlayers().clear();
-        getStatsChecker().getQueue().clear();
-    }
-
-    public static StatsAddon getInstance() {
-        return statsAddon;
-    }
-
-    public void setCurrentGamemode(String currentGamemode) {
-        this.currentGamemode = currentGamemode;
+        this.getLoadedPlayerStats().clear();
+        this.getStatsChecker().getCheckedPlayers().clear();
+        this.getStatsChecker().getQueue().clear();
     }
 
     @Override
