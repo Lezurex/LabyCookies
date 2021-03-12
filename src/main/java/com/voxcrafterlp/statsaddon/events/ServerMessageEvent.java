@@ -35,7 +35,7 @@ public class ServerMessageEvent {
                                 }
 
                                 LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
-                                    if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(loadedPlayer.getGameProfile().getName()) && !loadedPlayer.getGameProfile().getName().contains(LabyMod.getInstance().getPlayerName()))
+                                    if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(loadedPlayer.getGameProfile().getName()) && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()))
                                         StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats(loadedPlayer));
                                 });
                             }).start();
