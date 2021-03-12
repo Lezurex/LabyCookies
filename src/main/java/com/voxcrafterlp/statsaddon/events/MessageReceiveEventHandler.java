@@ -54,17 +54,14 @@ public class MessageReceiveEventHandler {
                 }
                 if(isHiddenMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-
                     if(playerStats == null) return false;
-
-                    LabyMod.getInstance().displayMessageInChat("Name: " + playerStats.getPlayerName());
-
                     playerStats.setStatsHidden(true);
-                    playerStats.setRank(0);
-                    playerStats.setWinRate(0.0);
-
-                    LabyMod.getInstance().displayMessageInChat("lost");
-
+                    return false;
+                }
+                if(isStatsNotFoundMessage(unFormatted)) {
+                    final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
+                    if(playerStats == null) return false;
+                    playerStats.setNickProbability(100);
                     return false;
                 }
 
@@ -138,5 +135,10 @@ public class MessageReceiveEventHandler {
     private boolean isHiddenMessage(String message) {
         return (message.contains("The statistics of this player are hidden") || message.contains("Die Statistiken von diesem Spieler sind versteckt") ||
                 message.contains("D'Statistiken vun dësem Spiller sinn verstoppt") ||message.contains("D'Statistike vo dem Spieler sind versteckt"));
+    }
+
+    private boolean isStatsNotFoundMessage(String message) {
+        return (message.contains("This player could not be found") || message.contains("Dieser Spieler konnte nicht gefunden werden") ||
+                message.contains("Dëse Spiller konnt net fonnt ginn") ||message.contains("De Spieler isch nöd gfunde worde"));
     }
 }

@@ -3,6 +3,7 @@ package com.voxcrafterlp.statsaddon.threads;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
+import net.labymod.main.LabyMod;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -29,9 +30,9 @@ public class StatsCheckerThread extends Thread {
             if(!this.statsChecker.getQueue().isEmpty()) {
                 final PlayerStats playerStats = this.statsChecker.getQueue().get(0);
                 if(!playerStats.isChecked()) {
+                    this.statsChecker.setLastRequested(playerStats);
                     playerStats.performStatsCheck();
                     playerStats.setChecked(true);
-                    this.statsChecker.setLastRequested(playerStats);
 
                     if(!this.statsChecker.getCheckedPlayers().contains(playerStats))
                         this.statsChecker.getCheckedPlayers().add(playerStats);

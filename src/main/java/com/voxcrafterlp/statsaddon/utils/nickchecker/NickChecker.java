@@ -1,5 +1,6 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
+import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import lombok.Getter;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
@@ -13,10 +14,13 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 @Getter
 public class NickChecker {
 
+    private final PlayerStats playerStats;
     private final NetworkPlayerInfo playerInfo;
+    private double result;
 
-    public NickChecker(NetworkPlayerInfo networkPlayerInfo) {
-        this.playerInfo = networkPlayerInfo;
+    public NickChecker(PlayerStats playerStats) {
+        this.playerStats = playerStats;
+        this.playerInfo = this.playerStats.getPlayerInfo();
     }
 
     /**
@@ -24,9 +28,10 @@ public class NickChecker {
      *
      * @return {@link Double} probability (0 - 100)
      */
-    public double checkPlayer() {
+    public void checkPlayer() {
+        if(this.playerStats.getNickProbability() != -1) return;
+
         new DefaultSkinCheck().performCheck(playerInfo);
-        return 0.0;
     }
 
 }

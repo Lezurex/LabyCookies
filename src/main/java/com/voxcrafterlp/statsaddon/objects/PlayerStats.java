@@ -34,7 +34,7 @@ public class PlayerStats {
         this.winRate = -1.0;
         this.nickProbability = -1.0;
         this.playerName = playerInfo.getGameProfile().getName();
-        this.nickChecker = new NickChecker(this.playerInfo);
+        this.nickChecker = new NickChecker(this);
 
         StatsAddon.getInstance().getStatsChecker().addToQueue(this);
     }
@@ -49,7 +49,6 @@ public class PlayerStats {
     }
 
     public void performStatsCheck() {
-        LabyMod.getInstance().displayMessageInChat("Cock: " + playerName);
         if(StatsAddon.getInstance().getCurrentGamemode() == null) return;
         if(!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
                 .replace("i", "y")
@@ -97,8 +96,8 @@ public class PlayerStats {
     public void performNickCheck() {
         new Thread(() -> {
             try {
-                Thread.sleep(200); //Download delay
-                this.nickProbability = this.nickChecker.checkPlayer();
+                Thread.sleep(200); //Skin download delay
+                this.nickChecker.checkPlayer();
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
