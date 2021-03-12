@@ -4,8 +4,10 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import lombok.Getter;
+import net.labymod.main.LabyMod;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,12 +48,14 @@ public class NickChecker {
      * @return {@link Double} probability (0 - 100)
      */
     public double checkPlayer() {
+        this.checks.forEach(check -> check.performCheck(this.playerInfo));
+
         final List<Check> passedChecks = this.checks.stream()
-                .filter(Check::isCheckSuccessful)
+                .filter(check -> check.isCheckSuccessful() && !check.ignore())
                 .collect(Collectors.toList());
 
         AtomicDouble result = new AtomicDouble(0);
-        passedChecks.forEach(check -> result.set(result.get() + check.getWeight()));
+        passedChecks.forEach(check -> result.addAndGet(check.getWeight()));
 
         return result.get();
     }
