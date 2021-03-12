@@ -48,6 +48,10 @@ public class NickChecker {
      * @return {@link Double} probability (0 - 100)
      */
     public double checkPlayer() {
+        final String prefix = this.playerInfo.getPlayerTeam().getColorPrefix();
+        if(prefix.equals("§a") || prefix.equals("§b") || prefix.contains("Dev") || prefix.contains("Mod") ||
+                prefix.contains("Content") || prefix.contains("Sup") || prefix.contains("Admin")) return 0;
+
         this.checks.forEach(check -> check.performCheck(this.playerInfo));
 
         final List<Check> passedChecks = this.checks.stream()
