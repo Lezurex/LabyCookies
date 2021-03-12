@@ -15,6 +15,7 @@ public class MainHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         String path = httpExchange.getRequestURI().getPath();
 
+        // Convert ending slash to index.html in this directory
         if (path.endsWith("/")) {
             path = path + "index.html";
         }

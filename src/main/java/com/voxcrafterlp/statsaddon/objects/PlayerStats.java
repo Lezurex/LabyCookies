@@ -32,7 +32,7 @@ public class PlayerStats {
         this.warned = false;
         this.rank = -1;
         this.winRate = -1.0;
-        this.nickProbability = -1.0;
+        this.nickProbability = 0;
         this.playerName = playerInfo.getGameProfile().getName();
         this.nickChecker = new NickChecker(this);
 
@@ -144,12 +144,14 @@ public class PlayerStats {
     }
 
     public JsonObject toJSONObject() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("name", playerName);
-        jsonObject.addProperty("warned", warned);
-        jsonObject.addProperty("rank", rank);
-        jsonObject.addProperty("winRate", winRate);
-        jsonObject.addProperty("statsHidden", statsHidden);
+        final JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("name", this.playerName);
+        jsonObject.addProperty("warned", this.warned);
+        jsonObject.addProperty("rank", this.rank);
+        jsonObject.addProperty("winRate", this.winRate);
+        jsonObject.addProperty("statsHidden", this.statsHidden);
+        jsonObject.addProperty("nickProbability", this.nickProbability);
+        jsonObject.addProperty("prefix", this.playerInfo.getPlayerTeam().getColorPrefix());
         return jsonObject;
     }
 

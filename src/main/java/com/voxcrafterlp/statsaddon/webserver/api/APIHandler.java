@@ -44,6 +44,7 @@ public class APIHandler implements HttpHandler {
             JsonObject jsonObject = new JsonParser().parse(request.toString()).getAsJsonObject();
             response = actionHandler.handle(pathParts, jsonObject);
         } catch (NullPointerException exception) {
+            exception.printStackTrace();
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("data", new JsonArray());
             JsonObject data = new JsonObject();
