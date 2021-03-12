@@ -3,15 +3,16 @@ package com.voxcrafterlp.statsaddon.webserver;
 import lombok.Getter;
 
 import java.io.File;
+import java.io.InputStream;
 
 @Getter
 public class Resource {
 
-    private final File file;
+    private final InputStream stream;
     private final String mime;
 
-    public Resource(File file, String mime) {
-        this.file = file;
+    public Resource(InputStream stream, String mime) {
+        this.stream = stream;
         this.mime = mime;
     }
 

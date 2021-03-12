@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -36,9 +37,17 @@ public class MainHandler implements HttpHandler {
             os.write(response.getBytes());
         } else {
             httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList(resource.getMime()));
-            httpExchange.sendResponseHeaders(200, resource.getFile().length());
-            Files.copy(resource.getFile().toPath(), os);
+            httpExchange.sendResponseHeaders(200, 0);
+            copyIStoOS(resource.getStream(), os);
         }
         os.close();
+    }
+
+    public void copyIStoOS(InputStream in, OutputStream out) throws IOException {
+        byte[] buf = new byte[8192];
+        int length;
+        while ((length = in.read(buf)) > 0) {
+            out.write(buf, 0, length);
+        }
     }
 }
