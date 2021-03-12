@@ -1,12 +1,14 @@
 package com.voxcrafterlp.statsaddon.objects;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+import lombok.Getter;
 import java.util.List;
 
+@Getter
 public class Team {
 
-    private String prefix;
-    private final List<PlayerStats> playerStats = new ArrayList<>();
+    private final String prefix;
+    private final List<PlayerStats> playerStats = Lists.newCopyOnWriteArrayList();
 
     public Team(String prefix) {
         this.prefix = prefix;
@@ -16,11 +18,4 @@ public class Team {
         this.playerStats.add(playerStats);
     }
 
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public List<PlayerStats> getPlayerStats() {
-        return playerStats;
-    }
 }
