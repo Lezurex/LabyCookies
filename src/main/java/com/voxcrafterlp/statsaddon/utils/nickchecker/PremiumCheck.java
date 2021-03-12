@@ -28,7 +28,7 @@ public class PremiumCheck implements Check {
     @Override
     public boolean ignore() {
         final String prefix = this.playerInfo.getPlayerTeam().getColorPrefix();
-        if(prefix.equals("§a") || prefix.equals("§b") || prefix.contains("Dev") || prefix.contains("Mod") ||
+        if(prefix.equals("§a") || prefix.equals("§bSupreme §7| ") || prefix.contains("Dev") || prefix.contains("Mod") ||
                 prefix.contains("Content") || prefix.contains("Sup") || prefix.contains("Admin")) return false;
 
         return prefix.length() > 2;
