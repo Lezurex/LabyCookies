@@ -97,7 +97,7 @@ public class PlayerStats {
         new Thread(() -> {
             try {
                 Thread.sleep(200); //Skin download delay
-                this.nickChecker.checkPlayer();
+                this.nickProbability = this.nickChecker.checkPlayer();
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
