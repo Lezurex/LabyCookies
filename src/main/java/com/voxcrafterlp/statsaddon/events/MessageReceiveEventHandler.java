@@ -54,15 +54,17 @@ public class MessageReceiveEventHandler {
                 }
                 if(isHiddenMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-                    if(playerStats == null) return false;
+                    if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setStatsHidden(true);
-                    return false;
+
+                    return !StatsAddon.getInstance().isShowStatsMessages();
                 }
                 if(isStatsNotFoundMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-                    if(playerStats == null) return false;
+                    if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setNickProbability(100);
-                    return false;
+
+                    return !StatsAddon.getInstance().isShowStatsMessages();
                 }
 
                 if(StatsAddon.getInstance().getCurrentGamemode() != null) {
@@ -115,7 +117,8 @@ public class MessageReceiveEventHandler {
                         }
                     }).start();
                 }
-                return false;
+
+                return isStatsMessage(unFormatted) && !StatsAddon.getInstance().isShowStatsMessages();
             }
         });
     }
@@ -140,5 +143,10 @@ public class MessageReceiveEventHandler {
     private boolean isStatsNotFoundMessage(String message) {
         return (message.contains("This player could not be found") || message.contains("Dieser Spieler konnte nicht gefunden werden") ||
                 message.contains("Dëse Spiller konnt net fonnt ginn") ||message.contains("De Spieler isch nöd gfunde worde"));
+    }
+
+    private boolean isStatsMessage(String message) {
+        System.out.println(message);
+        return message.startsWith("-= ") || message.startsWith(" ") || message.equals("---------------------");
     }
 }
