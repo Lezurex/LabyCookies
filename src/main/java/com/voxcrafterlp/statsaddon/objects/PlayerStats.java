@@ -48,6 +48,9 @@ public class PlayerStats {
         this.playerInfo = null;
     }
 
+    /**
+     * Generates the stats command and sends it to the server
+     */
     public void performStatsCheck() {
         if(StatsAddon.getInstance().getCurrentGamemode() == null) return;
         if(!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
@@ -68,6 +71,10 @@ public class PlayerStats {
         }
     }
 
+    /**
+     * Checks if the rank or winrate are higher than the value set in the settings
+     * @param type Type of the stats that should be checked
+     */
     public void performStatsAnalysis(AlertType type) {
         if(this.rank < StatsAddon.getInstance().getRankWarnLevel() && type == AlertType.RANK) {
             try {
@@ -93,6 +100,9 @@ public class PlayerStats {
         }
     }
 
+    /**
+     * Starts the nick check after a 200ms delay
+     */
     public void performNickCheck() {
         new Thread(() -> {
             try {
@@ -104,6 +114,11 @@ public class PlayerStats {
         }).start();
     }
 
+    /**
+     * Sends a chat and achievement alert to the player
+     * If enabled, notifies the player with a 'pling' sound
+     * @param type Type of the alert
+     */
     public void sendAlert(AlertType type) {
         if(this.warned) return;
 
@@ -132,6 +147,12 @@ public class PlayerStats {
         }
     }
 
+    /**
+     * Generates a stats command based on the player's settings
+     *
+     * @param playerName Name of the player whose stats should be checked
+     * @return {@link String} Stats command without the slash ('/')
+     */
     private String getStatsCommand(String playerName) {
         final String statsType = StatsAddon.getInstance().getStatsType().toLowerCase();
         if(statsType.equals("statsall")) return "statsall " + playerName;
@@ -139,10 +160,13 @@ public class PlayerStats {
         int days = Integer.parseInt(statsType.toLowerCase().replace(" ", "").replace("tage", "")
                 .replace("stats", ""));
 
-        if(days == 30) return "stats " + playerName;
-        else return "statsd " + days + " " + playerName;
+        return ((days == 30) ? "stats" + playerName : "statsd " + days + " " + playerName);
     }
 
+    /**
+     * Converts the most important information into a {@link JsonObject}
+     * @return {@link JsonObject} object with all the necessary information for the website
+     */
     public JsonObject toJSONObject() {
         final JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", this.playerName);

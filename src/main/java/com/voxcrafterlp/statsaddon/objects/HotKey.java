@@ -22,6 +22,10 @@ public class HotKey {
         this.onPress = onPress;
     }
 
+    /**
+     * Checks if the hotkey is pressed and if the minecraft chat isn't opened
+     * @return {@Link boolean} whether or not the specified key is pressed
+     */
     public boolean isPressed() {
         return (this.key != -1 && Keyboard.isKeyDown(this.key) && !LabyModCore.getMinecraft().isMinecraftChatOpen());
     }

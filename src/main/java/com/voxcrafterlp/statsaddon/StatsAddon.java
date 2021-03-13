@@ -63,7 +63,7 @@ public class StatsAddon extends LabyModAddon {
 
     @Override
     public void onEnable() {
-        // PreRelease Checker
+//         PreRelease Checker
 //        boolean isValidUUID = false;
 //        String uuid = null;
 //        while (uuid == null) {
@@ -87,7 +87,7 @@ public class StatsAddon extends LabyModAddon {
 //            System.out.println("Addon not loading. PreRelease violation found!");
 //            return;
 //        }
-        // PreRelease Checker end
+//         PreRelease Checker end
 
         instance = this;
         this.online = false;
@@ -299,6 +299,9 @@ public class StatsAddon extends LabyModAddon {
         return map;
     }
 
+    /**
+     * Clears all the cached information about loaded players
+     */
     public void clearCache() {
         this.getLoadedPlayerStats().clear();
         this.getStatsChecker().getCheckedPlayers().clear();

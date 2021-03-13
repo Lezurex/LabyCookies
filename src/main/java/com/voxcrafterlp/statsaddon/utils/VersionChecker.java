@@ -32,6 +32,11 @@ public class VersionChecker {
             this.checkForUpdates();
     }
 
+    /**
+     * Connects to the Github api and gets the latest release.
+     * Notifies the player in the chat and via a popup whether a new version
+     * is available.
+     */
     private void checkForUpdates() {
         new Thread(() -> {
             try {

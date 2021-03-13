@@ -14,6 +14,14 @@ import java.util.UUID;
 
 public class SubtitleUtil {
 
+    /**
+     * @deprecated Will probably be replaced
+     *
+     * Shows a subtitle below the name of a player
+     *
+     * @param uuid {@link UUID} object of the player
+     * @param title Text of the subtitle
+     */
     public void showSubtitle(UUID uuid, String title) {
         LabyMod.getInstance().getUserManager().getUsers().forEach((uuids, user) -> {
             if(uuids.equals(uuid)) {

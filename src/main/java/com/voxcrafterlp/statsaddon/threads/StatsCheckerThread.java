@@ -18,6 +18,9 @@ public class StatsCheckerThread extends Thread {
 
     public StatsCheckerThread() { this.statsChecker = StatsAddon.getInstance().getStatsChecker(); }
 
+    /**
+     * Gets every {@link PlayerStats} object from the queue and performs a stats request
+     */
     @Override
     public void run() {
         while (true) {
