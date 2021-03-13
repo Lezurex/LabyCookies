@@ -18,6 +18,7 @@ export default {
     },
     template: `
       <div class="overview-container">
+      <span v-if="players.length === 0">Entweder sind keine Spieler in der Runde, oder du befindest dich auf der Lobby.</span>
       <div v-for="player in players" class="overview-card" :class="calcCardColor(player)">
         <img :src="'https://minotar.net/helm/' + player.playerName" :alt="player.playerName">
         <div class="overview-info">
