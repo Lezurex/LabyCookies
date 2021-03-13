@@ -22,10 +22,10 @@ public class MessageReceiveEventHandler {
         StatsAddon.getInstance().getApi().getEventManager().register(new MessageReceiveEvent() {
             @Override
             public boolean onReceive(String formatted, String unFormatted) {
-                if(!StatsAddon.getInstance().isEnabled()) return false;
-                if(!StatsAddon.getInstance().isOnline()) return false;
+                if (!StatsAddon.getInstance().isEnabled()) return false;
+                if (!StatsAddon.getInstance().isOnline()) return false;
 
-                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
+                if (StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     new Thread(() -> {
                         try {
                             Thread.sleep(StatsAddon.getInstance().getCooldown());
@@ -36,13 +36,18 @@ public class MessageReceiveEventHandler {
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
-                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName)  && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) && !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase().contains("party"))
+                            if (!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
+                                    !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
+                                    !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
+                                            .replace("i", "y")
+                                            .replace("á", "a")
+                                            .contains("party"))
                                 StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
                         });
                     }).start();
                 }
 
-                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("«") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
+                if (StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("«") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     final String playerName = StringUtils.stripControlCodes(unFormatted.split(" ")[1]);
                     final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(playerName);
 
@@ -52,31 +57,31 @@ public class MessageReceiveEventHandler {
 
                     return false;
                 }
-                if(isHiddenMessage(unFormatted)) {
+                if (isHiddenMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-                    if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
+                    if (playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setStatsHidden(true);
 
                     return !StatsAddon.getInstance().isShowStatsMessages();
                 }
-                if(isStatsNotFoundMessage(unFormatted)) {
+                if (isStatsNotFoundMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-                    if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
+                    if (playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setNickProbability(100);
 
                     return !StatsAddon.getInstance().isShowStatsMessages();
                 }
 
-                if(StatsAddon.getInstance().getCurrentGamemode() != null) {
+                if (StatsAddon.getInstance().getCurrentGamemode() != null) {
                     new Thread(() -> {
-                        if(unFormatted.toLowerCase().contains("-=")) {
+                        if (unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
                         }
-                        if(unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
+                        if (unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
                             String[] content = formatted.split("\u00A7e");
-                            if(content.length != 2) return;
+                            if (content.length != 2) return;
 
-                            if(!content[1].contains("-")) {
+                            if (!content[1].contains("-")) {
                                 int rank = Integer.parseInt(content[1]
                                         .replace("\u00A7e", "")
                                         .replace(" ", "")
@@ -93,15 +98,15 @@ public class MessageReceiveEventHandler {
                                 playerStats.setChecked(true);
                                 playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
 
-                                if(!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
+                                if (!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
                                     playerStats.performNickCheck();
                             }
                         }
-                        if(unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
+                        if (unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
                             String[] content = formatted.split("\u00A7e");
-                            if(content.length != 2) return;
+                            if (content.length != 2) return;
 
-                            if(!content[1].contains("-")) {
+                            if (!content[1].contains("-")) {
                                 double winrate = Double.parseDouble(content[1]
                                         .replace("\u00A7e", "")
                                         .replace(" ", "")
@@ -144,7 +149,7 @@ public class MessageReceiveEventHandler {
 
     private boolean isStatsNotFoundMessage(String message) {
         return (message.contains("This player could not be found") || message.contains("Dieser Spieler konnte nicht gefunden werden") ||
-                message.contains("Dëse Spiller konnt net fonnt ginn") ||message.contains("De Spieler isch nöd gfunde worde"));
+                message.contains("Dëse Spiller konnt net fonnt ginn") || message.contains("De Spieler isch nöd gfunde worde"));
     }
 
     private boolean isStatsMessage(String message) {
