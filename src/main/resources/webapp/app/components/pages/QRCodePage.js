@@ -28,6 +28,10 @@ export default {
         request.send("{i:1}");
     },
     methods: {
+        /**
+         * Updates the QR-Code to a specific web address
+         * @param webAddress Valid URL to a webpage
+         */
         renderCode(webAddress) {
             if (this.qrcode === undefined) {
                 this.qrcode = new QRCode(document.getElementById("qrcode"), webAddress);

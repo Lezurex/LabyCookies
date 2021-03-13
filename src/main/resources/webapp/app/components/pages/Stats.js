@@ -4,25 +4,15 @@ export default {
     data() {
         return {
             players: [],
-            colorMap: {
-                "§1": "darkblue",
-                "§2": "darkgreen",
-                "§5": "purple",
-                "§6": "orange",
-                "§9": "blue",
-                "§c": "red",
-                "§e": "yellow",
-                "§a": "green"
-            }
         }
     },
     template: `
       <div class="overview-container">
       <span v-if="players.length === 0">Entweder sind keine Spieler in der Runde, oder du befindest dich auf der Lobby.</span>
-      <div v-for="player in players" class="overview-card" :class="calcCardColor(player)">
+      <div v-for="player in players" class="overview-card" :class="player.calcCardColor()">
         <img :src="'https://minotar.net/helm/' + player.playerName" :alt="player.playerName">
         <div class="overview-info">
-          <b :style="getCSSColor(player)">{{ player.playerName }}</b>
+          <b :style="player.getCSSColor()">{{ player.playerName }}</b>
           <div v-if="!player.statsHidden">
             <span v-if="player.rank > 0">Rang: {{ player.rank }}</span>
             <span v-else>Rang: -</span>
@@ -43,6 +33,9 @@ export default {
         this.requestStats();
     },
     methods: {
+        /**
+         * Fetches the newest data from the Minecraft client and updates the overview
+         */
         requestStats() {
             let that = this;
             let request = new XMLHttpRequest();
@@ -66,32 +59,6 @@ export default {
             let timeout = 500;
             window.location.hostname === "localhost" ? timeout = 500 : timeout = 2000;
             setTimeout(this.requestStats, 500);
-        },
-        calcCardColor(player) {
-            if (player.warned) {
-                return 'warned';
-            } else if (player.statsHidden) {
-                return 'hidden';
-            } else if (player.nickProbability >= 45) {
-                return 'nicked';
-            }
-            return '';
-        },
-        getCSSColor(player) {
-            if (player.prefix.length > 2) {
-                if (player.prefix.includes("Content") ||
-                    player.prefix.includes("Suprem") ||
-                    player.prefix.includes("Mod") ||
-                    player.prefix === "§a" ||
-                    player.prefix.includes("Admin") ||
-                    player.prefix.includes("Sup")) {
-                    return "";
-                }
-                let substr = player.prefix.substr(0, 2);
-                return "color: " + this.colorMap[substr];
-            } else {
-                return "";
-            }
         }
     }
 

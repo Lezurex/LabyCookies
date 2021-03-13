@@ -2,7 +2,7 @@
   "uuid": "%uuid%",
   "name": "StatsAddon",
   "mainClass": "com.voxcrafterlp.statsaddon.StatsAddon",
-  "description": "Dieses Addon prÃ¼ft automatisch die Stats von gegnerischen Spielern und warnt dich. GitHub: https://github.com/Lezurex/LabyCookies",
+  "description": "Dieses Addon prüft automatisch die Stats von gegnerischen Spielern und warnt dich. GitHub: https://github.com/Lezurex/LabyCookies",
   "version": 1,
   "author": "VoxCrafter_LP & Lezurex",
   "category": 2,

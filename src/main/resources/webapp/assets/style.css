@@ -183,6 +183,22 @@ main {
     max-width: 800px;
 }
 
+.info-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 2rem;
+    transition: var(--transition-speed);
+}
+
+.info-link i {
+    font-size: 5rem;
+}
+
+.info-link:hover {
+    color: var(--text-primary);
+    transition: var(--transition-speed);
+}
+
 /* Small screens */
 @media only screen and (max-width: 600px) {
     .sidenavbar {
@@ -204,7 +220,7 @@ main {
     }
 
     main {
-        margin: 0;
+        margin: 0 0 5rem;
     }
 }
 

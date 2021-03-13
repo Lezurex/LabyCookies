@@ -19,7 +19,9 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
+import net.minecraft.client.Minecraft;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,11 @@ public class StatsAddon extends LabyModAddon {
      */
     private final String currentVersion = "v2.0.0";
 
+    private final String[] allowedPreReleaseUUIDs = new String[] {
+            "4f08412d-5e85-46ec-89fd-028c1ed073a3",
+            "20c018b7-970b-4eac-bbeb-713e72503f05",
+    };
+
     @Getter
     private static StatsAddon instance;
     private final Map<String, Boolean> enabledGamemods = new HashMap<>();
@@ -56,6 +63,32 @@ public class StatsAddon extends LabyModAddon {
 
     @Override
     public void onEnable() {
+        // PreRelease Checker
+        boolean isValidUUID = false;
+        String uuid = null;
+        while (uuid == null) {
+            try {
+                uuid = LabyMod.getInstance().getPlayerUUID().toString();
+            } catch (NullPointerException exception) {
+
+            }
+        }
+        System.out.println("User UUID is: " + uuid);
+        for (String candidate : allowedPreReleaseUUIDs) {
+            System.out.println("Checking UUID: " + candidate);
+            if (candidate.equals(uuid)) {
+                isValidUUID = true;
+                System.out.println("Breaking.");
+                break;
+            }
+        }
+
+        if (!isValidUUID) {
+            System.out.println("Addon not loading. PreRelease violation found!");
+            return;
+        }
+        // PreRelease Checker end
+
         instance = this;
         this.online = false;
         this.currentGamemode = null;
