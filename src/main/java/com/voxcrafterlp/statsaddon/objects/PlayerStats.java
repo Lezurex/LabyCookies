@@ -160,7 +160,7 @@ public class PlayerStats {
         int days = Integer.parseInt(statsType.toLowerCase().replace(" ", "").replace("tage", "")
                 .replace("stats", ""));
 
-        return ((days == 30) ? "stats" + playerName : "statsd " + days + " " + playerName);
+        return ((days == 30) ? "stats " + playerName : "statsd " + days + " " + playerName);
     }
 
     /**
