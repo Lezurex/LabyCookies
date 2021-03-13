@@ -5,14 +5,14 @@ export default class Player {
      * @type {{"§9": string, "§1": string, "§a": string, "§2": string, "§c": string, "§5": string, "§e": string, "§6": string}}
      */
     static colorMap = {
-        "§1": "darkblue",
-        "§2": "darkgreen",
         "§5": "purple",
         "§6": "orange",
         "§9": "blue",
         "§c": "red",
         "§e": "yellow",
-        "§a": "green"
+        "§a": "green",
+        "§d": "pink",
+        "§b": "aqua"
     }
 
     playerName;
