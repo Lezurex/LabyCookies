@@ -54,7 +54,6 @@ public class MessageReceiveEventHandler {
                 }
                 if(isHiddenMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-                    LabyMod.getInstance().displayMessageInChat("Is hidden");
                     if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setStatsHidden(true);
 

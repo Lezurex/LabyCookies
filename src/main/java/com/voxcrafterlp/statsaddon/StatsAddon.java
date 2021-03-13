@@ -185,7 +185,7 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(queryInterval);
-        NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData(Material.NOTE_BLOCK), this.rankWarnLevel);
+        NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData("labymod/textures/addons/statsaddon/rankAlert.png"), this.rankWarnLevel);
         rankWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -195,7 +195,7 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(rankWarnLevelElement);
-        NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData(Material.NOTE_BLOCK), this.winrateWarnLevel);
+        NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData("labymod/textures/addons/statsaddon/winrateAlert.png"), this.winrateWarnLevel);
         winrateWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -213,7 +213,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.alertEnabled));
-        list.add(new BooleanElement("Updater", new ControlElement.IconData("labymod/textures/addons/statsaddon/versionCheckerEnabled.png"), new Consumer<Boolean>() {
+        list.add(new BooleanElement("Updater", new ControlElement.IconData("labymod/textures/addons/statsaddon/updateChecker.png"), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 versionCheckerEnabled = accepted;
@@ -222,7 +222,7 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.versionCheckerEnabled));
         list.add(new KeyElement("Stats erneut abfragen",
-                new ControlElement.IconData(("labymod/textures/addons/statsaddon/reloadStatsKey.png")),
+                new ControlElement.IconData(("labymod/textures/addons/statsaddon/statsReload.png")),
                 reloadStatsKey, new Consumer<Integer>() {
             @Override
             public void accept(Integer key) {
@@ -232,7 +232,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }));
-        list.add(new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData(Material.EMPTY_MAP), new Consumer<Boolean>() {
+        list.add(new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData("labymod/textures/addons/statsaddon/showStatsMessages.png"), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 showStatsMessages = accepted;
