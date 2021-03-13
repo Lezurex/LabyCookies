@@ -13,6 +13,7 @@ import lombok.Setter;
 import net.labymod.api.LabyModAPI;
 import net.labymod.api.LabyModAddon;
 import net.labymod.gui.elements.DropDownMenu;
+import net.labymod.main.LabyMod;
 import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
@@ -80,6 +81,7 @@ public class StatsAddon extends LabyModAddon {
                         try {
                             Thread.sleep(2000);
                             new VersionChecker();
+                            LabyMod.getInstance().displayMessageInChat(getPrefix() + "\u00A77Das Webinterface ist hier erreichbar: \u00A78[\u00A7bhttp://localhost:" + getWebserver().getWebserver().getAddress().getPort() + "\u00A78]");
                         } catch (InterruptedException exception) {
                             exception.printStackTrace();
                         }

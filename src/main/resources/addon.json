@@ -2,7 +2,7 @@
   "uuid": "%uuid%",
   "name": "StatsAddon",
   "mainClass": "com.voxcrafterlp.statsaddon.StatsAddon",
-  "description": "This addon automatically checks player stats in the available gamemodes. It warns the player from playing against too good players.",
+  "description": "Dieses Addon prüft automatisch die Stats von gegnerischen Spielern und warnt dich. GitHub: https://github.com/Lezurex/LabyCookies",
   "version": 1,
   "author": "VoxCrafter_LP & Lezurex",
   "category": 2,
