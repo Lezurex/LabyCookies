@@ -3,12 +3,14 @@ import Contents from "./components/Contents.js";
 import Page from "./objects/Page.js";
 import Stats from "./components/pages/Stats.js";
 import Alert from "./components/Alert.js";
+import QRCodePage from "./components/pages/QRCodePage.js";
 
 const app = Vue.createApp({
     data() {
         return {
             pages: [
                 new Page("Übersicht", "<i class=\"ip ip-grid\"></i>"),
+                new Page("QR-Code", "<i class=\"ip ip-wlan-full\"></i>"),
                 new Page("Coming soon", "<i class=\"ip ip-clock\"></i>")
             ],
             currentPage: undefined,
@@ -47,5 +49,6 @@ app.component("sidebar", Sidebar);
 app.component("contents", Contents);
 app.component("stats", Stats);
 app.component("alert", Alert);
+app.component("qrcode", QRCodePage);
 
 const mountedApp = app.mount("#app");

@@ -62,6 +62,8 @@ export default {
             })
             request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             request.send(JSON.stringify({i: 0}));
+            let timeout = 500;
+            window.location.hostname === "localhost" ? timeout = 500 : timeout = 2000;
             setTimeout(this.requestStats, 500);
         },
         isDangerous(player) {

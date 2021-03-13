@@ -75,5 +75,6 @@ public class APIHandler implements HttpHandler {
 
     private void initActionHandlers() {
         actionHandlers.put("stats", new StatsHandler());
+        actionHandlers.put("ip", new IPHandler());
     }
 }
