@@ -66,8 +66,8 @@ public class APIHandler implements HttpHandler {
 
         OutputStream os = httpExchange.getResponseBody();
 
-        httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json"));
-        httpExchange.sendResponseHeaders(httpCode, response.getBytes(StandardCharsets.UTF_8).length);
+        httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json;charset=ISO-8859-1"));
+        httpExchange.sendResponseHeaders(httpCode, 0);
 
         os.write(response.getBytes());
         os.close();

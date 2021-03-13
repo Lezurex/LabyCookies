@@ -71,7 +71,6 @@ export default {
             return '';
         },
         getCSSColor(player) {
-            console.log(player.prefix);
             if (player.prefix.length > 2) {
                 if (player.prefix.includes("Content") ||
                     player.prefix.includes("Suprem") ||
