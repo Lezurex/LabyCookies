@@ -54,6 +54,7 @@ public class MessageReceiveEventHandler {
                 }
                 if(isHiddenMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
+                    LabyMod.getInstance().displayMessageInChat("Is hidden");
                     if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setStatsHidden(true);
 
@@ -136,8 +137,10 @@ public class MessageReceiveEventHandler {
     }
 
     private boolean isHiddenMessage(String message) {
-        return (message.contains("The statistics of this player are hidden") || message.contains("Die Statistiken von diesem Spieler sind versteckt") ||
-                message.contains("D'Statistiken vun dësem Spiller sinn verstoppt") ||message.contains("D'Statistike vo dem Spieler sind versteckt"));
+        return (message.contains("The statistics of this player are hidden") ||
+                message.contains("Die Statistiken von diesem Spieler sind versteckt") ||
+                message.contains("D'Statistiken vun dësem Spiller sinn verstoppt") || message.contains("D'Statistike von dem Spieler sind versteckt") ||
+                message.contains("D'Statistike vo dem Spieler sind versteckt"));
     }
 
     private boolean isStatsNotFoundMessage(String message) {
