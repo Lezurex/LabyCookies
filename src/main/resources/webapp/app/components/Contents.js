@@ -8,6 +8,7 @@ export default {
     <main>
         <h1>{{currentPage.name}}</h1>
         <stats @emitalert="emitAlert" v-if="currentPage.name === 'Übersicht'"></stats>
+        <qrcode v-else-if="currentPage.name === 'QR-Code'"></qrcode>
     </main>
     `,
     methods: {
