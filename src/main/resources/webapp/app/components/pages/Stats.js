@@ -18,6 +18,10 @@ export default {
             <span v-else>Rang: -</span>
             <span v-if="player.winRate >= 0">Winrate: {{ player.winRate }}%</span>
             <span v-else>Winrate: -</span>
+            <span v-if="player.playedGames >= 0">Spiele: {{ player.playedGames }}</span>
+            <span v-else>Spiele: -</span>
+            <span v-if="player.wins >= 0">Wins: {{ player.wins }}</span>
+            <span v-else>Wins: -</span>
           </div>
           <span v-else>Stats versteckt!</span>
           <span v-if="player.nickProbability >= 45">

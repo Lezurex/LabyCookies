@@ -19,6 +19,8 @@ export default class Player {
     warned;
     rank;
     winRate;
+    playedGames;
+    wins;
     statsHidden;
     nickProbability;
     prefix;
@@ -30,15 +32,19 @@ export default class Player {
      * @param warned {boolean} Whether or not the player has been warned
      * @param rank {number} Position of the player in ranking
      * @param winRate {number} WinRate of the player
+     * @param playedGames {number} Number of games played
+     * @param wins {number} Number of wins
      * @param statsHidden {boolean} Whether or not the player has hidden his stats
      * @param nickProbability {number} Probability from 0 to 100 of the player being nicked
      * @param prefix {string} The team prefix of the player
      */
-    constructor(playerName, warned, rank, winRate, statsHidden, nickProbability, prefix) {
+    constructor(playerName, warned, rank, winRate, playedGames, wins, statsHidden, nickProbability, prefix) {
         this.playerName = playerName;
         this.warned = warned;
         this.rank = rank;
         this.winRate = winRate;
+        this.playedGames = playedGames;
+        this.wins = wins;
         this.statsHidden = statsHidden;
         this.nickProbability = nickProbability;
         this.prefix = prefix;
@@ -86,6 +92,6 @@ export default class Player {
      * @returns {Player} New instance of a {@link Player} with the attributes set to the object's values
      */
     static fromObject(obj) {
-        return new Player(obj.name, obj.warned, obj.rank, obj.winRate, obj.statsHidden, obj.nickProbability, obj.prefix);
+        return new Player(obj.name, obj.warned, obj.rank, obj.winRate, obj.playedGames, obj.wins, obj.statsHidden, obj.nickProbability, obj.prefix);
     }
 }

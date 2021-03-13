@@ -79,48 +79,100 @@ public class MessageReceiveEventHandler {
                         if (unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
                         }
-                        if (unFormatted.toLowerCase().contains("ranking:") && unFormatted.startsWith(" ")) {
-                            String[] content = formatted.split("\u00A7e");
-                            if (content.length != 2) return;
+                        if (unFormatted.startsWith(" ")) {
+                            if (unFormatted.contains("%")) {
+                                String[] content = formatted.split("\u00A7e");
+                                if (content.length != 2) return;
 
-                            if (!content[1].contains("-")) {
-                                int rank = Integer.parseInt(content[1]
-                                        .replace("\u00A7e", "")
-                                        .replace(" ", "")
-                                        .replace(".", "")
-                                        .replace(",", "")
-                                        .replace("'", "")
-                                        .replace("\u00A7r", "")
-                                        .replace("`", "")
-                                        .replace("’", ""));
+                                if (!content[1].contains("-")) {
+                                    double winrate = Double.parseDouble(content[1]
+                                            .replace("\u00A7e", "")
+                                            .replace(" ", "")
+                                            .replace("\u00A7r", "")
+                                            .replace("%", ""));
 
-
-                                final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
-                                playerStats.setRank(rank);
-                                playerStats.setChecked(true);
-                                playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
-
-                                if (!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
+                                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                    playerStats.setWinRate(winrate);
+                                    playerStats.setChecked(true);
+                                    playerStats.performStatsAnalysis(PlayerStats.AlertType.WINRATE);
                                     playerStats.performNickCheck();
-                            }
-                        }
-                        if (unFormatted.toLowerCase().contains("%") && unFormatted.startsWith(" ")) {
-                            String[] content = formatted.split("\u00A7e");
-                            if (content.length != 2) return;
+                                }
+                            } else if (unFormatted.toLowerCase().contains("ranking:")) {
+                                String[] content = formatted.split("\u00A7e");
+                                if (content.length != 2) return;
 
-                            if (!content[1].contains("-")) {
-                                double winrate = Double.parseDouble(content[1]
-                                        .replace("\u00A7e", "")
-                                        .replace(" ", "")
-                                        .replace("\u00A7r", "")
-                                        .replace("%", ""));
+                                if (!content[1].contains("-")) {
+                                    int rank = Integer.parseInt(content[1]
+                                            .replace("\u00A7e", "")
+                                            .replace(" ", "")
+                                            .replace(".", "")
+                                            .replace(",", "")
+                                            .replace("'", "")
+                                            .replace("\u00A7r", "")
+                                            .replace("`", "")
+                                            .replace("’", ""));
 
-                                final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
-                                playerStats.setWinRate(winrate);
-                                playerStats.setChecked(true);
-                                playerStats.performStatsAnalysis(PlayerStats.AlertType.WINRATE);
-                                playerStats.performNickCheck();
+
+                                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                    playerStats.setRank(rank);
+                                    playerStats.setChecked(true);
+                                    playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
+
+                                    if (!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
+                                        playerStats.performNickCheck();
+                                }
+                            } else if (unFormatted.toLowerCase().contains("played") ||
+                                    unFormatted.toLowerCase().contains("gspielt") ||
+                                    unFormatted.toLowerCase().contains("gspüte") ||
+                                    unFormatted.toLowerCase().contains("gespielte") ||
+                                    unFormatted.toLowerCase().contains("gespillte")
+                            ) {
+                                String[] content = formatted.split("\u00A7e");
+                                if (content.length != 2) return;
+
+                                if (!content[1].contains("-")) {
+                                    int playedGames = Integer.parseInt(content[1]
+                                            .replace("\u00A7e", "")
+                                            .replace(" ", "")
+                                            .replace(".", "")
+                                            .replace(",", "")
+                                            .replace("'", "")
+                                            .replace("\u00A7r", "")
+                                            .replace("`", "")
+                                            .replace("’", ""));
+
+
+                                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                    playerStats.setPlayedGames(playedGames);
+                                    playerStats.setChecked(true);
+                                }
+                            } else if (unFormatted.toLowerCase().contains("won") ||
+                                    unFormatted.toLowerCase().contains("gwunne") ||
+                                    unFormatted.toLowerCase().contains("gwunnene") ||
+                                    unFormatted.toLowerCase().contains("gewonnene") ||
+                                    unFormatted.toLowerCase().contains("gewonnen")
+                            ) {
+                                String[] content = formatted.split("\u00A7e");
+                                if (content.length != 2) return;
+
+                                if (!content[1].contains("-")) {
+                                    int wins = Integer.parseInt(content[1]
+                                            .replace("\u00A7e", "")
+                                            .replace(" ", "")
+                                            .replace(".", "")
+                                            .replace(",", "")
+                                            .replace("'", "")
+                                            .replace("\u00A7r", "")
+                                            .replace("`", "")
+                                            .replace("’", ""));
+
+
+                                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                    playerStats.setWins(wins);
+                                    playerStats.setChecked(true);
+                                }
                             }
+
                         }
                     }).start();
                 }

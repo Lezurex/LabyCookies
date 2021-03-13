@@ -32,6 +32,8 @@ public class PlayerStats {
         this.warned = false;
         this.rank = -1;
         this.winRate = -1.0;
+        this.playedGames = -1;
+        this.wins = -1;
         this.nickProbability = 0;
         this.playerName = playerInfo.getGameProfile().getName();
         this.nickChecker = new NickChecker(this);
@@ -163,6 +165,19 @@ public class PlayerStats {
         return ((days == 30) ? "stats " + playerName : "statsd " + days + " " + playerName);
     }
 
+    public double getWinRate() {
+        if (this.winRate == -1) {
+            if (this.wins != -1 && this.playedGames != -1) {
+                return Math.round((double) (this.wins / this.playedGames) * 100);
+            }
+            else {
+                return -1;
+            }
+        } else {
+            return this.winRate;
+        }
+    }
+
     /**
      * Converts the most important information into a {@link JsonObject}
      * @return {@link JsonObject} object with all the necessary information for the website
@@ -172,7 +187,9 @@ public class PlayerStats {
         jsonObject.addProperty("name", this.playerName);
         jsonObject.addProperty("warned", this.warned);
         jsonObject.addProperty("rank", this.rank);
-        jsonObject.addProperty("winRate", this.winRate);
+        jsonObject.addProperty("winRate", getWinRate());
+        jsonObject.addProperty("playedGames", this.playedGames);
+        jsonObject.addProperty("wins", this.wins);
         jsonObject.addProperty("statsHidden", this.statsHidden);
         jsonObject.addProperty("nickProbability", this.nickProbability);
         jsonObject.addProperty("prefix", this.playerInfo.getPlayerTeam().getColorPrefix());
