@@ -23,7 +23,7 @@ public class PlayerStats {
     private final String playerName;
     private NickChecker nickChecker;
     private boolean checked, warned, statsHidden;
-    private int rank;
+    private int rank, playedGames, wins;
     private double winRate, nickProbability;
 
     public PlayerStats(NetworkPlayerInfo playerInfo) {

@@ -36,7 +36,7 @@ public class MessageReceiveEventHandler {
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
-                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName)  && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()))
+                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName)  && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) && !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase().contains("party"))
                                 StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
                         });
                     }).start();
@@ -147,6 +147,6 @@ public class MessageReceiveEventHandler {
 
     private boolean isStatsMessage(String message) {
         System.out.println(message);
-        return message.startsWith("-= ") || message.startsWith(" ") || message.equals("---------------------");
+        return message.startsWith("-= ") || (message.startsWith(" ") && !message.startsWith("  ")) || message.contains("------");
     }
 }
