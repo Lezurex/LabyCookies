@@ -136,6 +136,7 @@ main {
     border: .1rem solid var(--bg-primary);
     border-radius: .5rem;
     padding: 1rem;
+    min-width: 20rem;
 }
 
 .overview-card.warned {
