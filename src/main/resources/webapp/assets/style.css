@@ -142,29 +142,13 @@ main {
     background-color: darkred;
 }
 
-/* Small screens */
-@media only screen and (max-width: 600px) {
-    .sidenavbar {
-        bottom: 0;
-        width: 100vw;
-        height: 5rem;
-    }
+.overview-card.hidden {
+    background-color: darkgoldenrod;
+    color: var(--bg-primary);
+}
 
-    .logo {
-        display: none;
-    }
-
-    .sidenavbar-nav {
-        flex-direction: row;
-    }
-
-    .sidenav-link {
-        justify-content: center;
-    }
-
-    main {
-        margin: 0;
-    }
+.overview-card.nicked {
+    background-color: purple;
 }
 
 .notification {
@@ -197,6 +181,31 @@ main {
 
 #qr-description {
     max-width: 800px;
+}
+
+/* Small screens */
+@media only screen and (max-width: 600px) {
+    .sidenavbar {
+        bottom: 0;
+        width: 100vw;
+        height: 5rem;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .sidenavbar-nav {
+        flex-direction: row;
+    }
+
+    .sidenav-link {
+        justify-content: center;
+    }
+
+    main {
+        margin: 0;
+    }
 }
 
 /* Large screens */

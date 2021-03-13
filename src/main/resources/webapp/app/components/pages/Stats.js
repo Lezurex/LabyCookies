@@ -18,18 +18,18 @@ export default {
     },
     template: `
       <div class="overview-container">
-      <div v-for="player in players" class="overview-card" :class="isDangerous(player)">
+      <div v-for="player in players" class="overview-card" :class="calcCardColor(player)">
         <img :src="'https://minotar.net/helm/' + player.playerName" :alt="player.playerName">
         <div class="overview-info">
           <b :style="getCSSColor(player)">{{ player.playerName }}</b>
-          <div v-if="!player.statsHidden && player.nickProbability < 45">
+          <div v-if="!player.statsHidden">
             <span v-if="player.rank > 0">Rang: {{ player.rank }}</span>
             <span v-else>Rang: -</span>
             <span v-if="player.winRate >= 0">Winrate: {{ player.winRate }}%</span>
             <span v-else>Winrate: -</span>
           </div>
-          <span v-else-if="player.isHidden">Stats versteckt!</span>
-          <span v-else-if="player.nickProbability >= 45">
+          <span v-else>Stats versteckt!</span>
+          <span v-if="player.nickProbability >= 45">
             <span v-if="player.nickProbability === 100">Genickter Spieler!</span>
             <span v-else>Spieler zu {{ player.nickProbability }}% genickt!</span>
           </span>
@@ -66,9 +66,13 @@ export default {
             window.location.hostname === "localhost" ? timeout = 500 : timeout = 2000;
             setTimeout(this.requestStats, 500);
         },
-        isDangerous(player) {
-            if (player.warned || player.isHidden || player.nickProbability >= 45) {
+        calcCardColor(player) {
+            if (player.warned) {
                 return 'warned';
+            } else if (player.statsHidden) {
+                return 'hidden';
+            } else if (player.nickProbability >= 45) {
+                return 'nicked';
             }
             return '';
         },
