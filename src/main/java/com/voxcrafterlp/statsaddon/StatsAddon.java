@@ -64,29 +64,29 @@ public class StatsAddon extends LabyModAddon {
     @Override
     public void onEnable() {
         // PreRelease Checker
-        boolean isValidUUID = false;
-        String uuid = null;
-        while (uuid == null) {
-            try {
-                uuid = LabyMod.getInstance().getPlayerUUID().toString();
-            } catch (NullPointerException exception) {
-
-            }
-        }
-        System.out.println("User UUID is: " + uuid);
-        for (String candidate : allowedPreReleaseUUIDs) {
-            System.out.println("Checking UUID: " + candidate);
-            if (candidate.equals(uuid)) {
-                isValidUUID = true;
-                System.out.println("Breaking.");
-                break;
-            }
-        }
-
-        if (!isValidUUID) {
-            System.out.println("Addon not loading. PreRelease violation found!");
-            return;
-        }
+//        boolean isValidUUID = false;
+//        String uuid = null;
+//        while (uuid == null) {
+//            try {
+//                uuid = LabyMod.getInstance().getPlayerUUID().toString();
+//            } catch (NullPointerException exception) {
+//
+//            }
+//        }
+//        System.out.println("User UUID is: " + uuid);
+//        for (String candidate : allowedPreReleaseUUIDs) {
+//            System.out.println("Checking UUID: " + candidate);
+//            if (candidate.equals(uuid)) {
+//                isValidUUID = true;
+//                System.out.println("Breaking.");
+//                break;
+//            }
+//        }
+//
+//        if (!isValidUUID) {
+//            System.out.println("Addon not loading. PreRelease violation found!");
+//            return;
+//        }
         // PreRelease Checker end
 
         instance = this;

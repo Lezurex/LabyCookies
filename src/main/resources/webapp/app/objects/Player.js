@@ -74,7 +74,7 @@ export default class Player {
                 return "";
             }
             let substr = this.prefix.substr(0, 2);
-            return "color: " + self.colorMap[substr];
+            return "color: " + Player.colorMap[substr];
         } else {
             return "";
         }
