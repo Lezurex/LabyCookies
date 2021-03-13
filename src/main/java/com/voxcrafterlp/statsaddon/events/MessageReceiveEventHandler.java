@@ -41,8 +41,10 @@ public class MessageReceiveEventHandler {
                                     !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
                                             .replace("i", "y")
                                             .replace("á", "a")
-                                            .contains("party"))
+                                            .contains("party") && playerName.equals(getNameFromJoinLine(unFormatted))) {
                                 StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
+                                LabyMod.getInstance().displayMessageInChat("Added player " + loadedPlayer.getGameProfile().getName() + " to queue. (Message Handler)");
+                            }
                         });
                     }).start();
                 }
@@ -134,6 +136,25 @@ public class MessageReceiveEventHandler {
             return words[3].replace("\u00A76", "");
         }
         return null;
+    }
+
+    /**
+     * Extracts the player name form the join message
+     * @param string Unformatted chat message (without color codes)
+     * @return Extracted player name
+     */
+    private String getNameFromJoinLine(String string) {
+        string = string.replace("» ", "");
+        StringBuilder playerName = new StringBuilder();
+        for (int i = 0; i < string.length() - 1; i++) {
+            char c = string.charAt(i);
+            if (c == ' ') {
+                break;
+            }
+            playerName.append(c);
+        }
+        LabyMod.getInstance().displayMessageInChat(playerName.toString());
+        return playerName.toString();
     }
 
     private boolean hasGamemodeWinrateSupport(String gamemode) {

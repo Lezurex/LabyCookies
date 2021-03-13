@@ -40,8 +40,10 @@ public class ServerMessageEvent {
                                             !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
                                                     .replace("i", "y")
                                                     .replace("á", "a")
-                                                    .contains("party"))
+                                                    .contains("party")) {
                                         StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats(loadedPlayer));
+                                        LabyMod.getInstance().displayMessageInChat("Added player " + loadedPlayer.getGameProfile().getName() + " to queue. (Join Handler)");
+                                    }
                                 });
                             }).start();
                         } else {
