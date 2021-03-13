@@ -14,15 +14,15 @@ public class ServerMessageEvent {
         StatsAddon.getInstance().getApi().getEventManager().register(new net.labymod.api.events.ServerMessageEvent() {
             @Override
             public void onServerMessage(String s, JsonElement jsonElement) {
-                if(!StatsAddon.getInstance().isEnabled()) return;
-                if(!StatsAddon.getInstance().isOnline()) return;
+                if (!StatsAddon.getInstance().isEnabled()) return;
+                if (!StatsAddon.getInstance().isOnline()) return;
 
-                if(jsonElement.getAsJsonObject().has("game_mode")) {
-                    if(!StatsAddon.getInstance().isLmcDoubled()) {
+                if (jsonElement.getAsJsonObject().has("game_mode")) {
+                    if (!StatsAddon.getInstance().isLmcDoubled()) {
                         StatsAddon.getInstance().setLmcDoubled(true);
 
                         String name = jsonElement.getAsJsonObject().get("game_mode").getAsString().toLowerCase();
-                        if(isAvailableGamemode(name)) {
+                        if (isAvailableGamemode(name)) {
                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Das StatsAddon wurde \u00A7aaktiviert\u00A78.");
                             StatsAddon.getInstance().clearCache();
                             StatsAddon.getInstance().getStatsChecker().startChecker();
@@ -35,7 +35,12 @@ public class ServerMessageEvent {
                                 }
 
                                 LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
-                                    if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(loadedPlayer.getGameProfile().getName()) && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) && !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase().contains("party"))
+                                    if (!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(loadedPlayer.getGameProfile().getName()) &&
+                                            !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
+                                            !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
+                                                    .replace("i", "y")
+                                                    .replace("á", "a")
+                                                    .contains("party"))
                                         StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats(loadedPlayer));
                                 });
                             }).start();
@@ -55,11 +60,11 @@ public class ServerMessageEvent {
         AtomicBoolean exists = new AtomicBoolean(false);
 
         StatsAddon.getInstance().getEnabledGamemods().forEach((string, enabled) -> {
-            if(name.toLowerCase().startsWith(string.toLowerCase()))
+            if (name.toLowerCase().startsWith(string.toLowerCase()))
                 exists.set(true);
         });
 
-        if(!exists.get()) {
+        if (!exists.get()) {
             StatsAddon.getInstance().setCurrentGamemode(null);
             return false;
         }
@@ -67,13 +72,13 @@ public class ServerMessageEvent {
         AtomicBoolean gamemodeEnabled = new AtomicBoolean(false);
 
         StatsAddon.getInstance().getEnabledGamemods().forEach((string, enabled) -> {
-            if(name.toLowerCase().startsWith(string.toLowerCase())) {
+            if (name.toLowerCase().startsWith(string.toLowerCase())) {
                 gamemodeEnabled.set(enabled);
                 StatsAddon.getInstance().setCurrentGamemode(string);
             }
         });
 
-        if(!gamemodeEnabled.get())
+        if (!gamemodeEnabled.get())
             StatsAddon.getInstance().setCurrentGamemode(null);
 
         System.out.println("Current gamemode: " + name + " (Version: " + StatsAddon.getInstance().getCurrentVersion() + ")");
