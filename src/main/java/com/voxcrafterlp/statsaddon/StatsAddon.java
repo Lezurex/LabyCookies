@@ -51,7 +51,7 @@ public class StatsAddon extends LabyModAddon {
     @Setter
     private String currentGamemode, statsType;
     private int cooldown, rankWarnLevel, winrateWarnLevel, reloadStatsKey;
-    private boolean enabled, alertEnabled, versionCheckerEnabled;
+    private boolean enabled, alertEnabled, versionCheckerEnabled, showStatsMessages;
 
     @Override
     public void onEnable() {
@@ -117,6 +117,7 @@ public class StatsAddon extends LabyModAddon {
         this.winrateWarnLevel = this.getConfig().has("winrateWarnLevel") ? this.getConfig().get("winrateWarnLevel").getAsInt() : 40;
         this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 TAGE";
         this.reloadStatsKey = this.getConfig().has("reloadStatsKey") ? this.getConfig().get("reloadStatsKey").getAsInt() : 34; //Default: G
+        this.showStatsMessages = this.getConfig().has("showStatsMessages") && this.getConfig().get("showStatsMessages").getAsBoolean();
 
         this.getGamemodes().forEach((string, material) -> {
             if(enabledGamemods.containsKey(string))
@@ -196,6 +197,14 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }));
+        list.add(new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData(Material.EMPTY_MAP), new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean accepted) {
+                showStatsMessages = accepted;
+                getConfig().addProperty("showStatsMessages", accepted);
+                saveConfig();
+            }
+        }, this.showStatsMessages));
 
         DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstyp", 0, 0, 0, 0)
                 .fill(new String[]{"STATSALL", "STATS 30 TAGE", "STATS 20 TAGE", "STATS 15 TAGE",
