@@ -4,6 +4,7 @@ import Page from "./objects/Page.js";
 import Stats from "./components/pages/Stats.js";
 import Alert from "./components/Alert.js";
 import QRCodePage from "./components/pages/QRCodePage.js";
+import Info from "./components/pages/Info.js";
 
 const app = Vue.createApp({
     data() {
@@ -11,7 +12,7 @@ const app = Vue.createApp({
             pages: [
                 new Page("Übersicht", "<i class=\"ip ip-grid\"></i>"),
                 new Page("QR-Code", "<i class=\"ip ip-wlan-full\"></i>"),
-                new Page("Coming soon", "<i class=\"ip ip-clock\"></i>")
+                new Page("Info", "<i class=\"ip ip-github\"></i>")
             ],
             currentPage: undefined,
             alert: {
@@ -50,5 +51,6 @@ app.component("contents", Contents);
 app.component("stats", Stats);
 app.component("alert", Alert);
 app.component("qrcode", QRCodePage);
+app.component("info", Info);
 
 const mountedApp = app.mount("#app");

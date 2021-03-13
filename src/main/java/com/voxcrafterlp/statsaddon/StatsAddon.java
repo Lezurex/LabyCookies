@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This file was created by VoxCrafter_LP & Lezurex!
+ * This file was created by VoxCrafter_LP and Lezurex!
  * Date: 06.09.2020
  * Time: 15:39
  * For Project: Labymod Stats Addon

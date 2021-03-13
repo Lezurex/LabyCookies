@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.StringUtils;
 
 /**
- * This file was created by VoxCrafter_LP & Lezurex!
+ * This file was created by VoxCrafter_LP and Lezurex!
  * Date: 06.09.2020
  * Time: 16:51
  * For Project: Labymod Stats Addon

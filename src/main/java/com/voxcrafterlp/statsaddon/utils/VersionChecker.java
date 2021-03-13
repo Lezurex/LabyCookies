@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * This file was created by VoxCrafter_LP & Lezurex!
+ * This file was created by VoxCrafter_LP and Lezurex!
  * Date: 31.12.2020
  * Time: 11:59
  * Project: LabyCookies
