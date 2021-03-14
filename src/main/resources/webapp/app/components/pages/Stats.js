@@ -22,6 +22,8 @@ export default {
             <span v-else>Spiele: -</span>
             <span v-if="player.wins >= 0">Wins: {{ player.wins }}</span>
             <span v-else>Wins: -</span>
+            <span v-if="player.cookies >= 0">Cookies: {{ player.cookies }}</span>
+            <span v-if="player.cookiesPerGame >= 0">Cookies/Spiel: {{ player.cookiesPerGame }}</span>
           </div>
           <span v-else>Stats versteckt!</span>
           <span v-if="player.nickProbability >= 45">

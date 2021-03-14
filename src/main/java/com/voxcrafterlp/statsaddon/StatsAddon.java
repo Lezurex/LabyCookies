@@ -58,7 +58,7 @@ public class StatsAddon extends LabyModAddon {
 
     @Setter
     private String currentGamemode, statsType;
-    private int cooldown, rankWarnLevel, winrateWarnLevel, reloadStatsKey;
+    private int cooldown, rankWarnLevel, winrateWarnLevel, cookiesPerGameWarnLevel, reloadStatsKey;
     private boolean enabled, alertEnabled, versionCheckerEnabled, showStatsMessages;
 
     @Override
@@ -150,6 +150,7 @@ public class StatsAddon extends LabyModAddon {
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.rankWarnLevel = this.getConfig().has("rankWarnLevel") ? this.getConfig().get("rankWarnLevel").getAsInt() : 100;
         this.winrateWarnLevel = this.getConfig().has("winrateWarnLevel") ? this.getConfig().get("winrateWarnLevel").getAsInt() : 40;
+        this.cookiesPerGameWarnLevel = this.getConfig().has("cookiesPerGameWarnLevel") ? this.getConfig().get("cookiesPerGameWarnLevel").getAsInt() : 1000;
         this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 TAGE";
         this.reloadStatsKey = this.getConfig().has("reloadStatsKey") ? this.getConfig().get("reloadStatsKey").getAsInt() : 34; //Default: G
         this.showStatsMessages = !this.getConfig().has("showStatsMessages") || this.getConfig().get("showStatsMessages").getAsBoolean();
@@ -205,6 +206,16 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(winrateWarnLevelElement);
+        NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData(Material.COOKIE), this.cookiesPerGameWarnLevel);
+        cookiesPerGameWarnLevelElement.addCallback(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) {
+                cookiesPerGameWarnLevel = integer;
+                getConfig().addProperty("cookiesPerGameWarnLevel", integer);
+                saveConfig();
+            }
+        });
+        list.add(cookiesPerGameWarnLevelElement);
         list.add(new BooleanElement("Alarm", new ControlElement.IconData(Material.NOTE_BLOCK), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {

@@ -7,6 +7,10 @@ import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This file was created by VoxCrafter_LP and Lezurex!
  * Date: 06.09.2020
@@ -93,7 +97,6 @@ public class MessageReceiveEventHandler {
                                     final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
                                     playerStats.setWinRate(winrate);
                                     playerStats.setChecked(true);
-                                    playerStats.performStatsAnalysis(PlayerStats.AlertType.WINRATE);
                                     playerStats.performNickCheck();
                                 }
                             } else if (unFormatted.toLowerCase().contains("ranking:")) {
@@ -115,7 +118,6 @@ public class MessageReceiveEventHandler {
                                     final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
                                     playerStats.setRank(rank);
                                     playerStats.setChecked(true);
-                                    playerStats.performStatsAnalysis(PlayerStats.AlertType.RANK);
 
                                     if (!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
                                         playerStats.performNickCheck();
@@ -169,9 +171,47 @@ public class MessageReceiveEventHandler {
                                     final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
                                     playerStats.setWins(wins);
                                     playerStats.setChecked(true);
+                                    playerStats.performStatsAnalysis();
+                                }
+                            } else if (unFormatted.toLowerCase().contains("cookies")) {
+                                List<String> content = Arrays.asList(formatted.split("\u00A7e"));
+                                if (content.size() > 3) return;
+
+                                if (!content.get(1).contains("-")) {
+
+                                    int cookies = -1;
+                                    int index = 1;
+                                    if (content.size() == 3)
+                                        index = 2;
+                                    String formattedContent = content.get(index)
+                                            .replace("\u00A7e", "")
+                                            .replace(" ", "")
+                                            .replace(",", "")
+                                            .replace("'", "")
+                                            .replace("\u00A7r", "")
+                                            .replace("`", "")
+                                            .replace("’", "");
+                                    try {
+                                        if (formattedContent.toLowerCase().contains("tsd") ||
+                                                formattedContent.toLowerCase().contains("thous") ||
+                                                formattedContent.toLowerCase().contains("dausend")) {
+                                            String string = formattedContent.toLowerCase()
+                                                    .replace("tsd.", "")
+                                                    .replace("thous.", "")
+                                                    .replace("dausend.", "");
+                                            cookies = (int) Math.round(Double.parseDouble(string) * 1000);
+                                        } else {
+                                            cookies = Integer.parseInt(formattedContent);
+                                        }
+                                    } catch (Exception exception) {
+                                        exception.printStackTrace();
+                                    }
+
+                                    final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(lastPlayerName);
+                                    playerStats.setCookies(cookies);
+                                    playerStats.setChecked(true);
                                 }
                             }
-
                         }
                     }).start();
                 }
@@ -191,6 +231,7 @@ public class MessageReceiveEventHandler {
 
     /**
      * Extracts the player name form the join message
+     *
      * @param string Unformatted chat message (without color codes)
      * @return Extracted player name
      */
