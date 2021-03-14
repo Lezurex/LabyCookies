@@ -63,10 +63,10 @@ public class VersionChecker {
 
                     String downloadUrl;
 
-                    if(Minecraft.getMinecraft().getVersion().contains("1.8"))
+                    if(Minecraft.getMinecraft().getVersion().contains("1.8")) {
                         downloadUrl = jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
-                    else {
-                        if(jsonElement.getAsJsonObject().get("assets").getAsJsonArray().get(1).getAsJsonObject() == null) {
+                    } else {
+                        if(jsonElement.getAsJsonObject().get("assets").getAsJsonArray().size() < 2) {
                             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77 Momentan ist \u00A7ckeine neue Version \u00A77für die 1.12.2 verfügbar\u00A78.");
                             return;
                         } else
