@@ -39,9 +39,8 @@ export default {
       </div>
       <div v-if="stats1d !== undefined" class="stats-card">
         <h2>1 Tag</h2>
-        <span v-if="stats1d.rank === -1">Lädt...</span>
+        <span v-if="stats1d.winRate === -1">Lädt...</span>
         <span v-else>
-          <span>Rang: {{ stats1d.rank }}</span>
           <span>Winrate: {{ stats1d.winRate }}</span>
           <span>Spiele: {{ stats1d.playedGames }}</span>
           <span>Wins: {{ stats1d.wins }}</span>
