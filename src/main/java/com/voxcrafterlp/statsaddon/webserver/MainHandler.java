@@ -16,9 +16,8 @@ public class MainHandler implements HttpHandler {
         String path = httpExchange.getRequestURI().getPath();
 
         // Convert ending slash to index.html in this directory
-        if (path.endsWith("/")) {
+        if (path.endsWith("/"))
             path = path + "index.html";
-        }
 
         Resource resource = null;
 
@@ -28,22 +27,22 @@ public class MainHandler implements HttpHandler {
             exception.printStackTrace();
         }
 
-        OutputStream os = httpExchange.getResponseBody();
+        final OutputStream outputStream = httpExchange.getResponseBody();
 
         if (resource == null) {
             String response = "<h1>404 Resource not found</h1>";
             httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("text/html"));
             httpExchange.sendResponseHeaders(404, response.getBytes(StandardCharsets.UTF_8).length);
-            os.write(response.getBytes());
+            outputStream.write(response.getBytes());
         } else {
             httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList(resource.getMime()));
             httpExchange.sendResponseHeaders(200, 0);
-            copyIStoOS(resource.getStream(), os);
+            copyIStoOS(resource.getStream(), outputStream);
         }
-        os.close();
+        outputStream.close();
     }
 
-    public void copyIStoOS(InputStream in, OutputStream out) throws IOException {
+    private void copyIStoOS(InputStream in, OutputStream out) throws IOException {
         byte[] buf = new byte[8192];
         int length;
         while ((length = in.read(buf)) > 0) {

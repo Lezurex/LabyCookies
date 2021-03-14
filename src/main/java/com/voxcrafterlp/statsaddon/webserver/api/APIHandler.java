@@ -21,24 +21,26 @@ public class APIHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        if (actionHandlers.size() == 0) {
-            initActionHandlers();
-        }
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(httpExchange.getRequestBody()));
+        if(actionHandlers.size() == 0)
+            initActionHandlers();
+
+        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpExchange.getRequestBody()));
+        
         int c = 0;
-        StringBuilder request = new StringBuilder();
-        while ((c = br.read()) != -1) {
+        final StringBuilder request = new StringBuilder();
+        while ((c = bufferedReader.read()) != -1) {
             request.append((char) c);
         }
 
-        String path = httpExchange.getRequestURI().getPath();
-        ArrayList<String> pathParts = WebUtils.getPathParts(path);
+        final String path = httpExchange.getRequestURI().getPath();
+        final List<String> pathParts = WebUtils.getPathParts(path);
 
-        String entryPoint = pathParts.get(1);
+        final String entryPoint = pathParts.get(1);
         ActionHandler actionHandler;
         String response = "";
         int httpCode = 200;
+
         try {
             actionHandler = actionHandlers.get(entryPoint.toLowerCase(Locale.ROOT));
             JsonObject jsonObject = new JsonParser().parse(request.toString()).getAsJsonObject();
@@ -64,13 +66,13 @@ public class APIHandler implements HttpHandler {
             httpCode = 400;
         }
 
-        OutputStream os = httpExchange.getResponseBody();
+        final OutputStream outputStream = httpExchange.getResponseBody();
 
         httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json;charset=ISO-8859-1"));
         httpExchange.sendResponseHeaders(httpCode, 0);
 
-        os.write(response.getBytes());
-        os.close();
+        outputStream.write(response.getBytes());
+        outputStream.close();
     }
 
     private void initActionHandlers() {

@@ -19,9 +19,7 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
-import net.minecraft.client.Minecraft;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,7 +148,7 @@ public class StatsAddon extends LabyModAddon {
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
         this.rankWarnLevel = this.getConfig().has("rankWarnLevel") ? this.getConfig().get("rankWarnLevel").getAsInt() : 100;
         this.winrateWarnLevel = this.getConfig().has("winrateWarnLevel") ? this.getConfig().get("winrateWarnLevel").getAsInt() : 40;
-        this.cookiesPerGameWarnLevel = this.getConfig().has("cookiesPerGameWarnLevel") ? this.getConfig().get("cookiesPerGameWarnLevel").getAsInt() : 1000;
+        this.cookiesPerGameWarnLevel = this.getConfig().has("cookiesPerGameWarnLevel") ? this.getConfig().get("cookiesPerGameWarnLevel").getAsInt() : 1200;
         this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 TAGE";
         this.reloadStatsKey = this.getConfig().has("reloadStatsKey") ? this.getConfig().get("reloadStatsKey").getAsInt() : 34; //Default: G
         this.showStatsMessages = !this.getConfig().has("showStatsMessages") || this.getConfig().get("showStatsMessages").getAsBoolean();
@@ -206,7 +204,7 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(winrateWarnLevelElement);
-        NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData(Material.COOKIE), this.cookiesPerGameWarnLevel);
+        NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData("labymod/textures/addons/statsaddon/cookiesAlert.png"), this.cookiesPerGameWarnLevel);
         cookiesPerGameWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {

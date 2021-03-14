@@ -26,10 +26,10 @@ public class MessageReceiveEventHandler {
         StatsAddon.getInstance().getApi().getEventManager().register(new MessageReceiveEvent() {
             @Override
             public boolean onReceive(String formatted, String unFormatted) {
-                if (!StatsAddon.getInstance().isEnabled()) return false;
-                if (!StatsAddon.getInstance().isOnline()) return false;
+                if(!StatsAddon.getInstance().isEnabled()) return false;
+                if(!StatsAddon.getInstance().isOnline()) return false;
 
-                if (StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
+                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("»") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     new Thread(() -> {
                         try {
                             Thread.sleep(StatsAddon.getInstance().getCooldown());
@@ -40,7 +40,7 @@ public class MessageReceiveEventHandler {
                         Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
-                            if (!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
+                            if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
                                     !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
                                     !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
                                             .replace("i", "y")
@@ -52,7 +52,7 @@ public class MessageReceiveEventHandler {
                     }).start();
                 }
 
-                if (StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("«") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
+                if(StatsAddon.getInstance().getCurrentGamemode() != null && unFormatted.contains("«") && !unFormatted.contains(LabyMod.getInstance().getPlayerName())) {
                     final String playerName = StringUtils.stripControlCodes(unFormatted.split(" ")[1]);
                     final PlayerStats playerStats = StatsAddon.getInstance().getLoadedPlayerStats().get(playerName);
 
@@ -62,33 +62,33 @@ public class MessageReceiveEventHandler {
 
                     return false;
                 }
-                if (isHiddenMessage(unFormatted)) {
+                if(isHiddenMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-                    if (playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
+                    if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setStatsHidden(true);
 
                     return !StatsAddon.getInstance().isShowStatsMessages();
                 }
-                if (isStatsNotFoundMessage(unFormatted)) {
+                if(isStatsNotFoundMessage(unFormatted)) {
                     final PlayerStats playerStats = StatsAddon.getInstance().getStatsChecker().getLastRequested();
-                    if (playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
+                    if(playerStats == null) return !StatsAddon.getInstance().isShowStatsMessages();
                     playerStats.setNickProbability(100);
 
                     return !StatsAddon.getInstance().isShowStatsMessages();
                 }
 
-                if (StatsAddon.getInstance().getCurrentGamemode() != null) {
+                if(StatsAddon.getInstance().getCurrentGamemode() != null) {
                     new Thread(() -> {
-                        if (unFormatted.toLowerCase().contains("-=")) {
+                        if(unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
                         }
-                        if (unFormatted.startsWith(" ")) {
-                            if (unFormatted.contains("%")) {
-                                String[] content = formatted.split("\u00A7e");
-                                if (content.length != 2) return;
+                        if(unFormatted.startsWith(" ")) {
+                            if(unFormatted.contains("%")) {
+                                final String[] content = formatted.split("\u00A7e");
+                                if(content.length != 2) return;
 
-                                if (!content[1].contains("-")) {
-                                    double winrate = Double.parseDouble(content[1]
+                                if(!content[1].contains("-")) {
+                                    final double winrate = Double.parseDouble(content[1]
                                             .replace("\u00A7e", "")
                                             .replace(" ", "")
                                             .replace("\u00A7r", "")
@@ -99,12 +99,12 @@ public class MessageReceiveEventHandler {
                                     playerStats.setChecked(true);
                                     playerStats.performNickCheck();
                                 }
-                            } else if (unFormatted.toLowerCase().contains("ranking:")) {
-                                String[] content = formatted.split("\u00A7e");
-                                if (content.length != 2) return;
+                            } else if(unFormatted.toLowerCase().contains("ranking:")) {
+                                final String[] content = formatted.split("\u00A7e");
+                                if(content.length != 2) return;
 
-                                if (!content[1].contains("-")) {
-                                    int rank = Integer.parseInt(content[1]
+                                if(!content[1].contains("-")) {
+                                    final int rank = Integer.parseInt(content[1]
                                             .replace("\u00A7e", "")
                                             .replace(" ", "")
                                             .replace(".", "")
@@ -119,20 +119,20 @@ public class MessageReceiveEventHandler {
                                     playerStats.setRank(rank);
                                     playerStats.setChecked(true);
 
-                                    if (!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
+                                    if(!hasGamemodeWinrateSupport(StatsAddon.getInstance().getCurrentGamemode()))
                                         playerStats.performNickCheck();
                                 }
-                            } else if (unFormatted.toLowerCase().contains("played") ||
+                            } else if(unFormatted.toLowerCase().contains("played") ||
                                     unFormatted.toLowerCase().contains("gspielt") ||
                                     unFormatted.toLowerCase().contains("gspüte") ||
                                     unFormatted.toLowerCase().contains("gespielte") ||
                                     unFormatted.toLowerCase().contains("gespillte")
                             ) {
-                                String[] content = formatted.split("\u00A7e");
-                                if (content.length != 2) return;
+                                final String[] content = formatted.split("\u00A7e");
+                                if(content.length != 2) return;
 
-                                if (!content[1].contains("-")) {
-                                    int playedGames = Integer.parseInt(content[1]
+                                if(!content[1].contains("-")) {
+                                    final int playedGames = Integer.parseInt(content[1]
                                             .replace("\u00A7e", "")
                                             .replace(" ", "")
                                             .replace(".", "")
@@ -147,16 +147,16 @@ public class MessageReceiveEventHandler {
                                     playerStats.setPlayedGames(playedGames);
                                     playerStats.setChecked(true);
                                 }
-                            } else if (unFormatted.toLowerCase().contains("won") ||
+                            } else if(unFormatted.toLowerCase().contains("won") ||
                                     unFormatted.toLowerCase().contains("gwunne") ||
                                     unFormatted.toLowerCase().contains("gwunnene") ||
                                     unFormatted.toLowerCase().contains("gewonnene") ||
                                     unFormatted.toLowerCase().contains("gewonnen")
                             ) {
-                                String[] content = formatted.split("\u00A7e");
-                                if (content.length != 2) return;
+                                final String[] content = formatted.split("\u00A7e");
+                                if(content.length != 2) return;
 
-                                if (!content[1].contains("-")) {
+                                if(!content[1].contains("-")) {
                                     int wins = Integer.parseInt(content[1]
                                             .replace("\u00A7e", "")
                                             .replace(" ", "")
@@ -173,15 +173,15 @@ public class MessageReceiveEventHandler {
                                     playerStats.setChecked(true);
                                     playerStats.performStatsAnalysis();
                                 }
-                            } else if (unFormatted.toLowerCase().contains("cookies")) {
+                            } else if(unFormatted.toLowerCase().contains("cookies")) {
                                 List<String> content = Arrays.asList(formatted.split("\u00A7e"));
-                                if (content.size() > 3) return;
+                                if(content.size() > 3) return;
 
-                                if (!content.get(1).contains("-")) {
+                                if(!content.get(1).contains("-")) {
 
                                     int cookies = -1;
                                     int index = 1;
-                                    if (content.size() == 3)
+                                    if(content.size() == 3)
                                         index = 2;
                                     String formattedContent = content.get(index)
                                             .replace("\u00A7e", "")
@@ -192,17 +192,16 @@ public class MessageReceiveEventHandler {
                                             .replace("`", "")
                                             .replace("’", "");
                                     try {
-                                        if (formattedContent.toLowerCase().contains("tsd") ||
+                                        if(formattedContent.toLowerCase().contains("tsd") ||
                                                 formattedContent.toLowerCase().contains("thous") ||
                                                 formattedContent.toLowerCase().contains("dausend")) {
-                                            String string = formattedContent.toLowerCase()
+                                            final String string = formattedContent.toLowerCase()
                                                     .replace("tsd.", "")
                                                     .replace("thous.", "")
                                                     .replace("dausend.", "");
                                             cookies = (int) Math.round(Double.parseDouble(string) * 1000);
-                                        } else {
+                                        } else
                                             cookies = Integer.parseInt(formattedContent);
-                                        }
                                     } catch (Exception exception) {
                                         exception.printStackTrace();
                                     }
@@ -222,7 +221,7 @@ public class MessageReceiveEventHandler {
     }
 
     private String getNameFromStatsLine(String string) {
-        if (string.contains("-=")) {
+        if(string.contains("-=")) {
             String[] words = string.split(" ");
             return words[3].replace("\u00A76", "");
         }
@@ -237,12 +236,11 @@ public class MessageReceiveEventHandler {
      */
     private String getNameFromJoinLine(String string) {
         string = string.replace("» ", "");
-        StringBuilder playerName = new StringBuilder();
+        final StringBuilder playerName = new StringBuilder();
         for (int i = 0; i < string.length() - 1; i++) {
             char c = string.charAt(i);
-            if (c == ' ') {
+            if(c == ' ')
                 break;
-            }
             playerName.append(c);
         }
         return playerName.toString();
