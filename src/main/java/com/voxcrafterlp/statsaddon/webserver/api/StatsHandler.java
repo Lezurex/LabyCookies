@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.Team;
+import net.minecraft.client.Minecraft;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,13 +24,15 @@ public class StatsHandler implements ActionHandler {
         final Map<String, Team> teams = new HashMap<>();
 
         playerStatsList.forEach((string, playerStats) -> {
-            final String teamPrefix = playerStats.getPlayerInfo().getPlayerTeam().getColorPrefix();
-            if (teams.containsKey(teamPrefix)) {
-                teams.get(teamPrefix).addPlayerStats(playerStats);
-            } else {
-                Team team = new Team(teamPrefix);
-                team.addPlayerStats(playerStats);
-                teams.put(teamPrefix, team);
+            if (!playerStats.getPlayerName().equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+                final String teamPrefix = playerStats.getPlayerInfo().getPlayerTeam().getColorPrefix();
+                if (teams.containsKey(teamPrefix)) {
+                    teams.get(teamPrefix).addPlayerStats(playerStats);
+                } else {
+                    Team team = new Team(teamPrefix);
+                    team.addPlayerStats(playerStats);
+                    teams.put(teamPrefix, team);
+                }
             }
         });
 

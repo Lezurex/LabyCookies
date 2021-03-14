@@ -46,7 +46,7 @@ public class MessageReceiveEventHandler {
                                             .replace("i", "y")
                                             .replace("á", "a")
                                             .contains("party") && playerName.equals(getNameFromJoinLine(unFormatted))) {
-                                StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
+                                StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer, null));
                             }
                         });
                     }).start();
@@ -81,6 +81,19 @@ public class MessageReceiveEventHandler {
                     new Thread(() -> {
                         if(unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
+                        }
+                        if (lastPlayerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+                            switch (StatsAddon.getInstance().getStatsChecker().getQueue().get(0).getStatsType()) {
+                                case STATS30:
+                                    lastPlayerName = lastPlayerName + "%30D";
+                                    break;
+                                case STATS1:
+                                    lastPlayerName = lastPlayerName + "%1D";
+                                    break;
+                                case STATSALL:
+                                    lastPlayerName = lastPlayerName + "%ALL";
+                                    break;
+                            }
                         }
                         if(unFormatted.startsWith(" ")) {
                             if(unFormatted.contains("%")) {
@@ -200,6 +213,12 @@ public class MessageReceiveEventHandler {
                                                     .replace("thous.", "")
                                                     .replace("dausend.", "");
                                             cookies = (int) Math.round(Double.parseDouble(string) * 1000);
+                                        } else if(formattedContent.toLowerCase().contains("mil") ||
+                                                formattedContent.toLowerCase().contains("mio")) {
+                                            final String string = formattedContent.toLowerCase()
+                                                    .replace("mil.", "")
+                                                    .replace("mio.", "");
+                                            cookies = (int) Math.round(Double.parseDouble(string) * 1000000);
                                         } else
                                             cookies = Integer.parseInt(formattedContent);
                                     } catch (Exception exception) {

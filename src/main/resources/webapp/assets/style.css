@@ -203,6 +203,26 @@ main {
     transition: var(--transition-speed);
 }
 
+.stats-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.stats-card {
+    margin: 1rem;
+    display: block;
+    border: .1rem solid var(--bg-primary);
+    border-radius: .5rem;
+    padding: 1rem;
+    min-width: 15rem;
+}
+
+.stats-card span {
+    display: block;
+}
+
 /* Small screens */
 @media only screen and (max-width: 600px) {
     .sidenavbar {
@@ -221,6 +241,10 @@ main {
 
     .sidenav-link {
         justify-content: center;
+    }
+
+    .stats-container {
+        flex-wrap: wrap;
     }
 
     main {

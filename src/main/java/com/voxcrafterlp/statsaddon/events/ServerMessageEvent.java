@@ -41,7 +41,7 @@ public class ServerMessageEvent {
                                                     .replace("i", "y")
                                                     .replace("á", "a")
                                                     .contains("party")) {
-                                        StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats(loadedPlayer));
+                                        StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats(loadedPlayer, null));
                                     }
                                 });
                             }).start();

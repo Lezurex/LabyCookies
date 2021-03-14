@@ -24,6 +24,7 @@ public class APIHandler implements HttpHandler {
 
         if(actionHandlers.size() == 0)
             initActionHandlers();
+        initActionHandlers();
 
         final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpExchange.getRequestBody()));
         
@@ -44,8 +45,12 @@ public class APIHandler implements HttpHandler {
         try {
             actionHandler = actionHandlers.get(entryPoint.toLowerCase(Locale.ROOT));
             JsonObject jsonObject = new JsonParser().parse(request.toString()).getAsJsonObject();
-            response = actionHandler.handle(pathParts, jsonObject);
+            if (entryPoint.toLowerCase().equals("userstats")) {
+                response = actionHandler.handle(pathParts, jsonObject);
+            } else
+                response = actionHandler.handle(pathParts, jsonObject);
         } catch (NullPointerException exception) {
+            exception.printStackTrace();
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("data", new JsonArray());
             JsonObject data = new JsonObject();
@@ -81,5 +86,6 @@ public class APIHandler implements HttpHandler {
         actionHandlers.put("stats", new StatsHandler());
         actionHandlers.put("ip", new IPHandler());
         actionHandlers.put("version", new VersionHandler());
+        actionHandlers.put("userstats", new UserStatsHandler());
     }
 }

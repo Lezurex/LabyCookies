@@ -1,9 +1,11 @@
 package com.voxcrafterlp.statsaddon;
 
+import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
 import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import com.voxcrafterlp.statsaddon.events.TickListener;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import com.voxcrafterlp.statsaddon.objects.StatsType;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
@@ -55,7 +57,8 @@ public class StatsAddon extends LabyModAddon {
     private boolean lmcDoubled, online, websiteMessageShown;
 
     @Setter
-    private String currentGamemode, statsType;
+    private String currentGamemode;
+    private StatsType statsType;
     private int cooldown, rankWarnLevel, winrateWarnLevel, cookiesPerGameWarnLevel, reloadStatsKey;
     private boolean enabled, webserverEnabled, alertEnabled, versionCheckerEnabled, showStatsMessages;
 
@@ -160,7 +163,7 @@ public class StatsAddon extends LabyModAddon {
         this.rankWarnLevel = this.getConfig().has("rankWarnLevel") ? this.getConfig().get("rankWarnLevel").getAsInt() : 100;
         this.winrateWarnLevel = this.getConfig().has("winrateWarnLevel") ? this.getConfig().get("winrateWarnLevel").getAsInt() : 40;
         this.cookiesPerGameWarnLevel = this.getConfig().has("cookiesPerGameWarnLevel") ? this.getConfig().get("cookiesPerGameWarnLevel").getAsInt() : 1200;
-        this.statsType = this.getConfig().has("statstype") ? this.getConfig().get("statstype").getAsString() : "STATS 30 TAGE";
+        this.statsType = this.getConfig().has("statstype") ? StatsType.fromConfigName(this.getConfig().get("statstype").getAsString())  : StatsType.STATS30;
         this.reloadStatsKey = this.getConfig().has("reloadStatsKey") ? this.getConfig().get("reloadStatsKey").getAsInt() : 34; //Default: G
         this.showStatsMessages = !this.getConfig().has("showStatsMessages") || this.getConfig().get("showStatsMessages").getAsBoolean();
 
@@ -277,16 +280,19 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.showStatsMessages));
 
+        List<String> dropdownEntries = Lists.newCopyOnWriteArrayList();
+        for (StatsType statsType : StatsType.values()) {
+            dropdownEntries.add(statsType.getConfigName());
+        }
         DropDownMenu<String> statsDropDownMenu = new DropDownMenu<String>("Statstyp", 0, 0, 0, 0)
-                .fill(new String[]{"STATSALL", "STATS 30 TAGE", "STATS 20 TAGE", "STATS 15 TAGE",
-                        "STATS 10 TAGE", "STATS 5 TGAE", "STATS 3 TAGE"});
+                .fill(dropdownEntries.toArray(new String[0]));
         DropDownElement<String> statsDropDown = new DropDownElement<String>("Statstype", statsDropDownMenu);
 
-        statsDropDownMenu.setSelected(this.statsType);
+        statsDropDownMenu.setSelected(this.statsType.getConfigName());
         statsDropDown.setChangeListener(new Consumer<String>() {
             @Override
             public void accept(String string) {
-                statsType = string;
+                statsType = StatsType.fromConfigName(string);
                 getConfig().addProperty("statstype", string);
                 saveConfig();
             }

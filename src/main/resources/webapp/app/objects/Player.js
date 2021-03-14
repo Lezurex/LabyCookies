@@ -26,6 +26,7 @@ export default class Player {
     statsHidden;
     nickProbability;
     prefix;
+    statsType;
 
     /**
      * Initializes a new player object with all of its attributes
@@ -41,8 +42,9 @@ export default class Player {
      * @param statsHidden {boolean} Whether or not the player has hidden his stats
      * @param nickProbability {number} Probability from 0 to 100 of the player being nicked
      * @param prefix {string} The team prefix of the player
+     * @param statsType {string} How the stats have been checked (30d, alltime, etc.)
      */
-    constructor(playerName, warned, rank, winRate, playedGames, wins, cookies, cookiesPerGame, statsHidden, nickProbability, prefix) {
+    constructor(playerName, warned, rank, winRate, playedGames, wins, cookies, cookiesPerGame, statsHidden, nickProbability, prefix, statsType) {
         this.playerName = playerName;
         this.warned = warned;
         this.rank = rank;
@@ -54,6 +56,7 @@ export default class Player {
         this.statsHidden = statsHidden;
         this.nickProbability = nickProbability;
         this.prefix = prefix;
+        this.statsType = statsType;
     }
 
     /**
@@ -98,6 +101,6 @@ export default class Player {
      * @returns {Player} New instance of a {@link Player} with the attributes set to the object's values
      */
     static fromObject(obj) {
-        return new Player(obj.name, obj.warned, obj.rank, obj.winRate, obj.playedGames, obj.wins, obj.cookies, obj.cookiesPerGame, obj.statsHidden, obj.nickProbability, obj.prefix);
+        return new Player(obj.name, obj.warned, obj.rank, obj.winRate, obj.playedGames, obj.wins, obj.cookies, obj.cookiesPerGame, obj.statsHidden, obj.nickProbability, obj.prefix, obj.statsType);
     }
 }

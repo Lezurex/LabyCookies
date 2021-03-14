@@ -28,8 +28,9 @@ public class PlayerStats {
     private boolean checked, warned, statsHidden;
     private int rank, playedGames, wins, cookies;
     private double winRate, nickProbability;
+    private StatsType statsType;
 
-    public PlayerStats(NetworkPlayerInfo playerInfo) {
+    public PlayerStats(NetworkPlayerInfo playerInfo, StatsType statsType) {
         this.playerInfo = playerInfo;
         this.checked = false;
         this.warned = false;
@@ -39,6 +40,8 @@ public class PlayerStats {
         this.wins = -1;
         this.cookies = -1;
         this.nickProbability = 0;
+        if (statsType == null) this.statsType = StatsAddon.getInstance().getStatsType();
+        else this.statsType = statsType;
         this.playerName = playerInfo.getGameProfile().getName();
         this.nickChecker = new NickChecker(this);
 
@@ -58,22 +61,22 @@ public class PlayerStats {
      * Generates the stats command and sends it to the server
      */
     public void performStatsCheck() {
-        if(StatsAddon.getInstance().getCurrentGamemode() == null) return;
-        if(!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
+        if (StatsAddon.getInstance().getCurrentGamemode() == null) return;
+        if (!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
                 .replace("i", "y")
                 .replace("á", "a")
                 .contains("party")) {
-            if(!playerInfo.getGameProfile().getName().equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
-                if(!this.checked) {
-                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/" + this.getStatsCommand(playerInfo.getGameProfile().getName()));
-                    this.checked = true;
-                    try {
-                        Thread.sleep(StatsAddon.getInstance().getCooldown());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
+            if (!this.checked) {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage(this.statsType.getCommandName() + " " + this.playerName);
+                this.checked = true;
+                try {
+                    Thread.sleep(StatsAddon.getInstance().getCooldown());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+
         }
     }
 
@@ -81,6 +84,9 @@ public class PlayerStats {
      * Checks if the rank or winrate are higher than the value set in the settings
      */
     public void performStatsAnalysis() {
+        String username = Minecraft.getMinecraft().thePlayer.getGameProfile().getName();
+        if (this.playerName.substring(0, username.length() - 1).equals(username))
+            return;
 
         try {
             Thread.sleep(20);
@@ -88,17 +94,17 @@ public class PlayerStats {
             e.printStackTrace();
         }
 
-        if(this.wins != -1) {
+        if (this.wins != -1) {
             boolean firstMessageSent = false;
 
-            if(this.rank < StatsAddon.getInstance().getRankWarnLevel() && this.rank > 0) {
+            if (this.rank < StatsAddon.getInstance().getRankWarnLevel() && this.rank > 0) {
                 LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                 firstMessageSent = true;
                 this.sendAlert(AlertType.RANK);
             }
 
-            if(this.winRate > (double) StatsAddon.getInstance().getWinrateWarnLevel()) {
-                if(!firstMessageSent) {
+            if (this.winRate > (double) StatsAddon.getInstance().getWinrateWarnLevel()) {
+                if (!firstMessageSent) {
                     LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                     firstMessageSent = true;
                 }
@@ -106,9 +112,9 @@ public class PlayerStats {
             }
 
             final double cookiesPerGame = this.getCookiesPerGame();
-            if(cookiesPerGame > 0) {
-                if(cookiesPerGame > (double) StatsAddon.getInstance().getCookiesPerGameWarnLevel()) {
-                    if(!firstMessageSent) {
+            if (cookiesPerGame > 0) {
+                if (cookiesPerGame > (double) StatsAddon.getInstance().getCookiesPerGameWarnLevel()) {
+                    if (!firstMessageSent) {
                         LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                         firstMessageSent = true;
                     }
@@ -141,7 +147,7 @@ public class PlayerStats {
      * @param type Type of the alert
      */
     public void sendAlert(AlertType type) {
-        if(this.warned) return;
+        if (this.warned) return;
 
         switch (type) {
             case RANK:
@@ -155,7 +161,7 @@ public class PlayerStats {
                 break;
         }
 
-        if(StatsAddon.getInstance().isAlertEnabled()) {
+        if (StatsAddon.getInstance().isAlertEnabled()) {
             switch (type) {
                 case RANK:
                     LabyMod.getInstance().notifyMessageProfile(this.playerInfo.getGameProfile(), "Platz #" + this.rank);
@@ -189,8 +195,8 @@ public class PlayerStats {
      * @return {@link String} Stats command without the slash ('/')
      */
     private String getStatsCommand(String playerName) {
-        final String statsType = StatsAddon.getInstance().getStatsType().toLowerCase();
-        if(statsType.equals("statsall")) return "statsall " + playerName;
+        final String statsType = StatsAddon.getInstance().getStatsType().getCommandName();
+        if (statsType.equals("statsall")) return "statsall " + playerName;
 
         int days = Integer.parseInt(statsType.toLowerCase().replace(" ", "").replace("tage", "")
                 .replace("stats", ""));
@@ -199,20 +205,22 @@ public class PlayerStats {
     }
 
     public double getWinRate() {
-        if(this.winRate != -1) return this.winRate;
-        if(this.wins == -1 || this.playedGames == -1) return -1;
-        if(this.playedGames == 0) return 0;
+        if (this.winRate != -1) return this.winRate;
+        if (this.wins == -1 || this.playedGames == -1) return -1;
+        if (this.playedGames == 0) return 0;
 
         double winRate = ((double) this.wins / (double) this.playedGames) * 100;
         return Double.parseDouble(new DecimalFormat("###.##").format(winRate));
     }
 
     public double getCookiesPerGame() {
-        if(StatsAddon.getInstance().getCurrentGamemode().equals("Cookies")) {
-            if(playedGames > 0) {
-                double cookiesPerGame = (double) this.cookies / (double) this.playedGames;
-                DecimalFormat df = new DecimalFormat("###.##");
-                return Double.parseDouble(df.format(cookiesPerGame));
+        if (StatsAddon.getInstance().getCurrentGamemode() != null) {
+            if (StatsAddon.getInstance().getCurrentGamemode().equals("Cookies")) {
+                if (playedGames > 0) {
+                    double cookiesPerGame = (double) this.cookies / (double) this.playedGames;
+                    DecimalFormat df = new DecimalFormat("###.##");
+                    return Double.parseDouble(df.format(cookiesPerGame));
+                }
             }
         }
         return -1;
@@ -236,6 +244,7 @@ public class PlayerStats {
         jsonObject.addProperty("statsHidden", this.statsHidden);
         jsonObject.addProperty("nickProbability", this.nickProbability);
         jsonObject.addProperty("prefix", this.playerInfo.getPlayerTeam().getColorPrefix());
+        jsonObject.addProperty("statsType", this.statsType.getConfigName());
         return jsonObject;
     }
 

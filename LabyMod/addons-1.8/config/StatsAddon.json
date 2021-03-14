@@ -6,7 +6,7 @@
     "cooldown": 750,
     "rankWarnLevel": 100,
     "winrateWarnLevel": 40,
-    "showStatsMessages": false,
+    "showStatsMessages": true,
     "cookiesPerGameWarnLevel": 1200,
     "webserverEnabled": true
   }
