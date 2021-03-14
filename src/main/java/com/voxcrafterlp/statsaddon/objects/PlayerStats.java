@@ -9,6 +9,8 @@ import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
+import java.text.DecimalFormat;
+
 /**
  * This file was created by VoxCrafter_LP!
  * Date: 30.01.2021
@@ -168,14 +170,14 @@ public class PlayerStats {
     public double getWinRate() {
         if (this.winRate == -1) {
             if (this.wins != -1 && this.playedGames != -1) {
-                return Math.round((double) (this.wins / this.playedGames) * 100);
+                if (this.playedGames != 0) {
+                    double winRate = ((double) this.wins / (double) this.playedGames) * 100;
+                    DecimalFormat df = new DecimalFormat("###.##");
+                    return Double.parseDouble(df.format(winRate));
+                } else return 0;
             }
-            else {
-                return -1;
-            }
-        } else {
-            return this.winRate;
-        }
+            else return -1;
+        } else return this.winRate;
     }
 
     /**

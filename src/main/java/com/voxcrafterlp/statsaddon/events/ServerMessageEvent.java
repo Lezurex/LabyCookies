@@ -42,7 +42,6 @@ public class ServerMessageEvent {
                                                     .replace("á", "a")
                                                     .contains("party")) {
                                         StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats(loadedPlayer));
-                                        LabyMod.getInstance().displayMessageInChat("Added player " + loadedPlayer.getGameProfile().getName() + " to queue. (Join Handler)");
                                     }
                                 });
                             }).start();

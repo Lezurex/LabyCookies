@@ -43,7 +43,6 @@ public class MessageReceiveEventHandler {
                                             .replace("á", "a")
                                             .contains("party") && playerName.equals(getNameFromJoinLine(unFormatted))) {
                                 StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer));
-                                LabyMod.getInstance().displayMessageInChat("Added player " + loadedPlayer.getGameProfile().getName() + " to queue. (Message Handler)");
                             }
                         });
                     }).start();
@@ -205,7 +204,6 @@ public class MessageReceiveEventHandler {
             }
             playerName.append(c);
         }
-        LabyMod.getInstance().displayMessageInChat(playerName.toString());
         return playerName.toString();
     }
 

@@ -139,7 +139,7 @@ main {
 }
 
 .overview-card img {
-    max-height: 8rem;
+    max-height: 7rem;
 }
 
 .overview-card.warned {
