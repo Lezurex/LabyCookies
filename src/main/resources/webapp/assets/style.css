@@ -205,7 +205,7 @@ main {
 
 .stats-container {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
 }
@@ -241,10 +241,6 @@ main {
 
     .sidenav-link {
         justify-content: center;
-    }
-
-    .stats-container {
-        flex-wrap: wrap;
     }
 
     main {

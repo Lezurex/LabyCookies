@@ -26,20 +26,14 @@ public class IPHandler implements ActionHandler {
             if (interfaces != null) {
                 while (interfaces.hasMoreElements()) {
                     NetworkInterface networkInterface = interfaces.nextElement();
-                    System.out.println("Network Interface " + networkInterface.getName());
                     try {
                         if (networkInterface.isUp()) {
-                            System.out.println("Is up");
                             if (!networkInterface.isVirtual()) {
-                                System.out.println("Is not virtual");
                                 Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
                                 while (inetAddresses.hasMoreElements()) {
                                     InetAddress inetAddress = inetAddresses.nextElement();
-                                    System.out.println("Looping address " + inetAddress.getHostAddress());
                                     if (inetAddress instanceof Inet4Address) {
-                                        System.out.println("Is IPv4");
                                         if (!inetAddress.isLinkLocalAddress() && !inetAddress.isLoopbackAddress()) {
-                                            System.out.println("Is link local");
                                             foundAddresses.add(inetAddress);
                                         }
                                     }

@@ -10,6 +10,7 @@ export default {
         }
     },
     template: `
+      <p>Hier kannst du deine eigenen Stats einsehen. Um sie zu laden, joinen in deinen bevorzugten Spielmodus (am besten eine leere Runde).</p>
       <div class="stats-container">
       <div v-if="stats30d !== undefined" class="stats-card">
         <h2>30 Tage</h2>
