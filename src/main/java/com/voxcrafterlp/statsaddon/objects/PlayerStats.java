@@ -87,9 +87,11 @@ public class PlayerStats {
      */
     public void performStatsAnalysis() {
         String username = StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName();
-        String substring = this.playerName.substring(0, username.length());
-        if (substring.equals(username))
-            return;
+        if (username.length() >= this.playerName.length()) {
+            String substring = this.playerName.substring(0, username.length());
+            if (substring.equals(username))
+                return;
+        }
 
         try {
             Thread.sleep(20);
@@ -221,8 +223,10 @@ public class PlayerStats {
             if (StatsAddon.getInstance().getCurrentGamemode().equals("Cookies")) {
                 if (playedGames > 0) {
                     double cookiesPerGame = (double) this.cookies / (double) this.playedGames;
-                    DecimalFormat df = new DecimalFormat("###.##");
-                    return Double.parseDouble(df.format(cookiesPerGame));
+                    DecimalFormat df;
+                    if (Double.toString(cookiesPerGame).contains(",")) df = new DecimalFormat("###,##");
+                    else df = new DecimalFormat("###.##");
+                    return Double.parseDouble(df.format(cookiesPerGame).replace(",", "."));
                 }
             }
         }

@@ -374,4 +374,8 @@ public class StatsAddon extends LabyModAddon {
     public NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
         return Minecraft.getMinecraft().player.connection;
     }
+
+    public NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
+        return Minecraft.getMinecraft().thePlayer.sendQueue;
+    }
 }
