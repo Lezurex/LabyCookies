@@ -37,7 +37,7 @@ public class MessageReceiveEventHandler {
                             exception.printStackTrace();
                         }
 
-                        StatsAddon.getInstance().getMinecraftThePlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
+                        StatsAddon.getInstance().getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
                             if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
