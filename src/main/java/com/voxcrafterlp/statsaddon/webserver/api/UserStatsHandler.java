@@ -14,6 +14,9 @@ public class UserStatsHandler implements ActionHandler {
 
     @Override
     public String handle(List<String> pathParts, JsonObject body) {
+        if (StatsAddon.getInstance().getCurrentGamemode() == null) {
+            return "{\"data\":[]}";
+        }
         Map<String, PlayerStats> playerStatsList = StatsAddon.getInstance().getLoadedPlayerStats();
         String username = StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName();
         if (!playerStatsList.containsKey(username + "%30D")) {
