@@ -52,12 +52,12 @@ public class StatsAddon extends LabyModAddon {
     private Webserver webserver;
     private KeyPressUtil keyPressUtil;
     @Setter
-    private boolean lmcDoubled, online;
+    private boolean lmcDoubled, online, websiteMessageShown;
 
     @Setter
     private String currentGamemode, statsType;
     private int cooldown, rankWarnLevel, winrateWarnLevel, cookiesPerGameWarnLevel, reloadStatsKey;
-    private boolean enabled, alertEnabled, versionCheckerEnabled, showStatsMessages;
+    private boolean enabled, webserverEnabled, alertEnabled, versionCheckerEnabled, showStatsMessages;
 
     @Override
     public void onEnable() {
@@ -110,9 +110,19 @@ public class StatsAddon extends LabyModAddon {
 
                     new Thread(() -> {
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(1500);
                             new VersionChecker();
-                            LabyMod.getInstance().displayMessageInChat(getPrefix() + "\u00A77Das Webinterface ist hier erreichbar: \u00A78[\u00A7bhttp://localhost:" + getWebserver().getWebserver().getAddress().getPort() + "\u00A78]");
+
+                            if(!websiteMessageShown) {
+                                final String url = "http://localhost:" +webserver.getWebserver().getAddress().getPort() + "/";
+                                if(webserverEnabled) {
+                                    LabyMod.getInstance().displayMessageInChat(getPrefix() + "\u00A77Die Webseite wurde \u00A7bgeöffnet\u00A78. " +
+                                            "\u00A77Alternativ ist diese aber auch über diesen \u00A7bLink \u00A77zu erreichen\u00A78: " +
+                                            "[\u00A7b" + url + "\u00A78]");
+                                    LabyMod.getInstance().openWebpage(url, false);
+                                    websiteMessageShown = true;
+                                }
+                            }
                         } catch (InterruptedException exception) {
                             exception.printStackTrace();
                         }
@@ -143,6 +153,7 @@ public class StatsAddon extends LabyModAddon {
     public void loadConfig() {
         // Load config or set default values
         this.enabled = !this.getConfig().has("enabled") || this.getConfig().get("enabled").getAsBoolean();
+        this.webserverEnabled = !this.getConfig().has("webserverEnabled") || this.getConfig().get("webserverEnabled").getAsBoolean();
         this.alertEnabled = !this.getConfig().has("alertEnabled") || this.getConfig().get("alertEnabled").getAsBoolean();
         this.versionCheckerEnabled = !this.getConfig().has("versionCheckerEnabled") || this.getConfig().get("versionCheckerEnabled").getAsBoolean();
         this.cooldown = this.getConfig().has("cooldown") ? this.getConfig().get("cooldown").getAsInt() : 1000;
@@ -173,6 +184,14 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.enabled));
+        list.add(new BooleanElement("Webseite", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean accepted) {
+                webserverEnabled = accepted;
+                getConfig().addProperty("webserverEnabled", accepted);
+                saveConfig();
+            }
+        }, this.webserverEnabled));
 
         NumberElement queryInterval = new NumberElement("Abfragenintervall", new ControlElement.IconData(Material.WATCH), this.cooldown);
         queryInterval.addCallback(new Consumer<Integer>() {
