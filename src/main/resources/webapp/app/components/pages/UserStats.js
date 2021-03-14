@@ -17,7 +17,7 @@ export default {
         <span v-if="stats30d.rank === -1">Lädt...</span>
         <span v-else>
           <span>Rang: {{ stats30d.rank }}</span>
-          <span>Winrate: {{ stats30d.winRate }}</span>
+          <span>Winrate: {{ stats30d.winRate }}%</span>
           <span>Spiele: {{ stats30d.playedGames }}</span>
           <span>Wins: {{ stats30d.wins }}</span>
           <span v-if="stats30d.cookies > 0">Cookies: {{ stats30d.cookies }}</span>
@@ -30,7 +30,7 @@ export default {
         <span v-if="statsAll.rank === -1">Lädt...</span>
         <span v-else>
           <span>Rang: {{ statsAll.rank }}</span>
-          <span>Winrate: {{ statsAll.winRate }}</span>
+          <span>Winrate: {{ statsAll.winRate }}%</span>
           <span>Spiele: {{ statsAll.playedGames }}</span>
           <span>Wins: {{ statsAll.wins }}</span>
           <span v-if="statsAll.cookies > 0">Cookies: {{ statsAll.cookies }}</span>
@@ -42,7 +42,7 @@ export default {
         <h2>1 Tag</h2>
         <span v-if="stats1d.winRate === -1">Lädt...</span>
         <span v-else>
-          <span>Winrate: {{ stats1d.winRate }}</span>
+          <span>Winrate: {{ stats1d.winRate }}%</span>
           <span>Spiele: {{ stats1d.playedGames }}</span>
           <span>Wins: {{ stats1d.wins }}</span>
           <span v-if="stats1d.cookies > 0">Cookies: {{ stats1d.cookies }}</span>

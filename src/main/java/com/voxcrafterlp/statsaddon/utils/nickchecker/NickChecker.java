@@ -51,9 +51,11 @@ public class NickChecker {
         final String prefix = this.playerInfo.getPlayerTeam().getColorPrefix();
         if(prefix.equals("§a") || prefix.equals("§bSupreme §7| ") || prefix.contains("Dev") || prefix.contains("Mod") ||
                 prefix.contains("Content") || prefix.contains("Sup") || prefix.contains("Admin")) return 0;
-
+        ClanCheck clanCheck = new ClanCheck();
+        clanCheck.performCheck(this.playerInfo);
+        if (!clanCheck.isCheckSuccessful())
+            return 0;
         this.checks.forEach(check -> check.performCheck(this.playerInfo));
-
         final List<Check> passedChecks = this.checks.stream()
                 .filter(check -> check.isCheckSuccessful() && !check.ignore())
                 .collect(Collectors.toList());
