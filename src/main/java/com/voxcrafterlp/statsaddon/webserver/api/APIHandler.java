@@ -46,7 +46,6 @@ public class APIHandler implements HttpHandler {
             JsonObject jsonObject = new JsonParser().parse(request.toString()).getAsJsonObject();
             response = actionHandler.handle(pathParts, jsonObject);
         } catch (NullPointerException exception) {
-            exception.printStackTrace();
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("data", new JsonArray());
             JsonObject data = new JsonObject();
@@ -68,7 +67,10 @@ public class APIHandler implements HttpHandler {
 
         final OutputStream outputStream = httpExchange.getResponseBody();
 
-        httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json;charset=ISO-8859-1"));
+        if (System.getProperty("file.encoding").equals("UTF-8"))
+            httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json;charset=UTF-8"));
+        else
+            httpExchange.getResponseHeaders().put("Content-Type", Collections.singletonList("application/json;charset=ISO-8859-1"));
         httpExchange.sendResponseHeaders(httpCode, 0);
 
         outputStream.write(response.getBytes());
@@ -78,5 +80,6 @@ public class APIHandler implements HttpHandler {
     private void initActionHandlers() {
         actionHandlers.put("stats", new StatsHandler());
         actionHandlers.put("ip", new IPHandler());
+        actionHandlers.put("version", new VersionHandler());
     }
 }
