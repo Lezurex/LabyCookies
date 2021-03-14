@@ -42,7 +42,7 @@ public class StatsAddon extends LabyModAddon {
     /**
      * String in default semantic versioning syntax: vX.Y.Z
      */
-    private final String currentVersion = "v2.0.0";
+    private final String currentVersion = "v2.0.1";
 
     private final String[] allowedPreReleaseUUIDs = new String[] {
             "4f08412d-5e85-46ec-89fd-028c1ed073a3",
@@ -375,7 +375,4 @@ public class StatsAddon extends LabyModAddon {
         return Minecraft.getMinecraft().player.connection;
     }
 
-    public NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
-        return Minecraft.getMinecraft().thePlayer.sendQueue;
-    }
 }

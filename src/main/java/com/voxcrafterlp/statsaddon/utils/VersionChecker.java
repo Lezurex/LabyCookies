@@ -6,8 +6,6 @@ import com.voxcrafterlp.statsaddon.StatsAddon;
 import net.labymod.main.LabyMod;
 import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.common.ForgeHooks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
