@@ -7,6 +7,7 @@
     "rankWarnLevel": 100,
     "winrateWarnLevel": 40,
     "showStatsMessages": false,
-    "cookiesPerGameWarnLevel": 1200
+    "cookiesPerGameWarnLevel": 1200,
+    "webserverEnabled": true
   }
 }

@@ -190,6 +190,14 @@ public class StatsAddon extends LabyModAddon {
                 webserverEnabled = accepted;
                 getConfig().addProperty("webserverEnabled", accepted);
                 saveConfig();
+                if (accepted) {
+                    final String url = "http://localhost:" +webserver.getWebserver().getAddress().getPort() + "/";
+                    LabyMod.getInstance().displayMessageInChat(getPrefix() + "\u00A77Die Webseite wurde \u00A7bgeöffnet\u00A78. " +
+                            "\u00A77Alternativ ist diese aber auch über diesen \u00A7bLink \u00A77zu erreichen\u00A78: " +
+                            "[\u00A7b" + url + "\u00A78]");
+                    LabyMod.getInstance().openWebpage(url, false);
+                    websiteMessageShown = true;
+                }
             }
         }, this.webserverEnabled));
 
