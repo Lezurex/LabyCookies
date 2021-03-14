@@ -15,6 +15,10 @@ public class StatsHandler implements ActionHandler {
 
     @Override
     public String handle(List<String> pathParts, JsonObject body) {
+        if (StatsAddon.getInstance().getCurrentGamemode() == null) {
+            return "{\"data\":[]}";
+        }
+
         final JsonObject response = new JsonObject();
         final JsonArray data = new JsonArray();
 
@@ -25,7 +29,7 @@ public class StatsHandler implements ActionHandler {
 
         playerStatsList.forEach((string, playerStats) -> {
             if (!playerStats.getPlayerName().equals(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName())) {
-                final String teamPrefix = playerStats.getPlayerInfo().getPlayerTeam().getColorPrefix();
+                final String teamPrefix = playerStats.getPlayerInfo().getPlayerTeam().getPrefix();
                 if (teams.containsKey(teamPrefix)) {
                     teams.get(teamPrefix).addPlayerStats(playerStats);
                 } else {

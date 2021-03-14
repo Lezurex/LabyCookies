@@ -15,7 +15,7 @@ public class BadlionCheck implements Check {
 
     @Override
     public void performCheck(NetworkPlayerInfo playerInfo) {
-        this.successful = playerInfo.getPlayerTeam().getColorSuffix().contains("✔");
+        this.successful = playerInfo.getPlayerTeam().getSuffix().contains("✔");
     }
 
     @Override

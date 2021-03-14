@@ -17,7 +17,7 @@ public class PremiumCheck implements Check {
     @Override
     public void performCheck(NetworkPlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
-        this.successful = playerInfo.getPlayerTeam().getColorPrefix().equals("§6");
+        this.successful = playerInfo.getPlayerTeam().getPrefix().equals("§6");
     }
 
     @Override
@@ -27,7 +27,7 @@ public class PremiumCheck implements Check {
 
     @Override
     public boolean ignore() {
-        final String prefix = this.playerInfo.getPlayerTeam().getColorPrefix();
+        final String prefix = this.playerInfo.getPlayerTeam().getPrefix();
         if(prefix.equals("§a") || prefix.equals("§bSupreme §7| ") || prefix.contains("Dev") || prefix.contains("Mod") ||
                 prefix.contains("Content") || prefix.contains("Sup") || prefix.contains("Admin")) return false;
 

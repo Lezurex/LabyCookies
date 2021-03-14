@@ -17,7 +17,7 @@ public class ClanCheck implements Check {
     @Override
     public void performCheck(NetworkPlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
-        this.successful = !playerInfo.getPlayerTeam().getColorSuffix().contains("[");
+        this.successful = !playerInfo.getPlayerTeam().getSuffix().contains("[");
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ClanCheck implements Check {
 
     @Override
     public boolean ignore() {
-        return playerInfo.getPlayerTeam().getColorSuffix().contains("party");
+        return playerInfo.getPlayerTeam().getSuffix().contains("party");
     }
 
     @Override

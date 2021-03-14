@@ -8,6 +8,8 @@ import lombok.Setter;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 import java.text.DecimalFormat;
 
@@ -62,7 +64,7 @@ public class PlayerStats {
      */
     public void performStatsCheck() {
         if (StatsAddon.getInstance().getCurrentGamemode() == null) return;
-        if (!playerInfo.getPlayerTeam().getColorSuffix().toLowerCase()
+        if (!playerInfo.getPlayerTeam().getSuffix().toLowerCase()
                 .replace("i", "y")
                 .replace("á", "a")
                 .contains("party")) {
@@ -178,7 +180,7 @@ public class PlayerStats {
 
             new Thread(() -> {
                 for (int i = 0; i < 5; i++) {
-                    StatsAddon.getInstance().getMinecraftThePlayer().playSound("note.pling", 1, 1);
+                    StatsAddon.getInstance().getMinecraftThePlayer().playSound(new SoundEvent(new ResourceLocation("note.pling")), 1, 1);
                     try {
                         Thread.sleep(250);
                     } catch (InterruptedException exception) {
@@ -244,7 +246,7 @@ public class PlayerStats {
         jsonObject.addProperty("cookiesPerGame", getCookiesPerGame());
         jsonObject.addProperty("statsHidden", this.statsHidden);
         jsonObject.addProperty("nickProbability", this.nickProbability);
-        jsonObject.addProperty("prefix", this.playerInfo.getPlayerTeam().getColorPrefix());
+        jsonObject.addProperty("prefix", this.playerInfo.getPlayerTeam().getPrefix());
         jsonObject.addProperty("statsType", this.statsType.getConfigName());
         return jsonObject;
     }

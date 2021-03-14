@@ -37,12 +37,12 @@ public class MessageReceiveEventHandler {
                             exception.printStackTrace();
                         }
 
-                        StatsAddon.getInstance().getMinecraftThePlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
+                        StatsAddon.getInstance().getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
                             if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
                                     !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
-                                    !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
+                                    !loadedPlayer.getPlayerTeam().getSuffix().toLowerCase()
                                             .replace("i", "y")
                                             .replace("á", "a")
                                             .contains("party") && playerName.equals(getNameFromJoinLine(unFormatted))) {

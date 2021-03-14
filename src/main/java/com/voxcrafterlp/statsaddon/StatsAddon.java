@@ -23,6 +23,7 @@ import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.network.NetHandlerPlayClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -216,7 +217,7 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(queryInterval);
-        NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData("labymod/textures/addons/statsaddon/rankAlert.png"), this.rankWarnLevel);
+        NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData(Material.NOTE_BLOCK), this.rankWarnLevel);
         rankWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -226,7 +227,7 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(rankWarnLevelElement);
-        NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData("labymod/textures/addons/statsaddon/winrateAlert.png"), this.winrateWarnLevel);
+        NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData(Material.NOTE_BLOCK), this.winrateWarnLevel);
         winrateWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -236,7 +237,7 @@ public class StatsAddon extends LabyModAddon {
             }
         });
         list.add(winrateWarnLevelElement);
-        NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData("labymod/textures/addons/statsaddon/cookiesAlert.png"), this.cookiesPerGameWarnLevel);
+        NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData(Material.COOKIE), this.cookiesPerGameWarnLevel);
         cookiesPerGameWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -254,7 +255,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.alertEnabled));
-        list.add(new BooleanElement("Updater", new ControlElement.IconData("labymod/textures/addons/statsaddon/updateChecker.png"), new Consumer<Boolean>() {
+        list.add(new BooleanElement("Updater", new ControlElement.IconData(Material.COMMAND_MINECART), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 versionCheckerEnabled = accepted;
@@ -263,7 +264,7 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.versionCheckerEnabled));
         list.add(new KeyElement("Stats erneut abfragen",
-                new ControlElement.IconData(("labymod/textures/addons/statsaddon/statsReload.png")),
+                new ControlElement.IconData(Material.COMMAND),
                 reloadStatsKey, new Consumer<Integer>() {
             @Override
             public void accept(Integer key) {
@@ -273,7 +274,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }));
-        list.add(new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData("labymod/textures/addons/statsaddon/showStatsMessages.png"), new Consumer<Boolean>() {
+        list.add(new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData(Material.GLASS), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 showStatsMessages = accepted;
@@ -367,6 +368,10 @@ public class StatsAddon extends LabyModAddon {
 
     public EntityPlayerSP getMinecraftThePlayer() {
         // Change thePlayer to player for 1.12.2 version
-        return Minecraft.getMinecraft().thePlayer;
+        return Minecraft.getMinecraft().player;
+    }
+
+    public NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
+        return Minecraft.getMinecraft().player.connection;
     }
 }

@@ -14,21 +14,24 @@ public class UserStatsHandler implements ActionHandler {
 
     @Override
     public String handle(List<String> pathParts, JsonObject body) {
+        if (StatsAddon.getInstance().getCurrentGamemode() == null) {
+            return "{\"data\":[]}";
+        }
         Map<String, PlayerStats> playerStatsList = StatsAddon.getInstance().getLoadedPlayerStats();
         String username = StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName();
         if (!playerStatsList.containsKey(username + "%30D")) {
             System.out.println("Doesnt contain 30d");
-            PlayerStats playerStats = new PlayerStats(StatsAddon.getInstance().getMinecraftThePlayer().sendQueue.getPlayerInfo(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATS30);
+            PlayerStats playerStats = new PlayerStats(StatsAddon.getInstance().getMinecraftThePlayerSendQueue().getPlayerInfo(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATS30);
             playerStatsList.put(username + "%30D", playerStats);
         }
         if (!playerStatsList.containsKey(username + "%ALL")) {
             System.out.println("Doesnt contain all");
-            PlayerStats playerStats = new PlayerStats(StatsAddon.getInstance().getMinecraftThePlayer().sendQueue.getPlayerInfo(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATSALL);
+            PlayerStats playerStats = new PlayerStats(StatsAddon.getInstance().getMinecraftThePlayerSendQueue().getPlayerInfo(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATSALL);
             playerStatsList.put(username + "%ALL", playerStats);
         }
         if (!playerStatsList.containsKey(username + "%1D")) {
             System.out.println("Doesnt contain 1d");
-            PlayerStats playerStats = new PlayerStats(StatsAddon.getInstance().getMinecraftThePlayer().sendQueue.getPlayerInfo(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATS1);
+            PlayerStats playerStats = new PlayerStats(StatsAddon.getInstance().getMinecraftThePlayerSendQueue().getPlayerInfo(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATS1);
             playerStatsList.put(username + "%1D", playerStats);
         }
 

@@ -48,7 +48,7 @@ public class NickChecker {
      * @return {@link Double} probability (0 - 100)
      */
     public double checkPlayer() {
-        final String prefix = this.playerInfo.getPlayerTeam().getColorPrefix();
+        final String prefix = this.playerInfo.getPlayerTeam().getPrefix();
         if(prefix.equals("§a") || prefix.equals("§bSupreme §7| ") || prefix.contains("Dev") || prefix.contains("Mod") ||
                 prefix.contains("Content") || prefix.contains("Sup") || prefix.contains("Admin")) return 0;
         ClanCheck clanCheck = new ClanCheck();
