@@ -37,7 +37,7 @@ public class MessageReceiveEventHandler {
                             exception.printStackTrace();
                         }
 
-                        Minecraft.getMinecraft().thePlayer.sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
+                        StatsAddon.getInstance().getMinecraftThePlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
                             if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
@@ -82,7 +82,7 @@ public class MessageReceiveEventHandler {
                         if(unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
                         }
-                        if (lastPlayerName.equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+                        if (lastPlayerName.equals(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName())) {
                             switch (StatsAddon.getInstance().getStatsChecker().getQueue().get(0).getStatsType()) {
                                 case STATS30:
                                     lastPlayerName = lastPlayerName + "%30D";

@@ -21,6 +21,8 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 
 import java.util.HashMap;
 import java.util.List;
@@ -363,4 +365,8 @@ public class StatsAddon extends LabyModAddon {
         return "\u00A78[\u00A7bStatsAddon\u00A78] ";
     }
 
+    public EntityPlayerSP getMinecraftThePlayer() {
+        // Change thePlayer to player for 1.12.2 version
+        return Minecraft.getMinecraft().thePlayer;
+    }
 }

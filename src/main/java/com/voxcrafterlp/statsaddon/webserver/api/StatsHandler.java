@@ -24,7 +24,7 @@ public class StatsHandler implements ActionHandler {
         final Map<String, Team> teams = new HashMap<>();
 
         playerStatsList.forEach((string, playerStats) -> {
-            if (!playerStats.getPlayerName().equals(Minecraft.getMinecraft().thePlayer.getGameProfile().getName())) {
+            if (!playerStats.getPlayerName().equals(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName())) {
                 final String teamPrefix = playerStats.getPlayerInfo().getPlayerTeam().getColorPrefix();
                 if (teams.containsKey(teamPrefix)) {
                     teams.get(teamPrefix).addPlayerStats(playerStats);

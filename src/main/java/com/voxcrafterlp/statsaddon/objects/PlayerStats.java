@@ -68,7 +68,7 @@ public class PlayerStats {
                 .contains("party")) {
 
             if (!this.checked) {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage(this.statsType.getCommandName() + " " + this.playerName);
+                StatsAddon.getInstance().getMinecraftThePlayer().sendChatMessage(this.statsType.getCommandName() + " " + this.playerName);
                 this.checked = true;
                 try {
                     Thread.sleep(StatsAddon.getInstance().getCooldown());
@@ -84,8 +84,9 @@ public class PlayerStats {
      * Checks if the rank or winrate are higher than the value set in the settings
      */
     public void performStatsAnalysis() {
-        String username = Minecraft.getMinecraft().thePlayer.getGameProfile().getName();
-        if (this.playerName.substring(0, username.length() - 1).equals(username))
+        String username = StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName();
+        String substring = this.playerName.substring(0, username.length());
+        if (substring.equals(username))
             return;
 
         try {
@@ -177,7 +178,7 @@ public class PlayerStats {
 
             new Thread(() -> {
                 for (int i = 0; i < 5; i++) {
-                    Minecraft.getMinecraft().thePlayer.playSound("note.pling", 1, 1);
+                    StatsAddon.getInstance().getMinecraftThePlayer().playSound("note.pling", 1, 1);
                     try {
                         Thread.sleep(250);
                     } catch (InterruptedException exception) {
