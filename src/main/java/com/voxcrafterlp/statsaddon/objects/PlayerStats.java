@@ -181,7 +181,7 @@ public class PlayerStats {
 
             new Thread(() -> {
                 for (int i = 0; i < 5; i++) {
-                    CompatibilityLayer.getMinecraftThePlayer().playSound("note.pling", 1, 1);
+                    CompatibilityLayer.playSound("note.pling", 1, 1);
                     try {
                         Thread.sleep(250);
                     } catch (InterruptedException exception) {
