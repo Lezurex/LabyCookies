@@ -9,6 +9,8 @@ import lombok.Setter;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 import java.text.DecimalFormat;
 
@@ -181,7 +183,7 @@ public class PlayerStats {
 
             new Thread(() -> {
                 for (int i = 0; i < 5; i++) {
-                    CompatibilityLayer.getMinecraftThePlayer().playSound("note.pling", 1, 1);
+                    CompatibilityLayer.getMinecraftThePlayer().playSound(new SoundEvent(new ResourceLocation("note.pling")), 1, 1);
                     try {
                         Thread.sleep(250);
                     } catch (InterruptedException exception) {

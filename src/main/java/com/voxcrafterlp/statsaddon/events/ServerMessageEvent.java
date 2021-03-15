@@ -35,7 +35,7 @@ public class ServerMessageEvent {
                                     e.printStackTrace();
                                 }
 
-                                LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
+                                CompatibilityLayer.getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
                                     if (!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(loadedPlayer.getGameProfile().getName()) &&
                                             !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
                                             !CompatibilityLayer.playerInfoGetSuffix(loadedPlayer).toLowerCase()

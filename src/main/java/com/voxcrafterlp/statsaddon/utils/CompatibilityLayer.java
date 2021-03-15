@@ -9,19 +9,19 @@ public class CompatibilityLayer {
 
     public static EntityPlayerSP getMinecraftThePlayer() {
         // Change thePlayer to player for 1.12.2 version
-        return Minecraft.getMinecraft().thePlayer;
+        return Minecraft.getMinecraft().player;
     }
 
     public static NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
-        return Minecraft.getMinecraft().thePlayer.sendQueue;
+        return Minecraft.getMinecraft().player.connection;
     }
 
     public static String playerInfoGetPrefix(NetworkPlayerInfo playerInfo) {
-        return playerInfo.getPlayerTeam().getColorPrefix();
+        return playerInfo.getPlayerTeam().getPrefix();
     }
 
     public static String playerInfoGetSuffix(NetworkPlayerInfo playerInfo) {
-        return playerInfo.getPlayerTeam().getColorSuffix();
+        return playerInfo.getPlayerTeam().getSuffix();
     }
 
 }
