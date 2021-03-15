@@ -44,10 +44,10 @@ public class KeyPressUtil {
             LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Die Statistiken werden nun \u00A7baktualisiert\u00A78.");
             StatsAddon.getInstance().clearCache();
 
-            StatsAddon.getInstance().getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
+            CompatibilityLayer.getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
                 final String playerName = loadedPlayer.getGameProfile().getName();
 
-                if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) && !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase().contains("party"))
+                if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) && !CompatibilityLayer.playerInfoGetSuffix(loadedPlayer).toLowerCase().contains("party"))
                     StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer, null));
             });
         }));

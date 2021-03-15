@@ -3,6 +3,7 @@ package com.voxcrafterlp.statsaddon.utils.nickchecker;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
 import lombok.Getter;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -48,7 +49,7 @@ public class NickChecker {
      * @return {@link Double} probability (0 - 100)
      */
     public double checkPlayer() {
-        final String prefix = this.playerInfo.getPlayerTeam().getColorPrefix();
+        final String prefix = CompatibilityLayer.playerInfoGetPrefix(this.playerInfo);
         if(prefix.equals("§a") || prefix.equals("§bSupreme §7| ") || prefix.contains("Dev") || prefix.contains("Mod") ||
                 prefix.contains("Content") || prefix.contains("Sup") || prefix.contains("Admin")) return 0;
         ClanCheck clanCheck = new ClanCheck();

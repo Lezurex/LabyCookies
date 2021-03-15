@@ -2,6 +2,7 @@ package com.voxcrafterlp.statsaddon.events;
 
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
 import net.labymod.api.events.MessageReceiveEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
@@ -37,12 +38,12 @@ public class MessageReceiveEventHandler {
                             exception.printStackTrace();
                         }
 
-                        StatsAddon.getInstance().getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
+                        CompatibilityLayer.getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
                             final String playerName = loadedPlayer.getGameProfile().getName();
 
                             if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
                                     !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
-                                    !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
+                                    !CompatibilityLayer.playerInfoGetSuffix(loadedPlayer).toLowerCase()
                                             .replace("i", "y")
                                             .replace("á", "a")
                                             .contains("party") && playerName.equals(getNameFromJoinLine(unFormatted))) {
@@ -82,7 +83,7 @@ public class MessageReceiveEventHandler {
                         if(unFormatted.toLowerCase().contains("-=")) {
                             lastPlayerName = getNameFromStatsLine(unFormatted);
                         }
-                        if (lastPlayerName.equals(StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName())) {
+                        if (lastPlayerName.equals(CompatibilityLayer.getMinecraftThePlayer().getGameProfile().getName())) {
                             switch (StatsAddon.getInstance().getStatsChecker().getQueue().get(0).getStatsType()) {
                                 case STATS30:
                                     lastPlayerName = lastPlayerName + "%30D";

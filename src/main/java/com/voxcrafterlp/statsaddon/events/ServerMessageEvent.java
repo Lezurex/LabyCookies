@@ -3,6 +3,7 @@ package com.voxcrafterlp.statsaddon.events;
 import com.google.gson.JsonElement;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
 import net.labymod.core.LabyModCore;
 import net.labymod.main.LabyMod;
 
@@ -37,7 +38,7 @@ public class ServerMessageEvent {
                                 LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                                     if (!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(loadedPlayer.getGameProfile().getName()) &&
                                             !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
-                                            !loadedPlayer.getPlayerTeam().getColorSuffix().toLowerCase()
+                                            !CompatibilityLayer.playerInfoGetSuffix(loadedPlayer).toLowerCase()
                                                     .replace("i", "y")
                                                     .replace("á", "a")
                                                     .contains("party")) {

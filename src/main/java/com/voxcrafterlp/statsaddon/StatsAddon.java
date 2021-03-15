@@ -389,12 +389,4 @@ public class StatsAddon extends LabyModAddon {
         return "\u00A78[\u00A7bStatsAddon\u00A78] ";
     }
 
-    public EntityPlayerSP getMinecraftThePlayer() {
-        // Change thePlayer to player for 1.12.2 version
-        return Minecraft.getMinecraft().thePlayer;
-    }
-
-    public NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
-        return Minecraft.getMinecraft().thePlayer.sendQueue;
-    }
 }

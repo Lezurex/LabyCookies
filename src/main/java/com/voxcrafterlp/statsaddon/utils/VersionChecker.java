@@ -78,7 +78,7 @@ public class VersionChecker {
                         link.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks(releaseURL).getChatStyle().getChatClickEvent());
                         ChatComponentText main = new ChatComponentText("");
                         main.appendText(StatsAddon.getInstance().getPrefix()).appendText("\u00A77Download\u00A78: ").appendSibling(link);
-                        StatsAddon.getInstance().getMinecraftThePlayer().addChatMessage(main);
+                        CompatibilityLayer.getMinecraftThePlayer().addChatMessage(main);
                     } else {
                         LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Download\u00A78: [\u00A7b" + releaseURL + "\u00A78]");
                         LabyMod.getInstance().openWebpage(releaseURL, true);
