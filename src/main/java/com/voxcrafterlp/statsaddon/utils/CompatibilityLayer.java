@@ -24,4 +24,8 @@ public class CompatibilityLayer {
         return playerInfo.getPlayerTeam().getSuffix();
     }
 
+    public static void playSound(String resource, float volume, float pitch) {
+        Minecraft.getMinecraft().thePlayer.playSound(resource, volume, pitch);
+    }
+
 }
