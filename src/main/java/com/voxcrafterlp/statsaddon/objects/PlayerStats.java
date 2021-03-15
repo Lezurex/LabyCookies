@@ -213,7 +213,7 @@ public class PlayerStats {
         if (this.playedGames == 0) return 0;
 
         double winRate = ((double) this.wins / (double) this.playedGames) * 100;
-        return Double.parseDouble(new DecimalFormat("###.##").format(winRate));
+        return Double.parseDouble(new DecimalFormat("###.##").format(winRate).replace(",", "."));
     }
 
     public double getCookiesPerGame() {
