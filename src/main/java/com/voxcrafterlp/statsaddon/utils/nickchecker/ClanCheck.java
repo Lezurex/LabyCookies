@@ -1,5 +1,6 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
+import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
 /**
@@ -17,7 +18,7 @@ public class ClanCheck implements Check {
     @Override
     public void performCheck(NetworkPlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
-        this.successful = !playerInfo.getPlayerTeam().getSuffix().contains("[");
+        this.successful = !CompatibilityLayer.playerInfoGetSuffix(playerInfo).contains("[");
     }
 
     @Override
@@ -27,7 +28,7 @@ public class ClanCheck implements Check {
 
     @Override
     public boolean ignore() {
-        return playerInfo.getPlayerTeam().getSuffix().contains("party");
+        return CompatibilityLayer.playerInfoGetSuffix(playerInfo).contains("party");
     }
 
     @Override

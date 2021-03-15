@@ -1,5 +1,6 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
+import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
 /**
@@ -15,7 +16,7 @@ public class BadlionCheck implements Check {
 
     @Override
     public void performCheck(NetworkPlayerInfo playerInfo) {
-        this.successful = playerInfo.getPlayerTeam().getSuffix().contains("✔");
+        this.successful = CompatibilityLayer.playerInfoGetSuffix(playerInfo).contains("✔");
     }
 
     @Override

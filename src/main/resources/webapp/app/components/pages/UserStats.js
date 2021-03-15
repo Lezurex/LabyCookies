@@ -84,10 +84,12 @@ export default {
                 }
             });
             request.send("{i:1}")
+            let timeout = 500;
+            window.location.hostname === "localhost" ? timeout = 500 : timeout = 2000;
             if (this.mounted) {
                 setTimeout(function () {
                     that.getStats()
-                }, 500);
+                }, timeout);
             }
         }
     }

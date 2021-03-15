@@ -2,14 +2,13 @@ package com.voxcrafterlp.statsaddon.objects;
 
 import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
+import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
 import com.voxcrafterlp.statsaddon.utils.nickchecker.NickChecker;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 
 import java.text.DecimalFormat;
 
@@ -64,13 +63,13 @@ public class PlayerStats {
      */
     public void performStatsCheck() {
         if (StatsAddon.getInstance().getCurrentGamemode() == null) return;
-        if (!playerInfo.getPlayerTeam().getSuffix().toLowerCase()
+        if (!CompatibilityLayer.playerInfoGetSuffix(playerInfo).toLowerCase()
                 .replace("i", "y")
                 .replace("á", "a")
                 .contains("party")) {
 
             if (!this.checked) {
-                StatsAddon.getInstance().getMinecraftThePlayer().sendChatMessage(this.statsType.getCommandName() + " " + this.playerName);
+                CompatibilityLayer.getMinecraftThePlayer().sendChatMessage(this.statsType.getCommandName() + " " + this.playerName);
                 this.checked = true;
                 try {
                     Thread.sleep(StatsAddon.getInstance().getCooldown());
@@ -86,7 +85,7 @@ public class PlayerStats {
      * Checks if the rank or winrate are higher than the value set in the settings
      */
     public void performStatsAnalysis() {
-        String username = StatsAddon.getInstance().getMinecraftThePlayer().getGameProfile().getName();
+        String username = CompatibilityLayer.getMinecraftThePlayer().getGameProfile().getName();
         if (username.length() >= this.playerName.length()) {
             String substring = this.playerName.substring(0, username.length());
             if (substring.equals(username))
@@ -182,7 +181,7 @@ public class PlayerStats {
 
             new Thread(() -> {
                 for (int i = 0; i < 5; i++) {
-                    StatsAddon.getInstance().getMinecraftThePlayer().playSound(new SoundEvent(new ResourceLocation("note.pling")), 1, 1);
+                    CompatibilityLayer.getMinecraftThePlayer().playSound("note.pling", 1, 1);
                     try {
                         Thread.sleep(250);
                     } catch (InterruptedException exception) {
@@ -215,7 +214,7 @@ public class PlayerStats {
         if (this.playedGames == 0) return 0;
 
         double winRate = ((double) this.wins / (double) this.playedGames) * 100;
-        return Double.parseDouble(new DecimalFormat("###.##").format(winRate));
+        return Double.parseDouble(new DecimalFormat("###.##").format(winRate).replace(",", "."));
     }
 
     public double getCookiesPerGame() {
@@ -250,7 +249,7 @@ public class PlayerStats {
         jsonObject.addProperty("cookiesPerGame", getCookiesPerGame());
         jsonObject.addProperty("statsHidden", this.statsHidden);
         jsonObject.addProperty("nickProbability", this.nickProbability);
-        jsonObject.addProperty("prefix", this.playerInfo.getPlayerTeam().getPrefix());
+        jsonObject.addProperty("prefix", CompatibilityLayer.playerInfoGetPrefix(playerInfo));
         jsonObject.addProperty("statsType", this.statsType.getConfigName());
         return jsonObject;
     }

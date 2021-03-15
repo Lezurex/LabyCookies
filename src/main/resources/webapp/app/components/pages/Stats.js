@@ -4,6 +4,7 @@ export default {
     data() {
         return {
             players: [],
+            mounted: undefined
         }
     },
     template: `
@@ -36,7 +37,11 @@ export default {
       </div>
     `,
     mounted: function () {
+        this.mounted = true;
         this.requestStats();
+    },
+    unmounted: function () {
+        this.mounted = false;
     },
     methods: {
         /**
@@ -64,7 +69,11 @@ export default {
             request.send(JSON.stringify({i: 0}));
             let timeout = 500;
             window.location.hostname === "localhost" ? timeout = 500 : timeout = 2000;
-            setTimeout(this.requestStats, 500);
+            if (this.mounted) {
+                setTimeout(function () {
+                    that.requestStats()
+                }, timeout);
+            }
         }
     }
 

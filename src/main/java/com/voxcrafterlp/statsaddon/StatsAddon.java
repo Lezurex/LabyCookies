@@ -218,7 +218,7 @@ public class StatsAddon extends LabyModAddon {
                 }
             }
         }, this.webserverEnabled));
-        list.get(2).setDescriptionText("Öffne die Webseite beim ersten Join auf dem Server automatisch.");
+        list.get(2).setDescriptionText("Öffne die Webseite beim ersten Join auf den Server automatisch.");
 
         NumberElement queryInterval = new NumberElement("Abfrageintervall", new ControlElement.IconData(Material.WATCH), this.cooldown);
         queryInterval.addCallback(new Consumer<Integer>() {
@@ -240,7 +240,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         });
-        rankWarnLevelElement.setDescriptionText("Wenn der Rang im Ranking eines Gegners unter diesen Wert fällt, wirst du gewarnt.");
+        rankWarnLevelElement.setDescriptionText("Wenn die Position im Ranking eines Gegners unter diesen Wert fällt, wirst du gewarnt.");
         list.add(rankWarnLevelElement);
         NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData(Material.NOTE_BLOCK), this.winrateWarnLevel);
         winrateWarnLevelElement.addCallback(new Consumer<Integer>() {
@@ -387,15 +387,6 @@ public class StatsAddon extends LabyModAddon {
 
     public String getPrefix() {
         return "\u00A78[\u00A7bStatsAddon\u00A78] ";
-    }
-
-    public EntityPlayerSP getMinecraftThePlayer() {
-        // Change thePlayer to player for 1.12.2 version
-        return Minecraft.getMinecraft().player;
-    }
-
-    public NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
-        return Minecraft.getMinecraft().player.connection;
     }
 
 }
