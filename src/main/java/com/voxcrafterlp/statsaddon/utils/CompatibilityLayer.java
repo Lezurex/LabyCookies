@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 
 public class CompatibilityLayer {
 
@@ -25,7 +27,7 @@ public class CompatibilityLayer {
     }
 
     public static void playSound(String resource, float volume, float pitch) {
-        Minecraft.getMinecraft().thePlayer.playSound(resource, volume, pitch);
+        Minecraft.getMinecraft().player.playSound(new SoundEvent(new ResourceLocation(resource)), volume, pitch);
     }
 
 }
