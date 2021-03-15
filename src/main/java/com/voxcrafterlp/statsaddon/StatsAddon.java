@@ -42,7 +42,8 @@ public class StatsAddon extends LabyModAddon {
     /**
      * String in default semantic versioning syntax: vX.Y.Z
      */
-    private final String currentVersion = "v2.0.1";
+    private final String currentVersion = "v2.0.2";
+    private final boolean isPreRelease = false;
 
     private final String[] allowedPreReleaseUUIDs = new String[] {
             "4f08412d-5e85-46ec-89fd-028c1ed073a3",
@@ -67,31 +68,9 @@ public class StatsAddon extends LabyModAddon {
 
     @Override
     public void onEnable() {
-//         PreRelease Checker
-//        boolean isValidUUID = false;
-//        String uuid = null;
-//        while (uuid == null) {
-//            try {
-//                uuid = LabyMod.getInstance().getPlayerUUID().toString();
-//            } catch (NullPointerException exception) {
-//
-//            }
-//        }
-//        System.out.println("User UUID is: " + uuid);
-//        for (String candidate : allowedPreReleaseUUIDs) {
-//            System.out.println("Checking UUID: " + candidate);
-//            if (candidate.equals(uuid)) {
-//                isValidUUID = true;
-//                System.out.println("Breaking.");
-//                break;
-//            }
-//        }
-//
-//        if (!isValidUUID) {
-//            System.out.println("Addon not loading. PreRelease violation found!");
-//            return;
-//        }
-//         PreRelease Checker end
+
+        if (!checkPreRelease())
+            return;
 
         instance = this;
         this.online = false;
@@ -155,6 +134,38 @@ public class StatsAddon extends LabyModAddon {
         }).start();
     }
 
+    /**
+     * @return Whether or not the addon is allowed to load
+     */
+    private boolean checkPreRelease() {
+        if (isPreRelease) {
+            boolean isValidUUID = false;
+            String uuid = null;
+            while (uuid == null) {
+                try {
+                    uuid = LabyMod.getInstance().getPlayerUUID().toString();
+                } catch (NullPointerException exception) {
+
+                }
+            }
+            System.out.println("User UUID is: " + uuid);
+            for (String candidate : allowedPreReleaseUUIDs) {
+                System.out.println("Checking UUID: " + candidate);
+                if (candidate.equals(uuid)) {
+                    isValidUUID = true;
+                    System.out.println("Breaking.");
+                    break;
+                }
+            }
+
+            if (!isValidUUID) {
+                System.out.println("Addon not loading. PreRelease violation found!");
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public void loadConfig() {
         // Load config or set default values
@@ -190,6 +201,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.enabled));
+        list.get(1).setDescriptionText("Aktiviert oder deaktiviert das Addon komplett.");
         list.add(new BooleanElement("Webseite", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
@@ -206,8 +218,9 @@ public class StatsAddon extends LabyModAddon {
                 }
             }
         }, this.webserverEnabled));
+        list.get(2).setDescriptionText("Öffne die Webseite beim ersten Join auf dem Server automatisch.");
 
-        NumberElement queryInterval = new NumberElement("Abfragenintervall", new ControlElement.IconData(Material.WATCH), this.cooldown);
+        NumberElement queryInterval = new NumberElement("Abfrageintervall", new ControlElement.IconData(Material.WATCH), this.cooldown);
         queryInterval.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -216,6 +229,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         });
+        queryInterval.setDescriptionText("Wie viel Zeit (in Millisekunden) zwischen den einzelnen Stats-Abfragen gewartet werden soll. Unter 750ms ist nicht empfohlen!");
         list.add(queryInterval);
         NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData(Material.NOTE_BLOCK), this.rankWarnLevel);
         rankWarnLevelElement.addCallback(new Consumer<Integer>() {
@@ -226,6 +240,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         });
+        rankWarnLevelElement.setDescriptionText("Wenn der Rang im Ranking eines Gegners unter diesen Wert fällt, wirst du gewarnt.");
         list.add(rankWarnLevelElement);
         NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData(Material.NOTE_BLOCK), this.winrateWarnLevel);
         winrateWarnLevelElement.addCallback(new Consumer<Integer>() {
@@ -236,6 +251,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         });
+        winrateWarnLevelElement.setDescriptionText("Wenn die Winrate eines Gegners diesen Wert übersteigt, wirst du gewarnt.");
         list.add(winrateWarnLevelElement);
         NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData(Material.COOKIE), this.cookiesPerGameWarnLevel);
         cookiesPerGameWarnLevelElement.addCallback(new Consumer<Integer>() {
@@ -246,6 +262,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         });
+        cookiesPerGameWarnLevelElement.setDescriptionText("Wenn die durchschnittliche Anzahl Cookies pro Spiel eines Gegners diesen Wert übersteigt, wirst du gewarnt. (Nur in Cookies verfügbar)");
         list.add(cookiesPerGameWarnLevelElement);
         list.add(new BooleanElement("Alarm", new ControlElement.IconData(Material.NOTE_BLOCK), new Consumer<Boolean>() {
             @Override
@@ -255,15 +272,17 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.alertEnabled));
-        list.add(new BooleanElement("Updater", new ControlElement.IconData(Material.COMMAND_MINECART), new Consumer<Boolean>() {
+        BooleanElement updateCheckerElement = new BooleanElement("Updater", new ControlElement.IconData(Material.COMMAND_MINECART), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 versionCheckerEnabled = accepted;
                 getConfig().addProperty("versionCheckerEnabled", accepted);
                 saveConfig();
             }
-        }, this.versionCheckerEnabled));
-        list.add(new KeyElement("Stats erneut abfragen",
+        }, this.versionCheckerEnabled);
+        updateCheckerElement.setDescriptionText("Wenn aktiv, wird das Addon regelmäßig nach Updates suchen und dich benachrichtigen, falls eine neue Version verfügbar sein sollte.");
+        list.add(updateCheckerElement);
+        KeyElement reloadStatsKeyElement = new KeyElement("Stats erneut abfragen",
                 new ControlElement.IconData(Material.COMMAND),
                 reloadStatsKey, new Consumer<Integer>() {
             @Override
@@ -273,15 +292,19 @@ public class StatsAddon extends LabyModAddon {
                 getConfig().addProperty("reloadStatsKey", reloadStatsKey);
                 saveConfig();
             }
-        }));
-        list.add(new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData(Material.GLASS), new Consumer<Boolean>() {
+        });
+        reloadStatsKeyElement.setDescriptionText("Beim drücken dieser Taste werden alle Stats in einer Runde neu geladen.");
+        list.add(reloadStatsKeyElement);
+        BooleanElement showStatsMessagesElement = new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData(Material.GLASS), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 showStatsMessages = accepted;
                 getConfig().addProperty("showStatsMessages", accepted);
                 saveConfig();
             }
-        }, this.showStatsMessages));
+        }, this.showStatsMessages);
+        showStatsMessagesElement.setDescriptionText("Ist diese Option aktiv, werden die Stats-Nachrichten im Chat nicht mehr angezeigt. (Experimentelles Feature)");
+        list.add(showStatsMessagesElement);
 
         List<String> dropdownEntries = Lists.newCopyOnWriteArrayList();
         for (StatsType statsType : StatsType.values()) {
@@ -300,7 +323,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         });
-
+        statsDropDown.setDescriptionText("Wähle den bevorzugten Statstyp aus, den das Addon benutzen soll.");
         list.add(statsDropDown);
 
         //Gamemodes
