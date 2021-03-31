@@ -86,7 +86,7 @@ public class PlayerStats {
      */
     public void performStatsAnalysis() {
         String username = CompatibilityLayer.getMinecraftThePlayer().getGameProfile().getName();
-        if (username.length() >= this.playerName.length()) {
+        if (username.length() <= this.playerName.length()) {
             String substring = this.playerName.substring(0, username.length());
             if (substring.equals(username))
                 return;
