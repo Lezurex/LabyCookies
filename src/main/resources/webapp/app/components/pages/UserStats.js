@@ -83,6 +83,9 @@ export default {
                     }
                 }
             });
+            request.addEventListener("error", function () {
+                that.$emit("emitalert", "Verbindung zum Minecraft-Client fehlgeschlagen!");
+            });
             request.send("{i:1}")
             let timeout = 500;
             window.location.hostname === "localhost" ? timeout = 500 : timeout = 2000;
