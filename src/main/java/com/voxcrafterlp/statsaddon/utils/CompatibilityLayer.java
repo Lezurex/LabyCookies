@@ -19,11 +19,19 @@ public class CompatibilityLayer {
     }
 
     public static String playerInfoGetPrefix(NetworkPlayerInfo playerInfo) {
-        return playerInfo.getPlayerTeam().getPrefix();
+        try {
+            return playerInfo.getPlayerTeam().getPrefix();
+        } catch (NullPointerException exception) {
+            return "";
+        }
     }
 
     public static String playerInfoGetSuffix(NetworkPlayerInfo playerInfo) {
-        return playerInfo.getPlayerTeam().getSuffix();
+        try {
+            return playerInfo.getPlayerTeam().getSuffix();
+        } catch (NullPointerException exception) {
+            return "";
+        }
     }
 
     public static void playSound(String resource, float volume, float pitch) {
