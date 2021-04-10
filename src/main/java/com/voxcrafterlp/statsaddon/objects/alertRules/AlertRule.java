@@ -5,12 +5,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import lombok.Getter;
 import net.labymod.main.LabyMod;
 
 import java.util.List;
 
 public class AlertRule {
 
+    @Getter
     private final List<StatsParam> statsParams;
 
     public AlertRule(List<StatsParam> statsParams) {

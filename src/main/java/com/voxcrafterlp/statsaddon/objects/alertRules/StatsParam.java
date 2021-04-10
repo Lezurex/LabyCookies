@@ -2,9 +2,13 @@ package com.voxcrafterlp.statsaddon.objects.alertRules;
 
 import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import lombok.Getter;
+import lombok.Setter;
 
 public class StatsParam {
 
+    @Getter
+    @Setter
     private double value;
     private ParamType paramType;
     private CompareType compareType;
@@ -13,14 +17,6 @@ public class StatsParam {
         this.value = value;
         this.paramType = paramType;
         this.compareType = compareType;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public ParamType getParamType() {
-        return paramType;
     }
 
     public boolean check(PlayerStats playerStats) {

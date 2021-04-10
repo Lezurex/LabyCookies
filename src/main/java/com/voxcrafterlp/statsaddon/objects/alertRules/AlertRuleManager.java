@@ -30,4 +30,15 @@ public class AlertRuleManager {
             if (alertRule.check(playerStats)) break;
         }
     }
+
+    public void save() {
+        if (StatsAddon.getInstance().getConfig().has("alertRules"))
+            StatsAddon.getInstance().getConfig().remove("alertRules");
+        StatsAddon.getInstance().getConfig().add("alertRules", new JsonArray());
+        JsonArray jsonArray = StatsAddon.getInstance().getConfig().getAsJsonArray("alertRules");
+        alertRules.forEach(alertRule -> {
+            jsonArray.add(alertRule.serialize());
+        });
+        StatsAddon.getInstance().saveConfig();
+    }
 }
