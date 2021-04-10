@@ -6,10 +6,12 @@ import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import com.voxcrafterlp.statsaddon.events.TickListener;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.StatsType;
+import com.voxcrafterlp.statsaddon.objects.alertRules.AlertRuleManager;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import com.voxcrafterlp.statsaddon.webserver.Webserver;
+import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.api.LabyModAPI;
@@ -21,9 +23,6 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.network.NetHandlerPlayClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +56,7 @@ public class StatsAddon extends LabyModAddon {
     private StatsChecker statsChecker;
     private Webserver webserver;
     private KeyPressUtil keyPressUtil;
+    private AlertRuleManager alertRuleManager;
     @Setter
     private boolean lmcDoubled, online, websiteMessageShown;
 
@@ -118,6 +118,7 @@ public class StatsAddon extends LabyModAddon {
         });
 
         this.statsChecker = new StatsChecker();
+        this.alertRuleManager = new AlertRuleManager();
 
         new Thread(() -> {
             System.out.println("Starting webserver..");
@@ -187,6 +188,8 @@ public class StatsAddon extends LabyModAddon {
             else
                 enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
         });
+
+        this.alertRuleManager.loadConfig();
     }
 
     @Override

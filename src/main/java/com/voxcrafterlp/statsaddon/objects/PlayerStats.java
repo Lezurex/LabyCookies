@@ -128,6 +128,7 @@ public class PlayerStats {
             // If a warn message has been sent, player has been warned at least once.
             this.warned = firstMessageSent;
         }
+        StatsAddon.getInstance().getAlertRuleManager().checkAll(this);
     }
 
     /**
