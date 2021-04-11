@@ -41,7 +41,7 @@ public class StatsAddon extends LabyModAddon {
     /**
      * String in default semantic versioning syntax: vX.Y.Z
      */
-    private final String currentVersion = "v2.0.2";
+    private final String currentVersion = "v2.1.0";
     private final boolean isPreRelease = false;
 
     private final String[] allowedPreReleaseUUIDs = new String[] {

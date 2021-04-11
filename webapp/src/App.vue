@@ -17,6 +17,7 @@ export default {
       pages: [
         new Page("Übersicht", "<i class=\"ip ip-grid\"></i>"),
         new Page("Deine Stats", "<i class=\"ip ip-statistic-grow\"></i>"),
+        new Page("Alarm-Regeln", "<i class=\"ip ip-slider\"></i>"),
         new Page("QR-Code", "<i class=\"ip ip-wlan-full\"></i>"),
         new Page("Info", "<i class=\"ip ip-github\"></i>")
       ],

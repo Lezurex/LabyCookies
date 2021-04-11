@@ -46,7 +46,7 @@ public class StatsParam {
             case GREATER_THAN:
                 return statsValue >= value;
             case LESS_THAN:
-                return statsValue < value;
+                return statsValue < value && statsValue > 0;
             default:
                 return false;
         }

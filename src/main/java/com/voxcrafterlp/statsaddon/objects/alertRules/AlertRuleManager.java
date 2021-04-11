@@ -27,7 +27,10 @@ public class AlertRuleManager {
         System.out.println(alertRules.toString());
         for (AlertRule alertRule : alertRules) {
             // Only the first positive alarm has to be sent
-            if (alertRule.check(playerStats)) break;
+            if (alertRule.check(playerStats)) {
+                playerStats.setWarned(true);
+                break;
+            }
         }
     }
 

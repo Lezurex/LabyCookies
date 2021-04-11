@@ -13,9 +13,9 @@
       {
         "params": [
           {
-            "value": 50.0,
-            "paramType": "WINRATE",
-            "compareType": "GREATER_THAN"
+            "value": 1000.0,
+            "paramType": "RANK",
+            "compareType": "LESS_THAN"
           }
         ]
       }
