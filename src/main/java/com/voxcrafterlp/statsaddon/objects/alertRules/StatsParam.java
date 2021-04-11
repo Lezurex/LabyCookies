@@ -5,6 +5,8 @@ import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.text.DecimalFormat;
+
 public class StatsParam {
 
     @Getter
@@ -69,12 +71,24 @@ public class StatsParam {
         return new StatsParam(jsonObject.get("value").getAsDouble(), paramType, compareType);
     }
 
+    public String genHumanReadable() {
+        DecimalFormat df = new DecimalFormat("###.##");
+        return this.paramType.getHumanReadable() + " " + this.compareType.getHumanReadable() + " " + df.format(this.value);
+    }
+
     public enum ParamType {
-        WINS,
-        WINRATE,
-        GAMES,
-        RANK,
-        COOKIES_PER_GAME;
+        WINS ("Wins"),
+        WINRATE ("Winrate"),
+        GAMES ("Spiele"),
+        RANK ("Rang"),
+        COOKIES_PER_GAME ("Cookies/Spiel");
+
+        @Getter
+        private final String humanReadable;
+
+        ParamType(String humanReadable) {
+            this.humanReadable = humanReadable;
+        }
 
         public static ParamType fromString(String string) {
             for (ParamType value : ParamType.values()) {
@@ -86,8 +100,15 @@ public class StatsParam {
     }
 
     public enum CompareType {
-        GREATER_THAN,
-        LESS_THAN;
+        GREATER_THAN (">="),
+        LESS_THAN ("<");
+
+        @Getter
+        private final String humanReadable;
+
+        CompareType(String humanReadable) {
+            this.humanReadable = humanReadable;
+        }
 
         public static CompareType fromString(String string) {
             for (CompareType value : CompareType.values()) {

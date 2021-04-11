@@ -1,5 +1,6 @@
 <template>
-  <p>Erstelle benutzerdefinierte Regeln für Alarme nach deinen Präferenzen.</p>
+  <p>Erstelle benutzerdefinierte Regeln für Alarme nach deinen Präferenzen. Sofern Regeln konfiguriert wurden, werden
+    die Einstellungen in LabyMod (Warn Rang, Warn Winrate, Warn Cookies/Spiel) ignoriert.</p>
   <ul>
     <rule style="margin-top: 1rem" v-for="rule in rules" :key="rule.id" :index="rule.id" :rule="rule"
           @delparam="delParam" @newparam="newParam" @delrule="delRule(rule.id)" @save="saveRule"></rule>
@@ -80,7 +81,7 @@ export default {
               that.$emit("alert", "Löschen fehlgeschlagen!");
             }
           });
-          req.send(JSON.stringify({i:1}))
+          req.send(JSON.stringify({i: 1}))
           break;
         }
       }

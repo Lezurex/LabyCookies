@@ -98,35 +98,40 @@ public class PlayerStats {
             e.printStackTrace();
         }
 
-        if (this.wins != -1) {
-            boolean firstMessageSent = false;
+        if (StatsAddon.getInstance().getAlertRuleManager().getAlertRules().size() == 0) {
+            if (this.wins != -1) {
+                boolean firstMessageSent = false;
 
-            if (this.rank < StatsAddon.getInstance().getRankWarnLevel() && this.rank > 0) {
-                LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
-                firstMessageSent = true;
-                this.sendAlert(AlertType.RANK);
-            }
-
-            if (this.winRate > (double) StatsAddon.getInstance().getWinrateWarnLevel()) {
-                if (!firstMessageSent) {
-                    LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
+                if (this.rank < StatsAddon.getInstance().getRankWarnLevel() && this.rank > 0) {
+                    LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance()
+                            .getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                     firstMessageSent = true;
+                    this.sendAlert(AlertType.RANK);
                 }
-                this.sendAlert(AlertType.WINRATE);
-            }
 
-            final double cookiesPerGame = this.getCookiesPerGame();
-            if (cookiesPerGame > 0) {
-                if (cookiesPerGame > (double) StatsAddon.getInstance().getCookiesPerGameWarnLevel()) {
+                if (this.winRate > (double) StatsAddon.getInstance().getWinrateWarnLevel() && this.playedGames > 10) {
                     if (!firstMessageSent) {
-                        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
+                        LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance()
+                                .getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
                         firstMessageSent = true;
                     }
-                    this.sendAlert(AlertType.COOKIESPERGAME);
+                    this.sendAlert(AlertType.WINRATE);
                 }
+
+                final double cookiesPerGame = this.getCookiesPerGame();
+                if (cookiesPerGame > 0) {
+                    if (cookiesPerGame > (double) StatsAddon.getInstance().getCookiesPerGameWarnLevel()) {
+                        if (!firstMessageSent) {
+                            LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance()
+                                    .getGamemodePrefix() + "\u00A74Achtung! \u00A77Potentiell gef\u00E4hrlicher Gegner\u00A77!");
+                            firstMessageSent = true;
+                        }
+                        this.sendAlert(AlertType.COOKIESPERGAME);
+                    }
+                }
+                // If a warn message has been sent, player has been warned at least once.
+                this.warned = firstMessageSent;
             }
-            // If a warn message has been sent, player has been warned at least once.
-            this.warned = firstMessageSent;
         }
         StatsAddon.getInstance().getAlertRuleManager().checkAll(this);
     }
@@ -176,6 +181,9 @@ public class PlayerStats {
                     break;
                 case COOKIESPERGAME:
                     LabyMod.getInstance().notifyMessageProfile(this.playerInfo.getGameProfile(), (int) this.getCookiesPerGame() + " Cookies/Spiel");
+                    break;
+                case RULE:
+                    LabyMod.getInstance().notifyMessageProfile(this.playerInfo.getGameProfile(), "Regel ausgelöst!");
                     break;
             }
 
@@ -260,6 +268,7 @@ public class PlayerStats {
         RANK,
         WINRATE,
         COOKIESPERGAME,
+        RULE
 
     }
 
