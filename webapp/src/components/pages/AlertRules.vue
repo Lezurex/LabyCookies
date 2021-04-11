@@ -75,6 +75,7 @@ export default {
           req.addEventListener("load", () => {
             if (req.responseText.length > 0) {
               this.rules.splice(i, 1);
+              that.$emit("alert", "Löschen erfolgreich!", false, 2000)
             } else {
               that.$emit("alert", "Löschen fehlgeschlagen!");
             }
@@ -94,6 +95,7 @@ export default {
           req.addEventListener("load", () => {
             if (req.responseText.length > 1) {
               rule = savedRule;
+              that.$emit("alert", "Speichern erfolgreich!", false, 2000)
             } else {
               that.$emit("alert", "Speichern fehlgeschlagen!")
             }
@@ -122,6 +124,7 @@ export default {
       req.addEventListener("load", () => {
         if (req.responseText.length > 1) {
           that.rules.push(rule);
+          that.$emit("alert", "Speichern erfolgreich!", false, 2000)
         } else {
           that.$emit("alert", "Speichern fehlgeschlagen!")
         }

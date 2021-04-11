@@ -23,8 +23,8 @@ export default {
     currentPage: Page
   },
   methods: {
-    emitAlert(message) {
-      this.$emit("emitalert", message);
+    emitAlert(message, error, timeout) {
+      this.$emit("emitalert", message, error, timeout);
     }
   },
   components: {

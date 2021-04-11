@@ -13,8 +13,8 @@
       {
         "params": [
           {
-            "value": 1000.0,
-            "paramType": "RANK",
+            "value": 100.0,
+            "paramType": "WINS",
             "compareType": "LESS_THAN"
           }
         ]
