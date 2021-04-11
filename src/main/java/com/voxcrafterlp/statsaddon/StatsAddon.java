@@ -11,7 +11,6 @@ import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import com.voxcrafterlp.statsaddon.webserver.Webserver;
-import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.api.LabyModAPI;
@@ -42,12 +41,11 @@ public class StatsAddon extends LabyModAddon {
      * String in default semantic versioning syntax: vX.Y.Z
      */
     private final String currentVersion = "v2.1.0";
-    private final boolean isPreRelease = true;
+    private final boolean isPreRelease = false;
 
     private final String[] allowedPreReleaseUUIDs = new String[] {
             "4f08412d-5e85-46ec-89fd-028c1ed073a3",
-            "20c018b7-970b-4eac-bbeb-713e72503f05",
-            "96389139-c792-429e-b2c7-16532b38ed13"
+            "20c018b7-970b-4eac-bbeb-713e72503f05"
     };
 
     @Getter
