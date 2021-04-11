@@ -162,12 +162,20 @@ main {
     transform: translateX(-50%);
     margin-top: 1rem;
     padding: 1rem;
-    background-color: var(--error-primary);
     color: var(--text-secondary);
     border-radius: .5rem;
-    box-shadow: 0 0 .2rem var(--error-secondary);
-    opacity: 100%;
+    opacity: 1;
     transition: var(--transition-speed);
+}
+
+.notification-error {
+    background-color: var(--error-primary);
+    box-shadow: 0 0 .2rem var(--error-secondary);
+}
+
+.notification-success {
+    background-color: darkgreen;
+    box-shadow: 0 0 .2rem green;
 }
 
 .notification.hidden {

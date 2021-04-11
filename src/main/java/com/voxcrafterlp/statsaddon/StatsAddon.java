@@ -6,6 +6,7 @@ import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
 import com.voxcrafterlp.statsaddon.events.TickListener;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.StatsType;
+import com.voxcrafterlp.statsaddon.objects.alertRules.AlertRuleManager;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
 import com.voxcrafterlp.statsaddon.utils.VersionChecker;
@@ -21,9 +22,6 @@ import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 import net.labymod.utils.ServerData;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.network.NetHandlerPlayClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +40,12 @@ public class StatsAddon extends LabyModAddon {
     /**
      * String in default semantic versioning syntax: vX.Y.Z
      */
-    private final String currentVersion = "v2.0.2";
+    private final String currentVersion = "v2.1.0";
     private final boolean isPreRelease = false;
 
     private final String[] allowedPreReleaseUUIDs = new String[] {
             "4f08412d-5e85-46ec-89fd-028c1ed073a3",
-            "20c018b7-970b-4eac-bbeb-713e72503f05",
+            "20c018b7-970b-4eac-bbeb-713e72503f05"
     };
 
     @Getter
@@ -57,6 +55,7 @@ public class StatsAddon extends LabyModAddon {
     private StatsChecker statsChecker;
     private Webserver webserver;
     private KeyPressUtil keyPressUtil;
+    private AlertRuleManager alertRuleManager;
     @Setter
     private boolean lmcDoubled, online, websiteMessageShown;
 
@@ -118,6 +117,7 @@ public class StatsAddon extends LabyModAddon {
         });
 
         this.statsChecker = new StatsChecker();
+        this.alertRuleManager = new AlertRuleManager();
 
         new Thread(() -> {
             System.out.println("Starting webserver..");
@@ -187,6 +187,8 @@ public class StatsAddon extends LabyModAddon {
             else
                 enabledGamemods.put(string, (!this.getConfig().has(string) || this.getConfig().get(string).getAsBoolean()));
         });
+
+        this.alertRuleManager.loadConfig();
     }
 
     @Override
