@@ -1,7 +1,7 @@
 <template>
   <sidebar @changepage="changePage" :currentPage="currentPage" :pages="pages"></sidebar>
   <contents @emitalert="displayAlert" :currentPage="currentPage"></contents>
-  <alert :message="alert.message" :visible="alert.visible"></alert>
+  <alert :error="alert.error" :message="alert.message" :visible="alert.visible"></alert>
 </template>
 
 <script>
@@ -17,6 +17,7 @@ export default {
       pages: [
         new Page("Übersicht", "<i class=\"ip ip-grid\"></i>"),
         new Page("Deine Stats", "<i class=\"ip ip-statistic-grow\"></i>"),
+        new Page("Alarm-Regeln", "<i class=\"ip ip-slider\"></i>"),
         new Page("QR-Code", "<i class=\"ip ip-wlan-full\"></i>"),
         new Page("Info", "<i class=\"ip ip-github\"></i>")
       ],
@@ -24,7 +25,8 @@ export default {
       alert: {
         message: "",
         visible: false,
-        timeout: undefined
+        timeout: undefined,
+        error: true
       }
     }
   },
@@ -32,14 +34,15 @@ export default {
     changePage(page) {
       this.currentPage = page;
     },
-    displayAlert(message) {
+    displayAlert(message, error = true, timeout = 5000) {
       this.alert.message = message;
       this.alert.visible = true;
+      this.alert.error = error;
       let that = this;
       clearTimeout(this.alert.timeout);
       this.alert.timeout = setTimeout(function () {
         that.alert.visible = false;
-      }, 5000);
+      }, timeout);
     }
   },
   created: function () {

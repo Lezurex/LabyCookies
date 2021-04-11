@@ -4,10 +4,26 @@
     "reloadStatsKey": 34,
     "versionCheckerEnabled": false,
     "cooldown": 750,
-    "rankWarnLevel": 100,
-    "winrateWarnLevel": 40,
+    "rankWarnLevel": 10,
+    "winrateWarnLevel": 90,
     "showStatsMessages": true,
-    "cookiesPerGameWarnLevel": 1200,
-    "webserverEnabled": true
+    "cookiesPerGameWarnLevel": 6000,
+    "webserverEnabled": true,
+    "alertRules": [
+      {
+        "params": [
+          {
+            "value": 80.0,
+            "paramType": "WINRATE",
+            "compareType": "GREATER_THAN"
+          },
+          {
+            "value": 10.0,
+            "paramType": "GAMES",
+            "compareType": "GREATER_THAN"
+          }
+        ]
+      }
+    ]
   }
 }

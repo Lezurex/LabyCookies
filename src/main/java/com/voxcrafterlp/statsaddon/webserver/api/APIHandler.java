@@ -87,5 +87,6 @@ public class APIHandler implements HttpHandler {
         actionHandlers.put("ip", new IPHandler());
         actionHandlers.put("version", new VersionHandler());
         actionHandlers.put("userstats", new UserStatsHandler());
+        actionHandlers.put("alertrules", new AlertRulesHandler());
     }
 }
