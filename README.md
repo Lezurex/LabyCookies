@@ -16,12 +16,12 @@ Weitere Informationen zur Nutzung findest du [hier](https://github.com/Lezurex/L
 ## 👾Funktionen
 - Überprüft automatisch die Stats von gejointen Spielern
 - Überprüft automatisch die Stats von Spielern, die bereits in der Wartelobby sind
-- Warnt dich, wenn ein Spieler mit einer besseren Platzierung dem Spiel beitritt
+- Warnt dich, wenn ein Spieler mit einer zu guten Platzierung dem Spiel beitritt
 - Akustischer Alarm
 - Für (fast) jeden Spielmodus aktivierbar/deaktivierbar
 - Auswählen zwischen /stats, /statsall und /statsd (Verschiedene Anzahl Tage auswählbar)
 - Behalte den Überblick über deine Gegner mit dem brandneuen Webinterface
+- Erstelle benutzerdefinierte Regeln für Alarme
 
 ## 1.12.2
-Es gibt auch eine 1.12.2 Version von diesem Addon! Bitte beachte, dass diese Version nicht so oft aktualisiert wird, wie die 1.8.9 Version. Wenn du den Sourcecode der 1.12.2 Version sehen willst, wechsle zum **lm-1.12.2**-Branch.   
-
+Es gibt auch eine 1.12.2 Version von diesem Addon! Wenn du den Sourcecode der 1.12.2 Version sehen willst, wechsle zum **lm-1.12.2**-Branch.
