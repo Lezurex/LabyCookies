@@ -204,7 +204,7 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.enabled));
         list.get(1).setDescriptionText("Aktiviert oder deaktiviert das Addon komplett.");
-        list.add(new BooleanElement("Webseite", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
+        list.add(new BooleanElement("Webseite", new ControlElement.IconData("labymod/textures/addons/statsaddon/websiteEnabled.png"), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 webserverEnabled = accepted;
