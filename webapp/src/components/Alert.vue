@@ -1,8 +1,10 @@
 <template>
   <div class="notification" :class="getCSSClasses">{{message}}</div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+
+export default defineComponent({
   props: {
     message: String,
     visible: Boolean,
@@ -21,5 +23,5 @@ export default {
       return str;
     }
   }
-}
+})
 </script>

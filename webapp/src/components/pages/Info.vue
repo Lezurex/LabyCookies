@@ -7,11 +7,13 @@
   <p>Aktuelle Version: {{ version }}</p>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+
+export default defineComponent({
   data() {
     return {
-      version: "Lädt..."
+      version: "Lädt..." as string
     }
   },
   mounted: function () {
@@ -25,5 +27,5 @@ export default {
     });
     request.send("{'i':1}");
   }
-}
+})
 </script>
