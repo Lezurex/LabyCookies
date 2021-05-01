@@ -10,14 +10,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Rule from "@/components/Rule.vue";
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
   name: "AlertRules",
   data() {
     return {
-      rules: [],
+      rules: [] as any,
     }
   },
   emits: [
@@ -42,7 +43,7 @@ export default {
       })
       req.send(JSON.stringify({i: 1}))
     },
-    delParam(id, delParam) {
+    delParam(id: number, delParam: { id: number; }) {
       for (let i = 0; i < this.rules.length; i++) {
         let rule = this.rules[i];
         if (rule.id === id) {
@@ -57,7 +58,7 @@ export default {
         }
       }
     },
-    newParam(id, param) {
+    newParam(id: number, param: any) {
       for (let i = 0; i < this.rules.length; i++) {
         let rule = this.rules[i];
         if (rule.id === id) {
@@ -66,7 +67,7 @@ export default {
         }
       }
     },
-    delRule(id) {
+    delRule(id: number) {
       let that = this;
       for (let i = 0; i < this.rules.length; i++) {
         let rule = this.rules[i];
@@ -86,7 +87,7 @@ export default {
         }
       }
     },
-    saveRule(savedRule) {
+    saveRule(savedRule: { id: number; }) {
       let that = this;
       for (let i = 0; i < this.rules.length; i++) {
         let rule = this.rules[i];
@@ -136,7 +137,7 @@ export default {
   components: {
     rule: Rule
   }
-}
+})
 </script>
 
 <style scoped>

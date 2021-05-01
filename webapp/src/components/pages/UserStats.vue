@@ -42,16 +42,17 @@
   </div>
 </template>
 
-<script>
-import Player from "../../objects/Player.js";
+<script lang="ts">
+import Player from "./../../objects/Player";
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
     data() {
         return {
-            stats30d: undefined,
-            stats1d: undefined,
-            statsAll: undefined,
-            mounted: undefined,
+            stats30d: undefined as Player | undefined,
+            stats1d: undefined as Player | undefined,
+            statsAll: undefined as Player | undefined,
+            mounted: undefined as boolean | undefined,
         }
     },
     mounted: function () {
@@ -98,5 +99,5 @@ export default {
             }
         }
     }
-}
+})
 </script>

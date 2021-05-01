@@ -19,12 +19,13 @@
   </nav>
 </template>
 
-<script>
-import Page from "../objects/Page.js";
+<script lang="ts">
+import Page from "./../objects/Page";
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
   props: {
-    pages: Array,
+    pages: [],
     currentPage: Page
   },
   data() {
@@ -33,9 +34,9 @@ export default {
     }
   },
   methods: {
-    changePage(page) {
+    changePage(page : Page) {
       this.$emit("changepage", page);
     }
   }
-}
+})
 </script>

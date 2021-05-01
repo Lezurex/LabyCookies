@@ -3,7 +3,8 @@ export default class Page {
     icon;
     name;
 
-    constructor(name, icon) {
+    // @ts-ignore
+    constructor(name: string, icon: string) {
         this.icon = icon;
         this.name = name;
     }

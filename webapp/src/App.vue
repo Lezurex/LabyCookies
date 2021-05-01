@@ -4,14 +4,13 @@
   <alert :error="alert.error" :message="alert.message" :visible="alert.visible"></alert>
 </template>
 
-<script>
-
-import Page from "@/objects/Page.js";
+<script lang="ts">
+import Page from "./objects/Page";
 import Alert from "@/components/Alert.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import Contents from "@/components/Contents.vue";
-
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
   data() {
     return {
       pages: [
@@ -21,20 +20,20 @@ export default {
         new Page("QR-Code", "<i class=\"ip ip-wlan-full\"></i>"),
         new Page("Info", "<i class=\"ip ip-github\"></i>")
       ],
-      currentPage: undefined,
+      currentPage: undefined as Page | undefined,
       alert: {
         message: "",
         visible: false,
-        timeout: undefined,
+        timeout: undefined as number | undefined,
         error: true
       }
     }
   },
   methods: {
-    changePage(page) {
+    changePage(page : Page) {
       this.currentPage = page;
     },
-    displayAlert(message, error = true, timeout = 5000) {
+    displayAlert(message : string, error = true, timeout = 5000) {
       this.alert.message = message;
       this.alert.visible = true;
       this.alert.error = error;
@@ -53,5 +52,5 @@ export default {
     sidebar: Sidebar,
     contents: Contents
   }
-}
+})
 </script>
