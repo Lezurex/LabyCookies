@@ -88,7 +88,8 @@ public class StatsAddon extends LabyModAddon {
                         serverData.getIp().equalsIgnoreCase("mc.gommehd.net") ||
                         serverData.getIp().equalsIgnoreCase("gommehd.com") ||
                         serverData.getIp().equalsIgnoreCase("premium.gommehd.com") ||
-                        serverData.getIp().equalsIgnoreCase("mc.gommehd.com")) {
+                        serverData.getIp().equalsIgnoreCase("mc.gommehd.com")||
+                        serverData.getIp().equalsIgnoreCase("citybuild.gommehd.net")) {
 
                     online = true;
 
