@@ -9,7 +9,6 @@ import net.labymod.utils.ServerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.concurrent.Callable;
 

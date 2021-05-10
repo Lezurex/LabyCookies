@@ -10,7 +10,6 @@ import com.voxcrafterlp.statsaddon.objects.StatsType;
 import com.voxcrafterlp.statsaddon.objects.alertRules.AlertRuleManager;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
-import com.voxcrafterlp.statsaddon.utils.VersionChecker;
 import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 import com.voxcrafterlp.statsaddon.webserver.Webserver;
 import lombok.Getter;
@@ -23,7 +22,6 @@ import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
-import net.labymod.utils.ServerData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +92,7 @@ public class StatsAddon extends LabyModAddon {
             try {
                 Thread.sleep(1000);
                 keyPressUtil = new KeyPressUtil();
-                getApi().registerForgeListener(new TickListener());
+                CompatibilityLayer.registerListener(new TickListener());
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }

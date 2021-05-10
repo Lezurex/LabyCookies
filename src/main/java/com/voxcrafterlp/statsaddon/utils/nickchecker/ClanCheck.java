@@ -1,7 +1,7 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
 import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -18,7 +18,7 @@ public class ClanCheck implements Check {
     @Override
     public void performCheck(NetworkPlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
-        this.successful = !CompatibilityLayer.playerInfoGetSuffix(playerInfo).contains("[");
+        this.successful = !CompatibilityLayer.playerInfoGetSuffix((NetworkPlayerInfo) playerInfo).contains("[");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ClanCheck implements Check {
 
     @Override
     public boolean ignore() {
-        return CompatibilityLayer.playerInfoGetSuffix(playerInfo).contains("party");
+        return CompatibilityLayer.playerInfoGetSuffix((NetworkPlayerInfo) playerInfo).contains("party");
     }
 
     @Override

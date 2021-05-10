@@ -5,6 +5,7 @@ import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.HotKey;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
 import lombok.Getter;
 import net.labymod.main.LabyMod;
 
@@ -44,8 +45,8 @@ public class KeyPressUtil {
             CompatibilityLayer.getMinecraftThePlayerSendQueue().getPlayerInfoMap().forEach((loadedPlayer) -> {
                 final String playerName = loadedPlayer.getGameProfile().getName();
 
-                if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) && !CompatibilityLayer.playerInfoGetSuffix(loadedPlayer).toLowerCase().contains("party"))
-                    StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(loadedPlayer, null));
+                if(!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) && !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) && !CompatibilityLayer.playerInfoGetSuffix((NetworkPlayerInfo) loadedPlayer).toLowerCase().contains("party"))
+                    StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats((NetworkPlayerInfo) loadedPlayer, null));
             });
         }));
     }

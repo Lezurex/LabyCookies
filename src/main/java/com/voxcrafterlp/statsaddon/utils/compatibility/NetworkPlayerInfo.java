@@ -13,6 +13,6 @@ public class NetworkPlayerInfo extends net.minecraft.client.network.NetworkPlaye
     }
 
     public String getSkinPath() {
-        return this.getLocationSkin().getResourcePath();
+        return super.getLocationSkin().getResourcePath();
     }
 }

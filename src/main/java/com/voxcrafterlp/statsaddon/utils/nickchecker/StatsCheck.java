@@ -1,8 +1,7 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
-import com.voxcrafterlp.statsaddon.utils.StatsChecker;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
 
 /**
  * This file was created by VoxCrafter_LP!

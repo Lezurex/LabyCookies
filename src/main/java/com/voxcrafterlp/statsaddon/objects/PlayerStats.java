@@ -3,11 +3,11 @@ package com.voxcrafterlp.statsaddon.objects;
 import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
 import com.voxcrafterlp.statsaddon.utils.nickchecker.NickChecker;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.main.LabyMod;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.text.DecimalFormat;
 

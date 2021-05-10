@@ -1,7 +1,6 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
-import net.labymod.main.LabyMod;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
 
 /**
  * This file was created by VoxCrafter_LP!
