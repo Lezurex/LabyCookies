@@ -88,7 +88,8 @@ public class StatsAddon extends LabyModAddon {
                         serverData.getIp().equalsIgnoreCase("mc.gommehd.net") ||
                         serverData.getIp().equalsIgnoreCase("gommehd.com") ||
                         serverData.getIp().equalsIgnoreCase("premium.gommehd.com") ||
-                        serverData.getIp().equalsIgnoreCase("mc.gommehd.com")) {
+                        serverData.getIp().equalsIgnoreCase("mc.gommehd.com")||
+                        serverData.getIp().equalsIgnoreCase("citybuild.gommehd.net")) {
 
                     online = true;
 
@@ -204,7 +205,7 @@ public class StatsAddon extends LabyModAddon {
             }
         }, this.enabled));
         list.get(1).setDescriptionText("Aktiviert oder deaktiviert das Addon komplett.");
-        list.add(new BooleanElement("Webseite", new ControlElement.IconData(Material.LEVER), new Consumer<Boolean>() {
+        list.add(new BooleanElement("Webseite", new ControlElement.IconData("labymod/textures/addons/statsaddon/websiteEnabled.png"), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 webserverEnabled = accepted;

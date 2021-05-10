@@ -4,7 +4,7 @@ export default class Player {
      * Object used for mapping Minecraft color codes to CSS colors.
      * @type {{"§9": string, "§1": string, "§a": string, "§2": string, "§c": string, "§5": string, "§e": string, "§6": string}}
      */
-    static colorMap = {
+    static colorMap : any = {
         "§5": "purple",
         "§6": "orange",
         "§9": "blue",
@@ -15,18 +15,18 @@ export default class Player {
         "§b": "aqua"
     }
 
-    playerName;
-    warned;
-    rank;
-    winRate;
-    playedGames;
-    wins;
-    cookies;
-    cookiesPerGame;
-    statsHidden;
-    nickProbability;
-    prefix;
-    statsType;
+    playerName : string;
+    warned : boolean;
+    rank : number;
+    winRate : number;
+    playedGames : number;
+    wins : number;
+    cookies : number;
+    cookiesPerGame : number;
+    statsHidden : boolean;
+    nickProbability : number;
+    prefix : string;
+    statsType : string;
 
     /**
      * Initializes a new player object with all of its attributes
@@ -44,7 +44,9 @@ export default class Player {
      * @param prefix {string} The team prefix of the player
      * @param statsType {string} How the stats have been checked (30d, alltime, etc.)
      */
-    constructor(playerName, warned, rank, winRate, playedGames, wins, cookies, cookiesPerGame, statsHidden, nickProbability, prefix, statsType) {
+
+    // @ts-ignore
+    constructor(playerName: string, warned: boolean, rank: number, winRate: number, playedGames: number, wins: number, cookies: number, cookiesPerGame: number, statsHidden: boolean, nickProbability: number, prefix: string, statsType: string) {
         this.playerName = playerName;
         this.warned = warned;
         this.rank = rank;
@@ -88,7 +90,7 @@ export default class Player {
                 this.prefix.includes("Sup")) {
                 return "";
             }
-            let substr = this.prefix.substr(0, 2);
+            const substr = this.prefix.substr(0, 2);
             return "color: " + Player.colorMap[substr];
         } else {
             return "";
@@ -100,7 +102,7 @@ export default class Player {
      * @param obj {Object} JSON object with all required attributes (name, warned, rank, winRate, statsHidden, nickProbability, prefix)
      * @returns {Player} New instance of a {@link Player} with the attributes set to the object's values
      */
-    static fromObject(obj) {
+    static fromObject(obj: { name: string; warned: boolean; rank: number; winRate: number; playedGames: number; wins: number; cookies: number; cookiesPerGame: number; statsHidden: boolean; nickProbability: number; prefix: string; statsType: string; }) {
         return new Player(obj.name, obj.warned, obj.rank, obj.winRate, obj.playedGames, obj.wins, obj.cookies, obj.cookiesPerGame, obj.statsHidden, obj.nickProbability, obj.prefix, obj.statsType);
     }
 }

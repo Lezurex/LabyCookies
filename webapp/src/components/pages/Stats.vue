@@ -28,14 +28,15 @@
   </div>
 </template>
 
-<script>
-import Player from "../../objects/Player.js";
+<script lang="ts">
+import Player from "./../../objects/Player";
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
   data() {
     return {
-      players: [],
-      mounted: undefined
+      players: [] as Player[],
+      mounted: undefined as boolean | undefined
     }
   },
   mounted: function () {
@@ -56,9 +57,9 @@ export default {
       request.timeout = 1000;
       request.addEventListener("load", function () {
         if (request.status === 200) {
-          let data = JSON.parse(request.responseText).data;
+          let data : any = JSON.parse(request.responseText).data;
           that.players = [];
-          data.forEach(stats => {
+          data.forEach((stats : any) => {
             that.players.push(Player.fromObject(stats));
           });
         }
@@ -77,5 +78,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

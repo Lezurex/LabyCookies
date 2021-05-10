@@ -9,12 +9,14 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+
+export default defineComponent({
   data() {
     return {
-      qrcode: undefined,
-      ip: "Lädt..."
+      qrcode: undefined as any,
+      ip: "Lädt..." as string
     }
   },
   mounted: function () {
@@ -34,11 +36,12 @@ export default {
      * Updates the QR-Code to a specific web address
      * @param webAddress Valid URL to a webpage
      */
-    renderCode(webAddress) {
-      if (document.getElementById("qrcode-content").childElementCount === 0) {
+    renderCode(webAddress: string) {
+      if (document.getElementById("qrcode-content")?.childElementCount === 0) {
+        // @ts-ignore
         this.qrcode = new window.QRCode(document.getElementById("qrcode-content"), webAddress);
       }
     }
   }
-}
+})
 </script>

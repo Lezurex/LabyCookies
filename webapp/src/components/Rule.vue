@@ -37,12 +37,14 @@
   </li>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {defineComponent} from "vue";
+
+export default defineComponent({
   name: "Rule",
   props: {
-    index: {required: true},
-    rule: {required: true},
+    index: {required: true, type: Number},
+    rule: {required: true, type: Object},
   },
   data() {
     return {
@@ -50,7 +52,7 @@ export default {
     }
   },
   methods: {
-    delParam(param) {
+    delParam(param: any) {
       this.$emit("delparam", this.index, param);
     },
     newParam() {
@@ -69,14 +71,14 @@ export default {
       this.$emit("save", this.rule);
     },
     genEnumeration() {
-      const readableNames = {
+      const readableNames : any = {
         RANK: "Rang",
         WINS: "Wins",
         WINRATE: "Winrate",
         COOKIES_PER_GAME: "Cookies/Spiel",
         GAMES: "Spiele"
       }
-      const smallComparings = {
+      const smallComparings : any = {
         GREATER_THAN: ">=",
         LESS_THAN: "<"
       }
@@ -94,7 +96,7 @@ export default {
       this.expanded = !this.expanded;
     }
   }
-}
+})
 </script>
 
 <style scoped>
