@@ -3,6 +3,7 @@ package com.voxcrafterlp.statsaddon.utils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.voxcrafterlp.statsaddon.StatsAddon;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 import net.labymod.main.LabyMod;
 import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;

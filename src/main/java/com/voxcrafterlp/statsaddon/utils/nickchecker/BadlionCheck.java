@@ -1,6 +1,6 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
-import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
 
 /**

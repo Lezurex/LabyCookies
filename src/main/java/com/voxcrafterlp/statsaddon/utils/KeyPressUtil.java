@@ -4,13 +4,10 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.HotKey;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 import lombok.Getter;
 import net.labymod.main.LabyMod;
-import net.minecraft.client.Minecraft;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
 import java.util.List;
 
 /**

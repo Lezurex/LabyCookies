@@ -5,8 +5,7 @@ import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.StatsType;
-import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
-import net.minecraft.client.Minecraft;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 
 import java.util.List;
 import java.util.Map;
