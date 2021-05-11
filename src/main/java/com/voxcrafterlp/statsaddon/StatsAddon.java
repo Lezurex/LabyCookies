@@ -1,15 +1,16 @@
 package com.voxcrafterlp.statsaddon;
 
 import com.google.common.collect.Lists;
+import com.voxcrafterlp.statsaddon.events.JoinEventHandler;
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
-import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
+import com.voxcrafterlp.statsaddon.events.ServerMessageEventHandler;
 import com.voxcrafterlp.statsaddon.events.TickListener;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.StatsType;
 import com.voxcrafterlp.statsaddon.objects.alertRules.AlertRuleManager;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
-import com.voxcrafterlp.statsaddon.utils.VersionChecker;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 import com.voxcrafterlp.statsaddon.webserver.Webserver;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,6 @@ import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
-import net.labymod.utils.ServerData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,45 +77,9 @@ public class StatsAddon extends LabyModAddon {
         this.lmcDoubled = false;
 
         //EVENT REGISTRATION
-        new MessageReceiveEventHandler().register();
-        new ServerMessageEvent().register();
-
-        this.getApi().getEventManager().registerOnJoin(new Consumer<ServerData>() {
-            @Override
-            public void accept(final ServerData serverData) {
-                if (serverData.getIp().equalsIgnoreCase("gommehd.net") ||
-                        serverData.getIp().equalsIgnoreCase("premium.gommehd.net") ||
-                        serverData.getIp().equalsIgnoreCase("mc.gommehd.net") ||
-                        serverData.getIp().equalsIgnoreCase("gommehd.com") ||
-                        serverData.getIp().equalsIgnoreCase("premium.gommehd.com") ||
-                        serverData.getIp().equalsIgnoreCase("mc.gommehd.com")||
-                        serverData.getIp().equalsIgnoreCase("citybuild.gommehd.net")) {
-
-                    online = true;
-
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(1500);
-                            new VersionChecker();
-
-                            if(!websiteMessageShown) {
-                                final String url = "http://localhost:" +webserver.getWebserver().getAddress().getPort() + "/";
-                                if(webserverEnabled) {
-                                    LabyMod.getInstance().displayMessageInChat(getPrefix() + "\u00A77Die Webseite wurde \u00A7bgeöffnet\u00A78. " +
-                                            "\u00A77Alternativ ist diese aber auch über diesen \u00A7bLink \u00A77zu erreichen\u00A78: " +
-                                            "[\u00A7b" + url + "\u00A78]");
-                                    LabyMod.getInstance().openWebpage(url, false);
-                                    websiteMessageShown = true;
-                                }
-                            }
-                        } catch (InterruptedException exception) {
-                            exception.printStackTrace();
-                        }
-                    }).start();
-                } else
-                    online = false;
-            }
-        });
+        CompatibilityLayer.registerMessageReceive(MessageReceiveEventHandler.class);
+        CompatibilityLayer.registerServerMessage(ServerMessageEventHandler.class);
+        CompatibilityLayer.registerOnJoin(JoinEventHandler.class);
 
         this.statsChecker = new StatsChecker();
         this.alertRuleManager = new AlertRuleManager();
@@ -128,7 +92,7 @@ public class StatsAddon extends LabyModAddon {
             try {
                 Thread.sleep(1000);
                 keyPressUtil = new KeyPressUtil();
-                getApi().registerForgeListener(new TickListener());
+                CompatibilityLayer.registerListener(new TickListener());
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }

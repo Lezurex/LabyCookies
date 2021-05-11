@@ -3,12 +3,10 @@ package com.voxcrafterlp.statsaddon.utils.nickchecker;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
-import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 import lombok.Getter;
-import net.labymod.main.LabyMod;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +32,7 @@ public class NickChecker {
      */
 
     private final PlayerStats playerStats;
-    private final NetworkPlayerInfo playerInfo;
+    private final NPlayerInfo playerInfo;
     private final List<Check> checks = Lists.newCopyOnWriteArrayList();
 
     public NickChecker(PlayerStats playerStats) {

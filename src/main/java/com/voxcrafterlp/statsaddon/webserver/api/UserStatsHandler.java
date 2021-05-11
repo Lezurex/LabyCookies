@@ -5,8 +5,8 @@ import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.StatsType;
-import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
-import net.minecraft.client.Minecraft;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -22,17 +22,26 @@ public class UserStatsHandler implements ActionHandler {
         String username = CompatibilityLayer.getMinecraftThePlayer().getGameProfile().getName();
         if (!playerStatsList.containsKey(username + "%30D")) {
             System.out.println("Doesnt contain 30d");
-            PlayerStats playerStats = new PlayerStats(CompatibilityLayer.getMinecraftThePlayerSendQueue().getPlayerInfo(CompatibilityLayer.getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATS30);
+            PlayerStats playerStats = new PlayerStats(new NPlayerInfo(CompatibilityLayer
+                    .getMinecraftThePlayerSendQueue()
+                    .getPlayerInfo(CompatibilityLayer.getMinecraftThePlayer().getGameProfile()
+                            .getId())), StatsType.STATS30);
             playerStatsList.put(username + "%30D", playerStats);
         }
         if (!playerStatsList.containsKey(username + "%ALL")) {
             System.out.println("Doesnt contain all");
-            PlayerStats playerStats = new PlayerStats(CompatibilityLayer.getMinecraftThePlayerSendQueue().getPlayerInfo(CompatibilityLayer.getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATSALL);
+            PlayerStats playerStats = new PlayerStats(new NPlayerInfo(CompatibilityLayer
+                    .getMinecraftThePlayerSendQueue()
+                    .getPlayerInfo(CompatibilityLayer.getMinecraftThePlayer().getGameProfile()
+                            .getId())), StatsType.STATSALL);
             playerStatsList.put(username + "%ALL", playerStats);
         }
         if (!playerStatsList.containsKey(username + "%1D")) {
             System.out.println("Doesnt contain 1d");
-            PlayerStats playerStats = new PlayerStats(CompatibilityLayer.getMinecraftThePlayerSendQueue().getPlayerInfo(CompatibilityLayer.getMinecraftThePlayer().getGameProfile().getId()), StatsType.STATS1);
+            PlayerStats playerStats = new PlayerStats(new NPlayerInfo(CompatibilityLayer
+                    .getMinecraftThePlayerSendQueue()
+                    .getPlayerInfo(CompatibilityLayer.getMinecraftThePlayer().getGameProfile()
+                            .getId())), StatsType.STATS1);
             playerStatsList.put(username + "%1D", playerStats);
         }
 
