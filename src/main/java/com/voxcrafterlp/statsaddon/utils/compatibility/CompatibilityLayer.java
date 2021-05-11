@@ -23,11 +23,11 @@ public class CompatibilityLayer {
         return Minecraft.getMinecraft().thePlayer.sendQueue;
     }
 
-    public static String playerInfoGetPrefix(NetworkPlayerInfo playerInfo) {
+    public static String playerInfoGetPrefix(NPlayerInfo playerInfo) {
         return playerInfo.getPlayerTeam().getColorPrefix();
     }
 
-    public static String playerInfoGetSuffix(NetworkPlayerInfo playerInfo) {
+    public static String playerInfoGetSuffix(NPlayerInfo playerInfo) {
         return playerInfo.getPlayerTeam().getColorSuffix();
     }
 

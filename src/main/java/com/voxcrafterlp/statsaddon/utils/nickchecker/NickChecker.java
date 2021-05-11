@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
-import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class NickChecker {
      */
 
     private final PlayerStats playerStats;
-    private final NetworkPlayerInfo playerInfo;
+    private final NPlayerInfo playerInfo;
     private final List<Check> checks = Lists.newCopyOnWriteArrayList();
 
     public NickChecker(PlayerStats playerStats) {

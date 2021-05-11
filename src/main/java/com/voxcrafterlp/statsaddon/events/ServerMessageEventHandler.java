@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
-import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.ServerMessageEvent;
 import net.labymod.core.LabyModCore;
 import net.labymod.main.LabyMod;
@@ -41,11 +41,11 @@ public class ServerMessageEventHandler extends ServerMessageEvent {
                         LabyModCore.getMinecraft().getPlayer().sendQueue.getPlayerInfoMap().forEach((loadedPlayer) -> {
                             if (!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(loadedPlayer.getGameProfile().getName()) &&
                                     !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
-                                    !CompatibilityLayer.playerInfoGetSuffix((NetworkPlayerInfo) loadedPlayer).toLowerCase()
+                                    !CompatibilityLayer.playerInfoGetSuffix(new NPlayerInfo(loadedPlayer)).toLowerCase()
                                             .replace("i", "y")
                                             .replace("á", "a")
                                             .contains("party")) {
-                                StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats((NetworkPlayerInfo) loadedPlayer, null));
+                                StatsAddon.getInstance().getLoadedPlayerStats().put(loadedPlayer.getGameProfile().getName(), new PlayerStats(new NPlayerInfo(loadedPlayer), null));
                             }
                         });
                     }).start();

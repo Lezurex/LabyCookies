@@ -1,7 +1,7 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
-import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -20,7 +20,7 @@ public class StatsCheck implements Check {
     }
 
     @Override
-    public void performCheck(NetworkPlayerInfo playerInfo) {
+    public void performCheck(NPlayerInfo playerInfo) {
         this.successful = (this.playerStats.getRank() > 500 || this.playerStats.getWinRate() < 15);
     }
 

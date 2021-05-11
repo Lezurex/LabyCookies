@@ -3,7 +3,7 @@ package com.voxcrafterlp.statsaddon.events;
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
-import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.MessageReceiveEvent;
 import net.labymod.main.LabyMod;
 import net.minecraft.util.StringUtils;
@@ -43,11 +43,11 @@ public class MessageReceiveEventHandler extends MessageReceiveEvent {
 
                     if (!StatsAddon.getInstance().getLoadedPlayerStats().containsKey(playerName) &&
                             !loadedPlayer.getGameProfile().getName().equals(LabyMod.getInstance().getPlayerName()) &&
-                            !CompatibilityLayer.playerInfoGetSuffix((NetworkPlayerInfo) loadedPlayer).toLowerCase()
+                            !CompatibilityLayer.playerInfoGetSuffix(new NPlayerInfo(loadedPlayer)).toLowerCase()
                                     .replace("i", "y")
                                     .replace("á", "a")
                                     .contains("party") && playerName.equals(getNameFromJoinLine(unFormatted))) {
-                        StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats((NetworkPlayerInfo) loadedPlayer, null));
+                        StatsAddon.getInstance().getLoadedPlayerStats().put(playerName, new PlayerStats(new NPlayerInfo(loadedPlayer), null));
                     }
                 });
             }).start();

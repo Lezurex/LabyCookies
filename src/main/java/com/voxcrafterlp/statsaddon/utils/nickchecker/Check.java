@@ -1,6 +1,6 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
-import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -11,7 +11,7 @@ import com.voxcrafterlp.statsaddon.utils.compatibility.NetworkPlayerInfo;
 
 public interface Check {
 
-    public void performCheck(NetworkPlayerInfo playerInfo);
+    public void performCheck(NPlayerInfo playerInfo);
 
     public boolean isCheckSuccessful();
 
