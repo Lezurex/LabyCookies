@@ -239,7 +239,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.alertEnabled));
-        BooleanElement updateCheckerElement = new BooleanElement("Updater", new ControlElement.IconData(Material.COMMAND_MINECART), new Consumer<Boolean>() {
+        BooleanElement updateCheckerElement = new BooleanElement("Updater", new ControlElement.IconData(Material.COMMAND_BLOCK_MINECART), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 versionCheckerEnabled = accepted;
@@ -321,7 +321,7 @@ public class StatsAddon extends LabyModAddon {
 
         map.put("Cookies", Material.COOKIE);
         map.put("SkyWars", Material.GRASS);
-        map.put("BW", Material.BED);
+        map.put("BW", Material.RED_BED);
         map.put("Cores", Material.BEACON);
         map.put("JL", Material.DIAMOND_BOOTS);
         map.put("TTT", Material.STICK);

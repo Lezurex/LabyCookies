@@ -2,8 +2,7 @@ package com.voxcrafterlp.statsaddon.events;
 
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.labymod.api.event.events.client.TickEvent;
 
 import java.util.HashMap;
 
@@ -40,7 +39,7 @@ public class TickListener {
             } else {
                 if(this.lastPressed.containsKey(hotKey.getKey()))
                     this.lastPressed.replace(hotKey.getKey(), false);
-                 else
+                else
                     this.lastPressed.put(hotKey.getKey(), false);
             }
         });
