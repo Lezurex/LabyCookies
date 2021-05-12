@@ -1,7 +1,7 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
-import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -12,11 +12,11 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 
 public class PremiumCheck implements Check {
 
-    private NetworkPlayerInfo playerInfo;
+    private NPlayerInfo playerInfo;
     private boolean successful;
 
     @Override
-    public void performCheck(NetworkPlayerInfo playerInfo) {
+    public void performCheck(NPlayerInfo playerInfo) {
         this.playerInfo = playerInfo;
         this.successful = CompatibilityLayer.playerInfoGetPrefix(playerInfo).equals("§6");
     }
