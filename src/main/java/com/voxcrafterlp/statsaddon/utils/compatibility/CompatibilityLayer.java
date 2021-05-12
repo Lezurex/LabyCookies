@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.JoinEvent;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.MessageReceiveEvent;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.ServerMessageEvent;
+import com.voxcrafterlp.statsaddon.utils.compatibility.events.TickEventHandler;
 import net.labymod.main.LabyMod;
 import net.labymod.utils.ServerData;
 import net.minecraft.client.Minecraft;
@@ -43,6 +44,10 @@ public class CompatibilityLayer {
      */
     public static void registerListener(Object listener) {
         LabyMod.getInstance().getLabyModAPI().registerForgeListener(listener);
+    }
+
+    public static void registerTick() {
+        LabyMod.getInstance().getLabyModAPI().registerForgeListener(new TickEventHandler());
     }
 
     public static void registerMessageReceive(Class<? extends MessageReceiveEvent> T) {

@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.voxcrafterlp.statsaddon.events.JoinEventHandler;
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
 import com.voxcrafterlp.statsaddon.events.ServerMessageEventHandler;
-import com.voxcrafterlp.statsaddon.events.TickListener;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.StatsType;
 import com.voxcrafterlp.statsaddon.objects.alertRules.AlertRuleManager;
@@ -92,7 +91,7 @@ public class StatsAddon extends LabyModAddon {
             try {
                 Thread.sleep(1000);
                 keyPressUtil = new KeyPressUtil();
-                CompatibilityLayer.registerListener(new TickListener());
+                CompatibilityLayer.registerTick();
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
