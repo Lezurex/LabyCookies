@@ -26,4 +26,4 @@ Weitere Informationen zur Nutzung findest du [hier](https://github.com/Lezurex/L
 ## 1.12.2 & 1.16.5
 Es gibt auch eine 1.12.2 Version von diesem Addon! Wenn du den Sourcecode der 1.12.2 Version sehen willst, wechsle zum **lm-1.12.2**-Branch.
 
-Aktuell gibt es **noch** keine 1.16.5 Version. Wir werden uns aber demnächst daran setzen.
+Aktuell gibt es **noch** keine 1.16.5 Version. Diese ist derzeit in Arbeit.
