@@ -1,4 +1,4 @@
-package com.voxcrafterlp.statsaddon.events;
+package com.voxcrafterlp.statsaddon.utils.compatibility.events;
 
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
@@ -13,11 +13,11 @@ import java.util.HashMap;
  * Project: LabyCookies
  */
 
-public class TickListener {
+public class TickEventHandler {
 
     private final HashMap<Integer, Boolean> lastPressed;
 
-    public TickListener() {
+    public TickEventHandler() {
         this.lastPressed = new HashMap<>();
     }
 
@@ -26,9 +26,9 @@ public class TickListener {
         final KeyPressUtil keyPressUtil = StatsAddon.getInstance().getKeyPressUtil();
 
         keyPressUtil.getRegisteredHotKeys().forEach(hotKey -> {
-            if(hotKey.isPressed()) {
-                if(lastPressed.containsKey(hotKey.getKey())) {
-                    if(!lastPressed.get(hotKey.getKey())) {
+            if (hotKey.isPressed()) {
+                if (lastPressed.containsKey(hotKey.getKey())) {
+                    if (!lastPressed.get(hotKey.getKey())) {
                         hotKey.trigger();
                         lastPressed.replace(hotKey.getKey(), true);
                     }
@@ -37,7 +37,7 @@ public class TickListener {
                     hotKey.trigger();
                 }
             } else {
-                if(this.lastPressed.containsKey(hotKey.getKey()))
+                if (this.lastPressed.containsKey(hotKey.getKey()))
                     this.lastPressed.replace(hotKey.getKey(), false);
                 else
                     this.lastPressed.put(hotKey.getKey(), false);
