@@ -3,11 +3,10 @@ package com.voxcrafterlp.statsaddon.utils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.voxcrafterlp.statsaddon.StatsAddon;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 import net.labymod.main.LabyMod;
 import net.labymod.main.LabyModForge;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.common.ForgeHooks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,11 +73,7 @@ public class VersionChecker {
                     LabyMod.getInstance().notifyMessageRaw("Update verfügbar", "Es ist eine neue Version verfügbar");
 
                     if(LabyModForge.isForge()) {
-                        ChatComponentText link = new ChatComponentText("\u00A78[\u00A7bLink\u00A78]");
-                        link.getChatStyle().setChatClickEvent(ForgeHooks.newChatWithLinks(releaseURL).getChatStyle().getChatClickEvent());
-                        ChatComponentText main = new ChatComponentText("");
-                        main.appendText(StatsAddon.getInstance().getPrefix()).appendText("\u00A77Download\u00A78: ").appendSibling(link);
-                        CompatibilityLayer.getMinecraftThePlayer().addChatMessage(main);
+
                     } else {
                         LabyMod.getInstance().displayMessageInChat(StatsAddon.getInstance().getPrefix() + "\u00A77Download\u00A78: [\u00A7b" + releaseURL + "\u00A78]");
                         LabyMod.getInstance().openWebpage(releaseURL, true);

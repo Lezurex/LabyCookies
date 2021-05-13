@@ -1,15 +1,15 @@
 package com.voxcrafterlp.statsaddon;
 
 import com.google.common.collect.Lists;
+import com.voxcrafterlp.statsaddon.events.JoinEventHandler;
 import com.voxcrafterlp.statsaddon.events.MessageReceiveEventHandler;
-import com.voxcrafterlp.statsaddon.events.ServerMessageEvent;
-import com.voxcrafterlp.statsaddon.events.TickListener;
+import com.voxcrafterlp.statsaddon.events.ServerMessageEventHandler;
 import com.voxcrafterlp.statsaddon.objects.PlayerStats;
 import com.voxcrafterlp.statsaddon.objects.StatsType;
 import com.voxcrafterlp.statsaddon.objects.alertRules.AlertRuleManager;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
 import com.voxcrafterlp.statsaddon.utils.StatsChecker;
-import com.voxcrafterlp.statsaddon.utils.VersionChecker;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
 import com.voxcrafterlp.statsaddon.webserver.Webserver;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,6 @@ import net.labymod.settings.elements.*;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
-import net.labymod.utils.ServerData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,45 +76,9 @@ public class StatsAddon extends LabyModAddon {
         this.lmcDoubled = false;
 
         //EVENT REGISTRATION
-        new MessageReceiveEventHandler().register();
-        new ServerMessageEvent().register();
-
-        this.getApi().getEventManager().registerOnJoin(new Consumer<ServerData>() {
-            @Override
-            public void accept(final ServerData serverData) {
-                if (serverData.getIp().equalsIgnoreCase("gommehd.net") ||
-                        serverData.getIp().equalsIgnoreCase("premium.gommehd.net") ||
-                        serverData.getIp().equalsIgnoreCase("mc.gommehd.net") ||
-                        serverData.getIp().equalsIgnoreCase("gommehd.com") ||
-                        serverData.getIp().equalsIgnoreCase("premium.gommehd.com") ||
-                        serverData.getIp().equalsIgnoreCase("mc.gommehd.com")||
-                        serverData.getIp().equalsIgnoreCase("citybuild.gommehd.net")) {
-
-                    online = true;
-
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(1500);
-                            new VersionChecker();
-
-                            if(!websiteMessageShown) {
-                                final String url = "http://localhost:" +webserver.getWebserver().getAddress().getPort() + "/";
-                                if(webserverEnabled) {
-                                    LabyMod.getInstance().displayMessageInChat(getPrefix() + "\u00A77Die Webseite wurde \u00A7bgeöffnet\u00A78. " +
-                                            "\u00A77Alternativ ist diese aber auch über diesen \u00A7bLink \u00A77zu erreichen\u00A78: " +
-                                            "[\u00A7b" + url + "\u00A78]");
-                                    LabyMod.getInstance().openWebpage(url, false);
-                                    websiteMessageShown = true;
-                                }
-                            }
-                        } catch (InterruptedException exception) {
-                            exception.printStackTrace();
-                        }
-                    }).start();
-                } else
-                    online = false;
-            }
-        });
+        CompatibilityLayer.registerMessageReceive(MessageReceiveEventHandler.class);
+        CompatibilityLayer.registerServerMessage(ServerMessageEventHandler.class);
+        CompatibilityLayer.registerOnJoin(JoinEventHandler.class);
 
         this.statsChecker = new StatsChecker();
         this.alertRuleManager = new AlertRuleManager();
@@ -128,7 +91,7 @@ public class StatsAddon extends LabyModAddon {
             try {
                 Thread.sleep(1000);
                 keyPressUtil = new KeyPressUtil();
-                getApi().registerForgeListener(new TickListener());
+                CompatibilityLayer.registerTick();
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
@@ -221,7 +184,7 @@ public class StatsAddon extends LabyModAddon {
                 }
             }
         }, this.webserverEnabled));
-        list.get(2).setDescriptionText("Öffne die Webseite beim ersten Join auf de Server automatisch.");
+        list.get(2).setDescriptionText("Öffne die Webseite beim ersten Join auf den Server automatisch.");
 
         NumberElement queryInterval = new NumberElement("Abfrageintervall", new ControlElement.IconData(Material.WATCH), this.cooldown);
         queryInterval.addCallback(new Consumer<Integer>() {
@@ -234,7 +197,7 @@ public class StatsAddon extends LabyModAddon {
         });
         queryInterval.setDescriptionText("Wie viel Zeit (in Millisekunden) zwischen den einzelnen Stats-Abfragen gewartet werden soll. Unter 750ms ist nicht empfohlen!");
         list.add(queryInterval);
-        NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData("labymod/textures/addons/statsaddon/rankAlert.png"), this.rankWarnLevel);
+        NumberElement rankWarnLevelElement = new NumberElement("Warn Rang", new ControlElement.IconData(Material.NOTE_BLOCK), this.rankWarnLevel);
         rankWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -245,7 +208,7 @@ public class StatsAddon extends LabyModAddon {
         });
         rankWarnLevelElement.setDescriptionText("Wenn die Position im Ranking eines Gegners unter diesen Wert fällt, wirst du gewarnt.");
         list.add(rankWarnLevelElement);
-        NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData("labymod/textures/addons/statsaddon/winrateAlert.png"), this.winrateWarnLevel);
+        NumberElement winrateWarnLevelElement = new NumberElement("Warn Winrate", new ControlElement.IconData(Material.NOTE_BLOCK), this.winrateWarnLevel);
         winrateWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -256,7 +219,7 @@ public class StatsAddon extends LabyModAddon {
         });
         winrateWarnLevelElement.setDescriptionText("Wenn die Winrate eines Gegners diesen Wert übersteigt, wirst du gewarnt.");
         list.add(winrateWarnLevelElement);
-        NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData("labymod/textures/addons/statsaddon/cookiesAlert.png"), this.cookiesPerGameWarnLevel);
+        NumberElement cookiesPerGameWarnLevelElement = new NumberElement("Warn Cookies/Spiel", new ControlElement.IconData(Material.COOKIE), this.cookiesPerGameWarnLevel);
         cookiesPerGameWarnLevelElement.addCallback(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
@@ -275,7 +238,7 @@ public class StatsAddon extends LabyModAddon {
                 saveConfig();
             }
         }, this.alertEnabled));
-        BooleanElement updateCheckerElement = new BooleanElement("Updater", new ControlElement.IconData("labymod/textures/addons/statsaddon/updateChecker.png"), new Consumer<Boolean>() {
+        BooleanElement updateCheckerElement = new BooleanElement("Updater", new ControlElement.IconData(Material.COMMAND_BLOCK_MINECART), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 versionCheckerEnabled = accepted;
@@ -286,7 +249,7 @@ public class StatsAddon extends LabyModAddon {
         updateCheckerElement.setDescriptionText("Wenn aktiv, wird das Addon regelmäßig nach Updates suchen und dich benachrichtigen, falls eine neue Version verfügbar sein sollte.");
         list.add(updateCheckerElement);
         KeyElement reloadStatsKeyElement = new KeyElement("Stats erneut abfragen",
-                new ControlElement.IconData(("labymod/textures/addons/statsaddon/statsReload.png")),
+                new ControlElement.IconData(Material.COMMAND),
                 reloadStatsKey, new Consumer<Integer>() {
             @Override
             public void accept(Integer key) {
@@ -298,7 +261,7 @@ public class StatsAddon extends LabyModAddon {
         });
         reloadStatsKeyElement.setDescriptionText("Beim drücken dieser Taste werden alle Stats in einer Runde neu geladen.");
         list.add(reloadStatsKeyElement);
-        BooleanElement showStatsMessagesElement = new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData("labymod/textures/addons/statsaddon/showStatsMessages.png"), new Consumer<Boolean>() {
+        BooleanElement showStatsMessagesElement = new BooleanElement("Stats-Nachrichten anzeigen", new ControlElement.IconData(Material.GLASS), new Consumer<Boolean>() {
             @Override
             public void accept(Boolean accepted) {
                 showStatsMessages = accepted;
@@ -357,7 +320,7 @@ public class StatsAddon extends LabyModAddon {
 
         map.put("Cookies", Material.COOKIE);
         map.put("SkyWars", Material.GRASS);
-        map.put("BW", Material.BED);
+        map.put("BW", Material.RED_BED);
         map.put("Cores", Material.BEACON);
         map.put("JL", Material.DIAMOND_BOOTS);
         map.put("TTT", Material.STICK);

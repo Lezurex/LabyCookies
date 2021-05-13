@@ -2,13 +2,13 @@ package com.voxcrafterlp.statsaddon.objects;
 
 import com.google.gson.JsonObject;
 import com.voxcrafterlp.statsaddon.StatsAddon;
-import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 import com.voxcrafterlp.statsaddon.utils.nickchecker.NickChecker;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.main.LabyMod;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.util.text.TextComponentUtils;
 
 import java.text.DecimalFormat;
 
@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 @Setter
 public class PlayerStats {
 
-    private final NetworkPlayerInfo playerInfo;
+    private final NPlayerInfo playerInfo;
     private final String playerName;
     private NickChecker nickChecker;
     private boolean checked, warned, statsHidden;
@@ -31,7 +31,7 @@ public class PlayerStats {
     private double winRate, nickProbability;
     private StatsType statsType;
 
-    public PlayerStats(NetworkPlayerInfo playerInfo, StatsType statsType) {
+    public PlayerStats(NPlayerInfo playerInfo, StatsType statsType) {
         this.playerInfo = playerInfo;
         this.checked = false;
         this.warned = false;
@@ -69,7 +69,7 @@ public class PlayerStats {
                 .contains("party")) {
 
             if (!this.checked) {
-                CompatibilityLayer.getMinecraftThePlayer().sendChatMessage(this.statsType.getCommandName() + " " + this.playerName);
+                CompatibilityLayer.getMinecraftThePlayer().sendChatMessage( this.statsType.getCommandName() + " " + this.playerName);
                 this.checked = true;
                 try {
                     Thread.sleep(StatsAddon.getInstance().getCooldown());

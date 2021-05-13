@@ -1,7 +1,7 @@
 package com.voxcrafterlp.statsaddon.utils.nickchecker;
 
-import com.voxcrafterlp.statsaddon.utils.CompatibilityLayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import com.voxcrafterlp.statsaddon.utils.compatibility.CompatibilityLayer;
+import com.voxcrafterlp.statsaddon.utils.compatibility.NPlayerInfo;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -15,7 +15,7 @@ public class BadlionCheck implements Check {
     private boolean successful;
 
     @Override
-    public void performCheck(NetworkPlayerInfo playerInfo) {
+    public void performCheck(NPlayerInfo playerInfo) {
         this.successful = CompatibilityLayer.playerInfoGetSuffix(playerInfo).contains("✔");
     }
 
