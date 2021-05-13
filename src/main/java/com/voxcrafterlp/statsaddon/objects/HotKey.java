@@ -2,7 +2,7 @@ package com.voxcrafterlp.statsaddon.objects;
 
 import lombok.Getter;
 import net.labymod.core.LabyModCore;
-import org.lwjgl.input.Keyboard;
+import net.labymod.utils.Keyboard;
 
 /**
  * This file was created by VoxCrafter_LP!

@@ -2,6 +2,7 @@ package com.voxcrafterlp.statsaddon.utils.compatibility.events;
 
 import com.voxcrafterlp.statsaddon.StatsAddon;
 import com.voxcrafterlp.statsaddon.utils.KeyPressUtil;
+import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.events.client.TickEvent;
 
 import java.util.HashMap;
@@ -21,8 +22,8 @@ public class TickEventHandler {
         this.lastPressed = new HashMap<>();
     }
 
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    @Subscribe
+    public void onTick(TickEvent event) {
         final KeyPressUtil keyPressUtil = StatsAddon.getInstance().getKeyPressUtil();
 
         keyPressUtil.getRegisteredHotKeys().forEach(hotKey -> {

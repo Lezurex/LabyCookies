@@ -5,35 +5,39 @@ import com.voxcrafterlp.statsaddon.utils.compatibility.events.JoinEvent;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.MessageReceiveEvent;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.ServerMessageEvent;
 import com.voxcrafterlp.statsaddon.utils.compatibility.events.TickEventHandler;
+import net.labymod.api.event.Subscribe;
 import net.labymod.main.LabyMod;
 import net.labymod.utils.ServerData;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.concurrent.Callable;
 
 public class CompatibilityLayer {
 
-    public static EntityPlayerSP getMinecraftThePlayer() {
+    public static ClientPlayerEntity getMinecraftThePlayer() {
         // Change thePlayer to player for 1.12.2 version
-        return Minecraft.getMinecraft().thePlayer;
+        return Minecraft.getInstance().player;
     }
 
-    public static NetHandlerPlayClient getMinecraftThePlayerSendQueue() {
-        return Minecraft.getMinecraft().thePlayer.sendQueue;
+    public static ClientPlayNetHandler getMinecraftThePlayerSendQueue() {
+        return Minecraft.getInstance().getConnection();
     }
 
     public static String playerInfoGetPrefix(NPlayerInfo playerInfo) {
-        return playerInfo.getPlayerTeam().getColorPrefix();
+        return playerInfo.getPlayerTeam().getPrefix().getString();
     }
 
     public static String playerInfoGetSuffix(NPlayerInfo playerInfo) {
-        return playerInfo.getPlayerTeam().getColorSuffix();
+        return playerInfo.getPlayerTeam().getSuffix().getString();
     }
 
     public static void playSound(String resource, float volume, float pitch) {
-        Minecraft.getMinecraft().thePlayer.playSound(resource, volume, pitch);
+        getMinecraftThePlayer().playSound(new SoundEvent(new ResourceLocation(resource)), volume, pitch);
     }
 
     /**
@@ -43,48 +47,60 @@ public class CompatibilityLayer {
      * @param listener Listener object
      */
     public static void registerListener(Object listener) {
-        LabyMod.getInstance().getLabyModAPI().registerForgeListener(listener);
+        LabyMod.getInstance().getEventService().registerListener(listener);
     }
 
     public static void registerTick() {
-        LabyMod.getInstance().getLabyModAPI().registerForgeListener(new TickEventHandler());
+        LabyMod.getInstance().getEventService().registerListener(new TickEventHandler());
     }
 
     public static void registerMessageReceive(Class<? extends MessageReceiveEvent> T) {
-        LabyMod.getInstance().getEventManager().register((formatted, unFormatted) -> {
-            try {
-                Callable<Boolean> listener = T.getDeclaredConstructor(String.class, String.class)
-                        .newInstance(formatted, unFormatted);
-                return listener.call();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                return false;
+        LabyMod.getInstance().getEventService().registerListener(new EventClass() {
+            @Subscribe
+            public boolean onMessageReceive(ITextComponent iTextComponent) {
+                String formatted = iTextComponent.getString();
+                String unFormatted = iTextComponent.getUnformattedComponentText();
+                try {
+                    Callable<Boolean> listener = T.getDeclaredConstructor(String.class, String.class)
+                            .newInstance(formatted, unFormatted);
+                    return listener.call();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    return false;
+                }
             }
         });
     }
 
     public static void registerServerMessage(Class<? extends ServerMessageEvent> T) {
-        LabyMod.getInstance().getEventManager()
-                .register((net.labymod.api.events.ServerMessageEvent) (s, jsonElement) -> {
-                    try {
-                        Callable<Void> listener = T.getDeclaredConstructor(String.class, JsonElement.class)
-                                .newInstance(s, jsonElement);
-                        listener.call();
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                });
-    }
-
-    public static void registerOnJoin(Class<? extends JoinEvent> T) {
-        LabyMod.getInstance().getEventManager().registerOnJoin(serverData -> {
-            try {
-                Callable<Void> listener = T.getDeclaredConstructor(ServerData.class).newInstance(serverData);
-                listener.call();
-            } catch (Exception exception) {
-                exception.printStackTrace();
+        LabyMod.getInstance().getEventService().registerListener(new EventClass() {
+            @Subscribe
+            public void onServerMessage(String s, JsonElement jsonElement) {
+                try {
+                    Callable<Void> listener = T.getDeclaredConstructor(String.class, JsonElement.class)
+                            .newInstance(s, jsonElement);
+                    listener.call();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
         });
     }
+
+    public static void registerOnJoin(Class<? extends JoinEvent> T) {
+        LabyMod.getInstance().getEventService().registerListener(new EventClass() {
+            @Subscribe
+            public void onServerJoin(ServerData serverData) {
+                try {
+                    Callable<Void> listener = T.getDeclaredConstructor(ServerData.class).newInstance(serverData);
+                    listener.call();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+    }
+
+    static class EventClass {}
 
 }

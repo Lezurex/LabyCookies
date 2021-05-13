@@ -1,7 +1,7 @@
 package com.voxcrafterlp.statsaddon.utils.compatibility;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 
 public class NPlayerInfo {
@@ -21,6 +21,6 @@ public class NPlayerInfo {
     }
 
     public String getSkinPath() {
-        return this.playerInfo.getLocationSkin().getResourcePath();
+        return this.playerInfo.getLocationSkin().getPath();
     }
 }

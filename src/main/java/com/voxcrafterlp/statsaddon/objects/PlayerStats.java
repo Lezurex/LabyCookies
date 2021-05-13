@@ -8,6 +8,7 @@ import com.voxcrafterlp.statsaddon.utils.nickchecker.NickChecker;
 import lombok.Getter;
 import lombok.Setter;
 import net.labymod.main.LabyMod;
+import net.minecraft.util.text.TextComponentUtils;
 
 import java.text.DecimalFormat;
 
@@ -68,7 +69,7 @@ public class PlayerStats {
                 .contains("party")) {
 
             if (!this.checked) {
-                CompatibilityLayer.getMinecraftThePlayer().sendChatMessage(this.statsType.getCommandName() + " " + this.playerName);
+                CompatibilityLayer.getMinecraftThePlayer().sendChatMessage( this.statsType.getCommandName() + " " + this.playerName);
                 this.checked = true;
                 try {
                     Thread.sleep(StatsAddon.getInstance().getCooldown());
