@@ -1,4 +1,4 @@
-<img src="https://github.com/Lezurex/LabyCookies/blob/master/.wiki_assets/StatsAddon-Logo.png" width=200>
+<img src="https://github.com/Lezurex/LabyCookies/blob/master/.wiki_assets/StatsAddon-Logo.png" width=201>
 
 # 🍪 LabyCookies
 Dies ist ein frei nutzbares Addon für die Minecraft-Modifikation [Labymod](https://labymod.net). Es kann automatisch die Stats in einer Runde eines unterstützten Spielmoduses auf [GommeHD.net](https://gommehd.net) abfragen und den Benutzer warnen.
