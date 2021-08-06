@@ -1,5 +1,7 @@
 # 🍪 LabyCookies
 ![GitHub all releases](https://img.shields.io/github/downloads/Lezurex/LabyCookies/total)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Lezurex/LabyCookies)
+![License](https://img.shields.io/badge/license-GPL--3.0-orange)
 
 <img src="https://github.com/Lezurex/LabyCookies/blob/master/.wiki_assets/StatsAddon-Logo.png" width=201>
 
