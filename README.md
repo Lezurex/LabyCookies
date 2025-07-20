@@ -5,6 +5,9 @@
 
 <img src="https://github.com/Lezurex/LabyCookies/blob/master/.wiki_assets/StatsAddon-Logo.png" width=201>
 
+> [!WARNING]
+> Dieses Projekt wird nicht mehr weiterentwickelt.
+
 Dies ist ein frei nutzbares Addon für die Minecraft-Modifikation [Labymod](https://labymod.net). Es kann automatisch die Stats in einer Runde eines unterstützten Spielmoduses auf [GommeHD.net](https://gommehd.net) abfragen und den Benutzer warnen.
 
 > **Hinweis**: Das Addon wurde schon länger nicht mehr aktualisiert. Ursprünglich war ein Upgrade auf die 1.16.5 und ein grosses Refactoring geplant. Wir haben uns nun dazu entschieden, vorerst nicht mehr hier dran weiterzumachen, da LabyMod 4 dieses Jahr (2022) erscheinen soll. Mit LabyMod 4 wird auch eine völlig neue Addon API entwickelt. Da LabyMod 4 also praktisch vor der Tür steht, macht es in unseren Augen nicht viel Sinn, an diesem nicht besonders sauber programmierten Addon weiterzumachen. Sobald Version 4 verfügbar ist, werden wir uns nochmals dran setzen. Weitere Infos folgen...
